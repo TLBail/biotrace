@@ -20,5 +20,5 @@ virtualenv .env && source .env/bin/activate && pip install -r requirements.txt
 ## Usage
 
 ```bash
-pipenv run start
+pipenv run dev
 ```
