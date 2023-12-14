@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Biotrace</title>
+</head>
+
+<body>
+
+    {% include 'components/navbar.html' %}
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        footer
+    </footer>
+    <script>
+        console.log("test");
+    </script>
+</body>
+
+</html>
