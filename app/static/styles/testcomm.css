@@ -1,0 +1,27 @@
+.col.md-5:first-child {
+    border-right: 1px solid #000;
+}
+
+fieldset.p-2 {
+	padding: 0!important;
+	padding-left: 8px!important;
+}
+
+#logs-content {
+	height: 300px;
+	resize: vertical;
+	overflow: auto;
+}
+
+.log {
+	font-family: monospace;
+}
+
+.log :first-child {
+	font-weight: bold;
+}
+
+.table th:first-child,
+.table td:first-child {
+    width: auto;
+}

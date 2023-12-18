@@ -2,7 +2,213 @@
 {% extends 'base.html' %}
 {% block title %}Test communication{% endblock %}
 {% block content %}
-<div>
-    salut test_comm
+{% block head %}
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/testcomm.css') }}">
+{% endblock %}
+<h1 class="text-center">Test communication avec la webdyn</h1>
+<hr>
+
+<div class="row">
+	<div class="col md-5">
+		<div class="container">
+			<form action="">
+				
+				<div class="row">
+					<div class="input-group">
+						<span class="input-group-text">IPv4</span>
+						<input type="text" class="form-control" aria-label="127.0.0.1" placeholder="127.0.0.1" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+						<span class="input-group-text">Port</span>
+						<input type="number" min="0" max="65535" value="502" class="form-control" aria-label="502" placeholder="502">
+						<button type="submit" class="btn btn-primary">Connect</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col md-5">
+		<div class="container">
+			<form action="">	
+				<div class="input-group">
+					<span class="input-group-text">Starting addr</span>
+					<input type="text" aria-label="First name" class="form-control">
+					<span class="input-group-text">taille</span>
+					<input type="text" aria-label="Last name" class="form-control">
+					<button type="submit" class="btn btn-primary">Read</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Register Addr</th>
+      <th scope="col">Size</th>
+      <th scope="col">Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">0x123456789</th>
+      <td>123</td>
+      <td>bool</td>
+    </tr>
+    <tr>
+      <th scope="row">0x123456789</th>
+      <td>456</td>
+      <td>float</td>
+    </tr>
+    <tr>
+      <th scope="row">0x123456789</th>
+      <td>789</td>
+      <td>int</td>
+    </tr>
+  </tbody>
+</table>
+
+<fieldset class="border p-2">
+   	<legend class="float-none w-auto">Logs</legend>
+   	<div id="logs-content">
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+		
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+	</div>
+</fieldset>
 {% endblock %}
