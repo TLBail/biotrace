@@ -1,0 +1,9 @@
+#view-config {
+	height: 500px;
+	resize: vertical;
+	overflow: auto;
+}
+
+#config-fieldset {
+	padding-bottom: 0!important;
+}

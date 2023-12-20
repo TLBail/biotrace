@@ -1,7 +1,129 @@
 {% extends 'base.html' %}
 {% block title %}Fichier de configuration de la wedyn{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/webdynconfig.css') }}">
+{% endblock %}
 {% block content %}
-<div>
-    C'est ici que est gérer les différents fichier de configuration de la webdyn
+<h1 class="text-center">Sauvegarde de la webdyn</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col md-5">
+			<fieldset class="border p-2">
+				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
+				<div class="input-group pb-3">
+					<span class="input-group-text">Fréquence de sauvegarde</span>
+					<input type="number" class="form-control" id="frequence" value="12">
+					<span class="input-group-text">jours</span>
+				</div>
+				
+				<div class="input-group pb-3">
+					<span class="input-group-text">Durée de conservation</span>
+					<input type="number" class="form-control" id="duree" value="12">
+					<span class="input-group-text">jours</span>
+				</div>
+				
+				<div class="input-group pb-3">
+					<span class="input-group-text">Nombre de fichiers</span>
+					<input type="number" class="form-control" id="nbfichiers" value="10">
+				</div>
+
+				<div class="mt-auto">
+					<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+				</div>
+			</fieldset>
+			
+			<fieldset class="border p-2">
+				<legend class="float-none w-auto">Configs de la webdyn</legend>
+
+				<div class="mt-auto pb-3">
+					<button type="button" class="p-1 btn w-100 btn-primary">Récupérer la config actuelle</button>
+				</div>
+				<div class="container">
+					<div class="row gy-3">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-subtitle mb-2 text-body-secondary">Nom</h6>
+								<p class="card-text">20/12/2023 22h31</p>
+								<a href="#" class="card-link">Visionner</a>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-subtitle mb-2 text-body-secondary">Nom</h6>
+								<p class="card-text">20/12/2023 22h31</p>
+								<a href="#" class="card-link">Visionner</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="col md-5">
+			<fieldset class="border p-2" id="config-fieldset">
+				<legend class="float-none w-auto">Configs de la webdyn</legend>
+
+				<pre class="bg-light border mb-2" id="view-config">
+					<code id="config-content">
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+# This is a comment
+[general]
+# The name of the webdyn
+name = "webdyn"
+# The ip address of the webdyn
+ip = "
+					</code>
+				</pre>
+			</fieldset>
+		</div>
+	</div>
 </div>
 {% endblock %}
