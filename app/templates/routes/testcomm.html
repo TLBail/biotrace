@@ -1,0 +1,255 @@
+<!-- Dans un template enfant -->
+{% extends 'base.html' %}
+{% block title %}Test communication{% endblock %}
+{% block content %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/testcomm.css') }}">
+{% endblock %}
+<h1 class="text-center">Test communication avec la webdyn</h1>
+<hr>
+
+<!-- Formulaire de connexion -->
+<div class="row">
+	<div class="col md-5">
+		<div class="d-flex flex-column bg-light border p-2 h-100">
+			<label for="server-ip">Server IP-Address (IPV4)</label>
+			<div class="input-group">
+				<input type="text" class="form-control" aria-label="127.0.0.1" placeholder="127.0.0.1" minlength="7"
+					maxlength="15" size="15"
+					pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+			</div>
+			<label for="server-port">Server Port</label>
+			<div class="input-group">
+				<input type="number" min="0" max="65535" value="502" class="form-control" aria-label="502"
+					placeholder="502">
+			</div>
+			<div class="mt-auto">
+				<button type="button" class="p-1 btn w-100 btn-primary">Connect</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="col md-5">
+		<div class="border bg-light p-2 h-100">
+			<div class="container d-flex flex-column h-100">
+				<div class="row">
+					<div class="col-6">
+						<label for="inputCity" class="form-label">Starting addr</label>
+						<input type="text" class="form-control" id="inputCity">
+					</div>
+					<div class="col-6">
+						<label for="inputZip" class="form-label">Size</label>
+						<input type="text" class="form-control" id="inputZip">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<label for="inputState" class="form-label">Type</label>
+						<select id="inputState" class="form-select">
+							<option selected>Int</option>
+							<option>Float</option>
+							<option>Double</option>
+							<option>Boolean</option>
+						</select>
+					</div>
+					<div class="col-6">
+						<label for="inputState" class="form-label">Read</label>
+						<select id="inputState" class="form-select">
+							<option selected>Input</option>
+							<option>Holdi</option>
+							<option>Coil</option>
+							<option>Discr</option>
+						</select>
+					</div>
+				</div>
+				<div class="row mt-2">
+					<button type="button" class="p-1 btn w-100 btn-primary">Read</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">Register Addr</th>
+			<th scope="col">Size</th>
+			<th scope="col">Type</th>
+			<th scope="col">Read</th>
+			<th scope="col">Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">0x123456789</th>
+			<td>123</td>
+			<td>bool</td>
+			<td>Holding</td>
+			<td>true</td>
+		</tr>
+		<tr>
+			<th scope="row">0x123456789</th>
+			<td>456</td>
+			<td>float</td>
+			<td>input</td>
+			<td>0.443</td>
+		</tr>
+		<tr>
+			<th scope="row">0x123456789</th>
+			<td>789</td>
+			<td>int</td>
+			<td>discrette</td>
+			<td>12</td>
+
+		</tr>
+	</tbody>
+</table>
+
+<fieldset class="border p-2">
+	<legend class="float-none w-auto">Logs</legend>
+	<div id="logs-content">
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:30:15</span>
+			<span>Pin 10.0.0.2: ACK reponse sent to 10.0.0.3</span>
+		</div>
+
+		<div class="log">
+			<span>2022-09-15 10:35:22</span>
+			<span>Ping 10.0.0.2 waiting for 10.0.0.4 ......... 10.32 sec elapsed</span>
+		</div>
+	</div>
+</fieldset>
+{% endblock %}
