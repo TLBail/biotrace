@@ -13,3 +13,5 @@ python-dotenv==1.0.0
 virtualenv==20.24.7
 watchdog==3.0.0
 Werkzeug==3.0.1
+pymodbus==3.6.2
+
