@@ -1,38 +1,38 @@
 <div class="d-flex flex-column p-3 text-white bg-dark vh-100">
-    <a href="/" class="text-white text-decoration-none">
+    <a href="/" class="text-white text-center text-decoration-none">
         <span class="fs-4">Biotrace</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="/testcomm" class="nav-link {{ 'active' if request.path == '/testcomm' else 'text-white' }}">
-                test communication
+            <a href="/testcomm" class="nav-link {{ 'active' if request.path == '/testcomm' else 'text-white' }} {{ 'active' if request.path == '/' }}">
+                Test communication
             </a>
         </li>
         <li>
             <a href="/webdynconfig"
                 class="nav-link {{ 'active' if request.path == '/webdynconfig' else 'text-white' }}">
-                configuration de la webdyn
+                Configuration de la webdyn
             </a>
         </li>
         <li>
             <a href="/suivilogs" class="nav-link {{ 'active' if request.path == '/suivilogs' else 'text-white' }}">
-                suivi des logs
+                Suivi des logs
             </a>
         </li>
         <li>
             <a href="/pontbascule" class="nav-link {{ 'active' if request.path == '/pontbascule' else 'text-white' }}">
-                pont bascule
+                Pont bascule
             </a>
         </li>
         <li>
             <a href="/webdynemul" class="nav-link {{ 'active' if request.path == '/webdynemul' else 'text-white' }}">
-                emulation de la webdyn
+                Emulation de la webdyn
             </a>
         </li>
         <li>
             <a href="/config" class="nav-link {{ 'active' if request.path == '/config' else 'text-white' }}">
-                paramètre
+                Paramètres
             </a>
         </li>
     </ul>
