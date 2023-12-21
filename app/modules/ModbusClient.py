@@ -2,7 +2,7 @@ from pymodbus.client.tcp import ModbusTcpClient
 
 class ModbusClient:
 
-    def __init__(self, ip, port):
+    def __init__(self, ip='127.0.0.1', port=502):
         self.ip = ip
         self.port = port
         self.client = ModbusTcpClient(self.ip, port=self.port, auto_open=False)
