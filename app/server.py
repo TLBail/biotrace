@@ -1,6 +1,9 @@
 from flask import Flask, render_template
+from flask_socketio import SocketIO
+import json
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 @app.route('/')
 @app.route('/testcomm')
@@ -27,3 +30,18 @@ def webdynemul():
 @app.route('/config')
 def config():
     return render_template('routes/config.html')
+
+
+@socketio.on('modbus')
+def handle_modbus(message):
+    print('received message: ' + message)
+    request = json.loads(message)
+    print(request['action'])
+
+
+if __name__ == '__main__':
+    socketio.run(app)
+    socket = Socket(socketio)
+
+    app.run(debug=True, host='localhost', port=5000)
+    print("Server running on port 5000")

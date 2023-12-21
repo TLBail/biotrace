@@ -1,2 +1,2 @@
 [scripts]
-dev = "flask --app app/server run --debug"
+dev = "python app/server.py"
