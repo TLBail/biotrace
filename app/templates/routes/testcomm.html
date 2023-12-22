@@ -45,12 +45,12 @@
 				</div>
 				<div class="row">
 					<div class="col-6">
-						<label for="inputState" class="form-label">Type</label>
-						<select id="inputState" class="form-select">
-							<option selected>Int</option>
-							<option>Float</option>
-							<option>Double</option>
-							<option>Boolean</option>
+						<label for="type_selection" class="form-label">Type</label>
+						<select id="type_selection" class="form-select">
+							<option selected>int</option>
+							<option>float</option>
+							<option>double</option>
+							<option>boolean</option>
 						</select>
 					</div>
 					<div class="col-6">
@@ -83,29 +83,7 @@
 			<th scope="col">Value</th>
 		</tr>
 	</thead>
-	<tbody>
-		<tr>
-			<th scope="row">0x123456789</th>
-			<td>123</td>
-			<td>bool</td>
-			<td>Holding</td>
-			<td>true</td>
-		</tr>
-		<tr>
-			<th scope="row">0x123456789</th>
-			<td>456</td>
-			<td>float</td>
-			<td>input</td>
-			<td>0.443</td>
-		</tr>
-		<tr>
-			<th scope="row">0x123456789</th>
-			<td>789</td>
-			<td>int</td>
-			<td>discrette</td>
-			<td>12</td>
-
-		</tr>
+	<tbody id="modbus_table">
 	</tbody>
 </table>
 

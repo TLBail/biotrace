@@ -12,7 +12,9 @@ const log_container = document.getElementById("logs-content");
 const starting_addr_input = document.getElementById("starting_addr_input");
 const cf_selection = document.getElementById("cf_selection");
 const count_input = document.getElementById("count_input");
+const type_selection = document.getElementById("type_selection");
 const read_modbus_btn = document.getElementById("read_modbus_btn");
+const modbus_table = document.getElementById("modbus_table");
 
 
 function formatDate(date) {
@@ -29,15 +31,46 @@ function formatDate(date) {
 function createLogElement(data) {
     let wrapper = document.createElement("div");
     wrapper.classList.add("log");
+
     let date = document.createElement("span");
     date.innerHTML = formatDate(new Date());
+
     let content = document.createElement("span");
     content.innerHTML = data;
+
     wrapper.appendChild(date);
     wrapper.appendChild(content);
+
     return wrapper;
 }
 
+function createRowElement(addr, count, type, read, value) {
+    let row = document.createElement("tr");
+
+    let addr_col = document.createElement("th");
+    addr_col.scope = "row";
+    addr_col.innerHTML = addr;
+
+    let count_col = document.createElement("td");
+    count_col.innerHTML = count;
+
+    let type_col = document.createElement("td");
+    type_col.innerHTML = type;
+
+    let read_col = document.createElement("td");
+    read_col.innerHTML = read;
+
+    let value_col = document.createElement("td");
+    value_col.innerHTML = value;
+
+    row.appendChild(addr_col);
+    row.appendChild(count_col);
+    row.appendChild(type_col);
+    row.appendChild(read_col);
+    row.appendChild(value_col);
+
+    return row;
+}
 
 connect_btn.addEventListener("click", () => {
 
@@ -64,12 +97,15 @@ read_modbus_btn.addEventListener("click", () => {
         const starting_addr = starting_addr_input.value;
         const cf = cf_selection.value;
         const count = count_input.value;
+        const type = type_selection.value;
 
         const data = {
             "action": "read",
             "type": cf,
             "address": parseInt(starting_addr),
             "count": parseInt(count),
+            "value_type": type,
+            "invert": false
         }
         socket.emit('modbus', JSON.stringify(data))
 });
@@ -94,6 +130,8 @@ socket.on('modbus', (msg) => {
     }
     if (response.action == "read") {
         if (response.status) {
+            const row = createRowElement(response.address, response.count, response.value_type, response.type, response.data);
+            modbus_table.insertBefore(row, modbus_table.firstChild);
             const log = createLogElement(`Read ${response.type} from ${response.address} and size of ${response.count}: ${response.data}`);
             log_container.insertBefore(log, log_container.firstChild);
         }

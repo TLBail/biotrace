@@ -87,6 +87,8 @@ def handle_modbus(message):
             type_register = payload['type']
             address = payload['address']
             count = payload['count']
+            value_type = payload['value_type']
+            invert = payload['invert']
 
             if type_register == 'coil':
                 data = rooms[request.sid].read_coils(address, count)
@@ -99,7 +101,7 @@ def handle_modbus(message):
             else:
                 socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Unknown type"}), to=request.sid)
 
-            socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data}),  to=request.sid)
+            socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data, 'value_type': value_type, 'invert': invert}),  to=request.sid)
 
 
 if __name__ == '__main__':
