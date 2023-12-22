@@ -68,21 +68,21 @@ def handle_modbus(message):
         rooms[request.sid] = ModbusClient(ip=ip, port=port)
 
         if rooms[request.sid].connect():
-            socketio.emit('modbus', json.dumps({'action': 'connect', 'status': True, 'data': f"Connected to {ip}:{port}"}))
+            socketio.emit('modbus', json.dumps({'action': 'connect', 'status': True, 'data': f"Connected to {ip}:{port}"}), to=request.sid)
         else:
-            socketio.emit('modbus', json.dumps({'action': 'connect', 'status': False, 'data': f"Failed to connect to {ip}:{port}"}))
+            socketio.emit('modbus', json.dumps({'action': 'connect', 'status': False, 'data': f"Failed to connect to {ip}:{port}"}), to=request.sid)
 
     elif action == 'disconnect':
         if (isinstance(rooms[request.sid], ModbusClient)):
             rooms[request.sid].disconnect()
             rooms[request.sid] = None
-            socketio.emit('modbus', json.dumps({'action': 'disconnect', 'status': True, 'data': "Disconnected"}))
+            socketio.emit('modbus', json.dumps({'action': 'disconnect', 'status': True, 'data': "Disconnected"}), to=request.sid)
         else:
-            socketio.emit('modbus', json.dumps({'action': 'disconnect', 'status': False, 'data': "Not connected"}))
+            socketio.emit('modbus', json.dumps({'action': 'disconnect', 'status': False, 'data': "Not connected"}), to=request.sid)
 
     elif action == 'read':
         if (not isinstance(rooms[request.sid], ModbusClient)):
-            socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Not connected"}))
+            socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Not connected"}), to=request.sid)
         else:
             type_register = payload['type']
             address = payload['address']
@@ -97,9 +97,9 @@ def handle_modbus(message):
             elif type_register == 'holding':
                 data = rooms[request.sid].read_holding_registers(address, count)
             else:
-                socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Unknown type"}))
+                socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Unknown type"}), to=request.sid)
 
-            socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data}))
+            socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data}),  to=request.sid)
 
 
 if __name__ == '__main__':
