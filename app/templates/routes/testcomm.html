@@ -15,14 +15,14 @@
 		<div class="d-flex flex-column bg-light border p-2 h-100">
 			<label for="server-ip">Server IP-Address (IPV4)</label>
 			<div class="input-group">
-				<input id="ip_input" type="text" class="form-control" aria-label="127.0.0.1" placeholder="127.0.0.1" minlength="7"
-					maxlength="15" size="15"
+				<input id="ip_input" type="text" class="form-control" aria-label="127.0.0.1" placeholder="127.0.0.1"
+					minlength="7" maxlength="15" size="15"
 					pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
 			</div>
 			<label for="server-port">Server Port</label>
 			<div class="input-group">
-				<input id="port_input" type="number" min="0" max="65535" value="502" class="form-control" aria-label="502"
-					placeholder="502">
+				<input id="port_input" type="number" min="0" max="65535" value="502" class="form-control"
+					aria-label="502" placeholder="502">
 			</div>
 			<div class="mt-auto">
 				<button id="connect_btn" type="button" class="p-1 btn w-100 btn-primary">Connect</button>
@@ -73,20 +73,22 @@
 
 </div>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th scope="col">Register Addr</th>
-			<th scope="col">Size</th>
-			<th scope="col">Type</th>
-			<th scope="col">Read</th>
-			<th scope="col">Value</th>
-		</tr>
-	</thead>
-	<tbody id="modbus_table">
-	</tbody>
-</table>
+<div class="row" style="max-height: 45vh; overflow-y: scroll; min-height: 25vh;">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Register Addr</th>
+				<th scope="col">Size</th>
+				<th scope="col">Type</th>
+				<th scope="col">Read</th>
+				<th scope="col">Value</th>
+			</tr>
+		</thead>
+		<tbody id="modbus_table">
+		</tbody>
+	</table>
 
+</div>
 <fieldset class="border p-2">
 	<legend class="float-none w-auto">Logs</legend>
 	<div id="logs-content">
