@@ -94,20 +94,20 @@ connect_btn.addEventListener("click", () => {
 
 
 read_modbus_btn.addEventListener("click", () => {
-        const starting_addr = starting_addr_input.value;
-        const cf = cf_selection.value;
-        const count = count_input.value;
-        const type = type_selection.value;
+    const starting_addr = starting_addr_input.value;
+    const cf = cf_selection.value;
+    const count = count_input.value;
+    const type = type_selection.value;
 
-        const data = {
-            "action": "read",
-            "type": cf,
-            "address": parseInt(starting_addr),
-            "count": parseInt(count),
-            "value_type": type,
-            "invert": false
-        }
-        socket.emit('modbus', JSON.stringify(data))
+    const data = {
+        "action": "read",
+        "type": cf,
+        "address": parseInt(starting_addr),
+        "count": parseInt(count),
+        "value_type": type,
+        "invert": false
+    }
+    socket.emit('modbus', JSON.stringify(data))
 });
 
 socket.on('modbus', (msg) => {
@@ -141,3 +141,35 @@ socket.on('modbus', (msg) => {
         }
     }
 });
+
+
+// Fonction pour sauvegarder les données
+function sauvegarderDonnees() {
+    localStorage.setItem('ip_input', ip_input.value);
+    localStorage.setItem('port_input', port_input.value);
+    localStorage.setItem('starting_addr_input', starting_addr_input.value);
+    localStorage.setItem('count_input', count_input.value);
+}
+
+// Fonction pour charger les données
+function chargerDonnees() {
+    if (localStorage.getItem('ip_input')) {
+        ip_input.value = localStorage.getItem('ip_input');
+    }
+    if (localStorage.getItem('port_input')) {
+        port_input.value = localStorage.getItem('port_input');
+    }
+    if (localStorage.getItem('starting_addr_input')) {
+        starting_addr_input.value = localStorage.getItem('starting_addr_input');
+    }
+    if (localStorage.getItem('count_input')) {
+        count_input.value = localStorage.getItem('count_input');
+    }
+}
+
+// Appeler chargerDonnees lors du chargement de la page
+window.onload = chargerDonnees;
+ip_input.onblur = sauvegarderDonnees;
+port_input.onblur = sauvegarderDonnees;
+starting_addr_input.onblur = sauvegarderDonnees;
+count_input.onblur = sauvegarderDonnees;
