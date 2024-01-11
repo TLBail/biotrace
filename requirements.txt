@@ -15,3 +15,4 @@ watchdog==3.0.0
 Werkzeug==3.0.1
 pymodbus==3.6.2
 flask-socketio==5.3.6
+rocher==0.44.0

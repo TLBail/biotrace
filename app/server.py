@@ -1,14 +1,22 @@
-from flask import Flask, render_template, request
+from flask import Flask, Blueprint, render_template, request
 from flask_socketio import SocketIO
 from modules.ModbusClient import ModbusClient
 from sockets.commsocket import commsocket
 import json
+import rocher
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 # Enregistrer les événements socket
 commsocket(socketio)
+
+
+# Serve the static files from the Monaco editor
+blueprint = Blueprint(
+    "monaco", __name__, static_url_path="/static/vs", static_folder=rocher.path()
+)
+app.register_blueprint(blueprint)
 
 
 @app.route('/')
@@ -40,6 +48,9 @@ def webdynemul():
 @app.route('/config')
 def config():
     return render_template('routes/config.html')
+
+
+
 
 
 
