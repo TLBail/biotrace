@@ -25,3 +25,8 @@ fieldset.p-2 {
 .table td:first-child {
     width: auto;
 }
+
+td {
+	max-width: 150px;
+	word-wrap: break-word;
+}
