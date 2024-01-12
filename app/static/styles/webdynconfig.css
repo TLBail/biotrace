@@ -1,3 +1,45 @@
 #config-fieldset {
 	padding-bottom: 0 !important;
 }
+
+
+@keyframes coolAnimButton {
+	0% {
+		background-color: #007bff;
+		scale: 0;
+		opacity: 0;
+	}
+
+	80% {
+		background-color: #0069d9;
+		scale: 1.05;
+		opacity: 1;
+	}
+
+	100% {
+		background-color: #007bff;
+		scale: 1;
+	}
+}
+
+@keyframes coolFadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+#saveButton {
+	transition: transform 0.5s, opacity 0.5s;
+}
+
+.coolAnimButton {
+	animation: coolAnimButton 1s infinite;
+}
+
+.coolFadeOut {
+	animation: coolFadeOut 1s;
+}

@@ -67,8 +67,9 @@
 				<script src="/static/vs/loader.js"></script>
 				<script>
 					require.config({ paths: { vs: '/static/vs' } });
+					var editor;
 					require(['vs/editor/editor.main'], function () {
-						var editor = monaco.editor.create(document.getElementById('container'), {
+						editor = monaco.editor.create(document.getElementById('container'), {
 							value: [
 								`# This is a comment
 [general]
@@ -127,9 +128,41 @@ ip = "
 `].join('\\n'),
 							language: 'shell'
 						});
+						editor.onDidChangeModelContent(function () {
+							const saveButton = document.getElementById('saveButton');
+							saveButton.style.display = 'block';
+							saveButton.classList.add('coolAnimButton');
+							//remove the animation after 1s
+							setTimeout(() => {
+								saveButton.classList.remove('coolAnimButton');
+							}, 1000);
+						});
 					});
 				</script>
+
+
+
 			</fieldset>
+			<button type="button" id="saveButton" class="coolAnimButton p-1 btn w-100 btn-primary"
+				style="display: none;">Enregistrer</button>
+
+			<script defer>
+				const saveButton = document.getElementById('saveButton');
+				saveButton.addEventListener('click', () => {
+					const content = editor.getValue();
+					console.log(content);
+
+					//fade out the button
+
+					saveButton.classList.add('coolFadeOut');
+					//remove the button after 1s
+					setTimeout(() => {
+						saveButton.style.display = 'none';
+						saveButton.classList.remove('coolFadeOut');
+					}, 1000);
+				});
+
+			</script>
 		</div>
 	</div>
 </div>
