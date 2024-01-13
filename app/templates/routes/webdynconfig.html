@@ -8,7 +8,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col md-5">
+		<div class="col-12 col-lg-4">
 			<fieldset class="border p-2">
 				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
 				<div class="input-group pb-3">
@@ -60,110 +60,20 @@
 				</div>
 			</fieldset>
 		</div>
-		<div class="col md-5">
+		<div class="col-12 col-lg-8">
 			<fieldset class="border p-2 h-100" id="config-fieldset">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
-				<div id="container" class="h-100"></div>
-				<script src="/static/vs/loader.js"></script>
-				<script>
-					require.config({ paths: { vs: '/static/vs' } });
-					var editor;
-					require(['vs/editor/editor.main'], function () {
-						editor = monaco.editor.create(document.getElementById('container'), {
-							value: [
-								`# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-`].join('\\n'),
-							language: 'shell'
-						});
-						editor.onDidChangeModelContent(function () {
-							const saveButton = document.getElementById('saveButton');
-							saveButton.style.display = 'block';
-							saveButton.classList.add('coolAnimButton');
-							//remove the animation after 1s
-							setTimeout(() => {
-								saveButton.classList.remove('coolAnimButton');
-							}, 1000);
-						});
-					});
-				</script>
 
-
-
+				<button type="button" id="diffButton" class="btn btn-primary" btn-lg btn-block">
+					diff</button>
+				<div id="container"></div>
 			</fieldset>
 			<button type="button" id="saveButton" class="coolAnimButton p-1 btn w-100 btn-primary"
 				style="display: none;">Enregistrer</button>
 
-			<script defer>
-				const saveButton = document.getElementById('saveButton');
-				saveButton.addEventListener('click', () => {
-					const content = editor.getValue();
-					console.log(content);
-
-					//fade out the button
-
-					saveButton.classList.add('coolFadeOut');
-					//remove the button after 1s
-					setTimeout(() => {
-						saveButton.style.display = 'none';
-						saveButton.classList.remove('coolFadeOut');
-					}, 1000);
-				});
-
-			</script>
 		</div>
 	</div>
 </div>
+<script src="/static/vs/loader.js"></script>
+<script src="{{ url_for('static',filename='scripts/webdynconfig.js') }}" defer></script>
 {% endblock %}
