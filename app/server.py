@@ -49,14 +49,7 @@ def webdynemul():
 def config():
     return render_template('routes/config.html')
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True, host='localhost', port=5000)
     app.run(debug=True, host='localhost', port=5000)
     print("Server running on port 5000")
