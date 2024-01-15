@@ -1,4 +1,9 @@
-CREATE TABLE `file` (
+CREATE DATABASE IF NOT EXISTS Biotrace;
+
+USE Biotrace;
+
+
+CREATE TABLE IF NOT EXISTS`file` (
 	`id` int PRIMARY KEY AUTO_INCREMENT,
 	`type` ENUM ('log', 'config'),
 	`nom` varchar(255),
