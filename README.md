@@ -19,6 +19,22 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Database
+
+Vous devez avoir MariaDB ou MySQL installé sur votre machine.
+Une fois installé, vous devez créer une base de données.
+
+```bash
+mariadb < db/schema.sql
+```
+
+Pour remplir la base de données avec des données de test, vous pouvez exécuter le script suivant:
+
+```bash
+mariadb < db/data.sql
+```
+
+
 ## Usage
 
 ```bash
