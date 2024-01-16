@@ -1,58 +1,8 @@
-const originalContent = `# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "
-# This is a comment
-[general]
-# The name of the webdyn
-name = "webdyn"
-# The ip address of the webdyn
-ip = "`;
+const configs_container = document.getElementById('configs_container')
 
+let originalContent = "";
+
+const files = []
 
 require.config({ paths: { vs: '/static/vs' } });
 var editor;
@@ -61,9 +11,9 @@ var diffEditor;
 require(['vs/editor/editor.main'], showEditor);
 
 
-function showEditor() {
+function showEditor(content) {
     editor = monaco.editor.create(document.getElementById('container'), {
-        value: originalContent,
+        value: typeof(content) !== 'string' ? originalContent : content,
         language: 'shell',
         automaticLayout: true
     });
@@ -101,13 +51,12 @@ function showDiffEditor() {
 diffButton.addEventListener('click', () => {
     const diffButton = document.getElementById('diffButton');
     if (diffEditor) {
-        showEditor();
+        showEditor(diffEditor.getModifiedEditor().getValue());
         diffEditor.dispose();
         diffEditor = null;
         diffButton.innerText = 'Diff';
     } else {
         showDiffEditor();
-
         editor = null;
         diffButton.innerText = 'Editor';
     }
@@ -148,4 +97,70 @@ function resize() {
 resize();
 window.addEventListener('resize', () => {
     resize();
+});
+
+function displayContent(id){
+    files.forEach(file => {
+        if(file.id === id) originalContent = file.content;
+    })
+    editor.dispose();
+    showEditor(originalContent);
+}
+
+function createCard(data){
+    let card = document.createElement('div');
+    card.className = "card"
+    let card_body = document.createElement('div');
+    card_body.className = "card-body";
+    let name = document.createElement('h6');
+    name.className = "card-subtitle mb-2 text-body-secondary";
+    let date = document.createElement('p');
+    date.className = "card-text";
+    let button = document.createElement('a');
+    button.className = "card-link";
+
+    card.id = data.id
+    name.innerHTML = data.name;
+    date.innerHTML = data.date;
+    button.innerHTML = "Visionner"
+
+    button.addEventListener('click', () => {
+        displayContent(data.id)
+    })
+
+    card_body.appendChild(name);
+    card_body.appendChild(date);
+    card_body.appendChild(button);
+    card.appendChild(card_body);
+
+    return card;
+}
+
+async function getConfigs() {
+    const response = await fetch('/api/webdynconfigs', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const config = await response.json();
+    return config;
+}
+
+result = getConfigs();
+
+result.then((value) => {
+    value.forEach(element => {
+
+        const data = {
+            "id": element.id,
+            "name": element.name,
+            "date": element.date,
+            "content": atob(element.content)
+        }
+        configs_container.appendChild(createCard(data));
+        files.push(data);
+    });
+
+    originalContent = files[0].content ?? "";
 });

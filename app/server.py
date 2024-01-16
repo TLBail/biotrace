@@ -1,12 +1,13 @@
-from flask import Flask, Blueprint, render_template, request
+from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO
-from modules.ModbusClient import ModbusClient
 from sockets.commsocket import commsocket
-import json
 import rocher
+
+from api.webdynconfig import bp as webdynconfig_bp
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
 
 # Enregistrer les événements socket
 commsocket(socketio)
@@ -17,6 +18,9 @@ blueprint = Blueprint(
     "monaco", __name__, static_url_path="/static/vs", static_folder=rocher.path()
 )
 app.register_blueprint(blueprint)
+
+# Register the API blueprint
+app.register_blueprint(webdynconfig_bp)
 
 
 @app.route('/')
@@ -48,6 +52,7 @@ def webdynemul():
 @app.route('/config')
 def config():
     return render_template('routes/config.html')
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='localhost', port=5000)
