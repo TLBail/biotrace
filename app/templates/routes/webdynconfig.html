@@ -41,15 +41,26 @@
 				</div>
 				<div class="container">
 					<div id="configs_container" class="row gy-3">
+						<div class="card cardConfigScript" style="display: none;" id="cardConfigScript">
+							<div class="card-body">
+								<h6 class="card-title">
+									nom du fichier
+								</h6>
+								<p class="card-text">date du fichier</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</fieldset>
 		</div>
 		<div class="col-12 col-lg-8">
-			<fieldset class="border p-2 h-100" id="config-fieldset">
+			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
 
-				<button type="button" id="diffButton" class="btn btn-primary" btn-lg btn-block">
+				<button type="button" id="diffButton" class="btn btn-primary" style="position: absolute;
+						z-index: 30;
+						top: 1px;
+						right: 1px;">
 					diff</button>
 				<div id="container"></div>
 			</fieldset>

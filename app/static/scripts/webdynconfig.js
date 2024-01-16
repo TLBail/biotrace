@@ -13,7 +13,7 @@ require(['vs/editor/editor.main'], showEditor);
 
 function showEditor(content) {
     editor = monaco.editor.create(document.getElementById('container'), {
-        value: typeof(content) !== 'string' ? originalContent : content,
+        value: typeof (content) !== 'string' ? originalContent : content,
         language: 'shell',
         automaticLayout: true
     });
@@ -91,7 +91,7 @@ saveButton.addEventListener('click', () => {
 function resize() {
     const container = document.getElementById('container');
     //set height to 80% of parent
-    container.style.height = (container.parentElement.clientHeight * 0.8) + 'px';
+    container.style.height = (container.parentElement.clientHeight * 0.9) + 'px';
 }
 
 resize();
@@ -99,41 +99,36 @@ window.addEventListener('resize', () => {
     resize();
 });
 
-function displayContent(id){
+function displayContent(id) {
     files.forEach(file => {
-        if(file.id === id) originalContent = file.content;
+        if (file.id === id) originalContent = file.content;
     })
     editor.dispose();
     showEditor(originalContent);
 }
 
-function createCard(data){
-    let card = document.createElement('div');
-    card.className = "card"
-    let card_body = document.createElement('div');
-    card_body.className = "card-body";
-    let name = document.createElement('h6');
-    name.className = "card-subtitle mb-2 text-body-secondary";
-    let date = document.createElement('p');
-    date.className = "card-text";
-    let button = document.createElement('a');
-    button.className = "card-link";
+const exampleCard = document.getElementById('cardConfigScript');
 
-    card.id = data.id
-    name.innerHTML = data.name;
-    date.innerHTML = data.date;
-    button.innerHTML = "Visionner"
+function createCard(data) {
 
-    button.addEventListener('click', () => {
+    console.log('createCard')
+    var newCard = exampleCard.cloneNode(true);
+    //make card visible
+    newCard.style.display = 'block';
+
+
+    newCard.id = data.id
+
+    const cardTitle = newCard.querySelector('h6');
+    cardTitle.innerText = data.name;
+    const cartDateNode = newCard.querySelector('.card-text');
+    cartDateNode.innerText = data.date;
+
+    newCard.addEventListener('click', () => {
         displayContent(data.id)
     })
-
-    card_body.appendChild(name);
-    card_body.appendChild(date);
-    card_body.appendChild(button);
-    card.appendChild(card_body);
-
-    return card;
+    console.log(newCard);
+    return newCard;
 }
 
 async function getConfigs() {
@@ -144,6 +139,7 @@ async function getConfigs() {
         }
     });
     const config = await response.json();
+
     return config;
 }
 
@@ -163,4 +159,5 @@ result.then((value) => {
     });
 
     originalContent = files[0].content ?? "";
+    resize();
 });
