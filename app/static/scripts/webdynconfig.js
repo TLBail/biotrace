@@ -11,9 +11,9 @@ var diffEditor;
 require(['vs/editor/editor.main'], showEditor);
 
 
-function showEditor() {
+function showEditor(content) {
     editor = monaco.editor.create(document.getElementById('container'), {
-        value: originalContent,
+        value: typeof(content) !== 'string' ? originalContent : content,
         language: 'shell',
         automaticLayout: true
     });
@@ -51,13 +51,12 @@ function showDiffEditor() {
 diffButton.addEventListener('click', () => {
     const diffButton = document.getElementById('diffButton');
     if (diffEditor) {
-        showEditor();
+        showEditor(diffEditor.getModifiedEditor().getValue());
         diffEditor.dispose();
         diffEditor = null;
         diffButton.innerText = 'Diff';
     } else {
         showDiffEditor();
-
         editor = null;
         diffButton.innerText = 'Editor';
     }
@@ -105,7 +104,7 @@ function displayContent(id){
         if(file.id === id) originalContent = file.content;
     })
     editor.dispose();
-    showEditor();
+    showEditor(originalContent);
 }
 
 function createCard(data){
