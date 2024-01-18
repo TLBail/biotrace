@@ -62,7 +62,7 @@
 						top: 1px;
 						right: 1px;">
 					diff</button>
-				<div id="container"></div>
+				<div id="container" style="height: 100%"></div>
 			</fieldset>
 			<button type="button" id="saveButton" class="coolAnimButton p-1 btn w-100 btn-primary"
 				style="display: none;">Enregistrer</button>
@@ -70,6 +70,11 @@
 		</div>
 	</div>
 </div>
+<script>
+	var require = { paths: { 'vs': '/static/vs' } };
+</script>
 <script src="/static/vs/loader.js"></script>
-<script src="{{ url_for('static',filename='scripts/webdynconfig.js') }}" defer></script>
+<script src="/static/vs/editor/editor.main.nls.js"></script>
+<script src="/static/vs/editor/editor.main.js"></script>
+<script src="{{ url_for('static',filename='scripts/webdynconfig.js') }}" type="module" defer></script>
 {% endblock %}
