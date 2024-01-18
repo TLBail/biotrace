@@ -5,6 +5,7 @@ export class Model {
         this.editorMode = 0;
         this.configs = [];
         this.documentHaveChanged = false;
+        this.configName = "";
     }
 
     async fetchConfigs() {
@@ -16,6 +17,7 @@ export class Model {
         });
 
         const configs = await response.json();
+        this.configs = [];
         configs.forEach(config => {
             this.configs.push({
                 "id": config.id,
@@ -25,5 +27,20 @@ export class Model {
             });
         });
         return this.configs;
+    }
+
+    async saveConfig(name, content) {
+        const response = await fetch('/api/webdynconfigs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "name": name,
+                "content": btoa(content)
+            })
+        });
+
+        const result = await response.json();
     }
 }

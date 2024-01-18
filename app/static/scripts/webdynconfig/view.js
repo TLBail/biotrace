@@ -4,6 +4,8 @@ export class View {
         this.windowResize();
 
         this.btn_mode = document.getElementById('diffButton');
+        this.save_btn = document.getElementById('saveButton');
+        this.save_input = document.getElementById('saveInput');
     }
 
     initEditor(){
@@ -20,6 +22,14 @@ export class View {
 
     displayConfigs(configs){
         const sampleCard = document.getElementById('cardConfigScript');
+        const configs_container = document.getElementById('configs_container');
+
+        // Remove all cards that are not the sample card
+        const cards = configs_container.querySelectorAll('.card');
+        cards.forEach(card => {
+            if(card.id !== 'cardConfigScript') card.remove();
+        });
+
 
         configs.forEach(config => {
             const card = sampleCard.cloneNode(true);
@@ -37,6 +47,15 @@ export class View {
 
             configs_container.appendChild(card);
         });
+    }
+
+    displaySaveForm(p){
+        const saveButton = document.getElementById('save_form');
+        saveButton.style.display = p ? 'flex' : 'none';
+    }
+
+    enableSaveButton(p){
+        this.save_btn.disabled = !p;
     }
 
     bindConfigClick(handler) {
@@ -64,6 +83,18 @@ export class View {
                 handler(this.editor.getModel().modified.getValue());
             });
         }
+    }
+
+    bindInputSaveChange(handler) {
+        this.save_input.addEventListener('input', event => {
+            handler(this.save_input.value);
+        });
+    }
+
+    bindSaveClick(handler) {
+        this.save_btn.addEventListener('click', event => {
+            handler();
+        });
     }
 
     showEditor(content) {

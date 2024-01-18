@@ -11,8 +11,26 @@ export class Controller {
         this.view.bindConfigClick(this.handleConfigClick);
         this.view.bindModeClick(this.handleModeClick);
         this.view.bindContentChange(this.handleContentChange, this.model.editorMode);
+        this.view.bindInputSaveChange(this.handleSaveInputChange);
+        this.view.bindSaveClick(this.handleSaveClick);
 
         this.fetchConfigs();
+    }
+
+    handleSaveInputChange = value => {
+        this.model.configName = value;
+        this.view.enableSaveButton(value.length > 0);
+    }
+
+    handleSaveClick = () => {
+        this.model.saveConfig(this.model.configName, this.model.modifiedContent).then(e => {
+            this.fetchConfigs();
+
+            this.model.configName = "";
+            this.view.enableSaveButton(false);
+            this.model.documentHaveChanged = false;
+            this.view.displaySaveForm(this.model.documentHaveChanged);
+        });
     }
 
     handleContentChange = content => {
@@ -20,6 +38,7 @@ export class Controller {
         else this.model.documentHaveChanged = true;
 
         this.model.modifiedContent = content;
+        this.view.displaySaveForm(this.model.documentHaveChanged);
     }
 
     handleModeClick = () => {
