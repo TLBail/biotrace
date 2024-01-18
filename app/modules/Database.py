@@ -20,5 +20,13 @@ class Database:
 
         return rows
 
+    def add_config(self, name, content):
+        # try to insert
+        try:
+            self.cur.execute("INSERT INTO file (type, name, content, created_at, updated_at) VALUES ('config', ?, ?, now(), now())", (name, content))
+            self.conn.commit()
+        except mariadb.Error as e:
+            print(f"Error: {e}")
+
     def __del__(self):
         self.conn.close()
