@@ -10,6 +10,7 @@ export class View {
         this.count_input = document.getElementById("count_input");
         this.type_selection = document.getElementById("type_selection");
         this.read_modbus_btn = document.getElementById("read_modbus_btn");
+        this.invertByteOrder = document.getElementById("invertByteOrder");
         this.modbus_table = document.getElementById("modbus_table");
 
     }
@@ -62,6 +63,12 @@ export class View {
         });
     }
 
+    bindInvertByteOrder(handler){
+        this.invertByteOrder.addEventListener("click", () => {
+            handler();
+        });
+    }
+
     addLog(data) {
         this.log_container.insertBefore(this._createLogElement(data), this.log_container.firstChild);
     }
@@ -103,8 +110,11 @@ export class View {
     }
 
     setCodeFunctionInput(value){
-        console.log(value);
         this.cf_selection.value = value;
+    }
+
+    setInvertByteOrder(value){
+        this.invertByteOrder.checked = value;
     }
 
     _formatDate(date) {

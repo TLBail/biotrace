@@ -13,6 +13,8 @@ export class Controller {
         this.view.setPortInput(this.model.port);
         this.view.setStartingAddrInput(this.model.starting_addr);
         this.view.setTypeInput(this.model.type);
+        this.view.setCountInput(this.model.count);
+        this.view.setInvertByteOrder(this.model.isInvert);
         this.view.setCodeFunctionInput(this.model.codeFunction);
 
         this.view.bindIpInput(this.handleIpInput);
@@ -23,6 +25,7 @@ export class Controller {
         this.view.bindCountInput(this.handleCountInput);
         this.view.bindCfSelection(this.handleCfSelection);
         this.view.bindTypeSelection(this.handleTypeSelection);
+        this.view.bindInvertByteOrder(this.handleInvertByteOrder);
         this.view.bindReadModbusButton(this.handleReadModbusButton);
 
         this.model.bindSocketEvents(this.handleSocketEvents);
@@ -80,6 +83,10 @@ export class Controller {
         this.model.connect();
     }
 
+    handleInvertByteOrder = () => {
+        this.model.isInvert = !this.model.isInvert;
+    }
+
     handleReadModbusButton = () => {
         this.model.read();
     }
@@ -110,13 +117,11 @@ export class Controller {
     _addLog(data) {
         this.view.addLog(data);
         this.model.logs.push({date: this.view._formatDate(new Date()), data: data});
-        console.log(this.model.logs);
     }
 
     _addData(data) {
         this.view.addRow(data.address, data.count, data.value_type, data.type, data.data);
         this.model.data.push(data);
-        console.log(this.model.data);
     }
 
 }

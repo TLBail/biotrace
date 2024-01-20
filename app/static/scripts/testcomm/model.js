@@ -2,7 +2,6 @@ import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
 export class Model {
     constructor(){
-        console.log("Model initialized");
         this.socket = io();
 
         this.isConnected = false;
