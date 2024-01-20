@@ -11,6 +11,7 @@ export class View {
         this.type_selection = document.getElementById("type_selection");
         this.read_modbus_btn = document.getElementById("read_modbus_btn");
         this.invertByteOrder = document.getElementById("invertByteOrder");
+        this.unsigned = document.getElementById("unsigned");
         this.modbus_table = document.getElementById("modbus_table");
 
     }
@@ -65,6 +66,12 @@ export class View {
 
     bindInvertByteOrder(handler){
         this.invertByteOrder.addEventListener("click", () => {
+            handler();
+        });
+    }
+
+    bindUnsigned(handler){
+        this.unsigned.addEventListener("click", () => {
             handler();
         });
     }

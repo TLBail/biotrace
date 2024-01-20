@@ -26,6 +26,7 @@ export class Controller {
         this.view.bindCfSelection(this.handleCfSelection);
         this.view.bindTypeSelection(this.handleTypeSelection);
         this.view.bindInvertByteOrder(this.handleInvertByteOrder);
+        this.view.bindUnsigned(this.handleUnsigned);
         this.view.bindReadModbusButton(this.handleReadModbusButton);
 
         this.model.bindSocketEvents(this.handleSocketEvents);
@@ -85,6 +86,10 @@ export class Controller {
 
     handleInvertByteOrder = () => {
         this.model.isInvert = !this.model.isInvert;
+    }
+
+    handleUnsigned = () => {
+        this.model.isUnsigned = !this.model.isUnsigned;
     }
 
     handleReadModbusButton = () => {

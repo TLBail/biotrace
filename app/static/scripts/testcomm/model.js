@@ -13,6 +13,7 @@ export class Model {
         this.type = "int";
         this.codeFunction = "holding";
         this.isInvert = false;
+        this.isUnsigned = false;
 
         this.data = [];
         this.logs = [];
@@ -60,7 +61,8 @@ export class Model {
             "address": parseInt(this.starting_addr),
             "count": parseInt(this.count),
             "value_type": this.type,
-            "invert": false
+            "invert": this.isInvert,
+            "unsigned": this.isUnsigned
         }
 
         this.socket.emit("modbus", JSON.stringify(data))
