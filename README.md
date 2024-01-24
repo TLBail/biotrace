@@ -13,6 +13,11 @@ Romain PIPON
 
 ## Installation
 
+Il faut installer le connector MariaDB sur la machine. 
+Doc : https://mariadb.com/docs/server/connect/programming-languages/c/install/
+
+`sudo apt install libmariadb3 libmariadb-dev`
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
