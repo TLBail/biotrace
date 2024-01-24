@@ -1,7 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}Paramètre{% endblock %}
 {% block content %}
-<div>
+<h1 class="text-center">
     Paramètres globaux
-</div>
+</h1>
+<fieldset class="border p-2">
+	<legend class="float-none w-auto">Accès au serveur FTP connecté à la webdyn</legend>
+	<div class="w-50">
+		<div class="input-group pb-3">
+			<span class="input-group-text">hostname</span>
+			<input type="text" class="form-control" id="hostname">
+			<span class="input-group-text">port</span>
+			<input type="number" class="form-control" id="port">
+		</div>
+
+		<div class="input-group pb-3">
+			<span class="input-group-text">username</span>
+			<input type="text" class="form-control" id="username">
+			<span class="input-group-text">password</span>
+			<input type="password" class="form-control" id="passwd">
+		</div>
+		<div class="mt-auto">
+			<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+		</div>
+	</div>
+</fieldset>
 {% endblock %}
