@@ -1,7 +1,129 @@
 {% extends 'base.html' %}
 {% block title %}Webdyn Emul{% endblock %}
 {% block content %}
-<div>
+<h1 class="text-center">
     Emulation de la webdyn
+</h1>
+<p>
+La passerelle WebdynModbus est la centrale de communication de votre installation Modbus. Elle
+collecte en continu toutes les données provenant des équipements Modbus. Les sauvegarde ensuite
+sur un serveur FTP
+</p>
+<div class="row">
+	<div class="col md-5">
+		<fieldset class="border p-2">
+			<legend class="float-none w-auto">Accès au serveur FTP</legend>
+			<div class="input-group pb-3">
+				<span class="input-group-text">hostname</span>
+				<input type="text" class="form-control" id="hostname">
+				<span class="input-group-text">port</span>
+				<input type="number" class="form-control" id="port">
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">username</span>
+				<input type="text" class="form-control" id="username">
+				<span class="input-group-text">password</span>
+				<input type="password" class="form-control" id="passwd">
+			</div>
+			<div class="mt-auto">
+				<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+			</div>
+		</fieldset>
+		<fieldset class="border p-2">
+			<legend class="flaot-none w-auto">Interfaces</legend>
+			<div class="container" style="max-height: 250px; overflow-y: scroll;">
+					<div id="configs_container" class="row gy-3">
+						<div class="card cardConfigScript" id="cardConfigScript">
+							<div class="card-body">
+								<h6 class="card-title">
+									nom du fichier
+								</h6>
+								<p class="card-text">date du fichier</p>
+							</div>
+						</div>
+					</div>
+				</div>
+		</fieldset>
+	</div>
+
+	<div class="col md-5">
+		<fieldset class="border p-2">
+			<legend class="float-none w-auto" id="legendInterface">Configuration interface #1</legend>
+			<div class="input-group pb-3">
+				<span class="input-group-text">Mode</span>
+				<select class="form-select" aria-label="Default select example" id="mode">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">baudRate</span>
+				<select class="form-select" aria-label="Default select example" id="baudrate">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">Parity</span>
+				<select class="form-select" aria-label="Default select example" id="parity">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">DataBit</span>
+				<select class="form-select" aria-label="Default select example" id="dataBit">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">StopBit</span>
+				<select class="form-select" aria-label="Default select example" id="stopBit">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">Adresse de l'équipement</span>
+				<input type="text" class="form-control" id="addrEqpt">
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">Nom de l'équipement</span>
+				<input type="text" class="form-control" id="NameEqpt">
+			</div>
+
+			<div class="input-group pb-3">
+				<span class="input-group-text">Type d'équipement</span>
+				<select class="form-select" aria-label="Default select example" id="typeEqpt">
+					<option selected>Open this select menu</option>
+					<option value="1">One</option>
+					<option value="2">Two</option>
+					<option value="3">Three</option>
+				</select>
+			</div>
+			
+			<div class="mt-auto">
+				<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+			</div>
+		</fieldset>
+	</div>
 </div>
 {% endblock %}
