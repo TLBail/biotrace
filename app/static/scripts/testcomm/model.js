@@ -62,7 +62,7 @@ export class Model {
             "count": parseInt(this.count),
             "value_type": this.type,
             "invert": this.isInvert,
-            "unsigned": this.isUnsigned
+            "signed": !this.isUnsigned
         }
 
         this.socket.emit("modbus", JSON.stringify(data))
