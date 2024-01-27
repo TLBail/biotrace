@@ -92,12 +92,10 @@ InputPontBascule.prototype.onExecute = function () {
         }
 
 
-        let i = 1;
         for (const key in input) {
-            if (input[key]) {
-                this.setOutputData(i, input[key]);
-                i++;
-            }
+            //get the output index of key
+            let i = this.outputs.findIndex(output => output.name == key);
+            this.setOutputData(i, input[key]);
         }
         this.setOutputData(0, this.InputIndex);
         this.InputIndex++;
