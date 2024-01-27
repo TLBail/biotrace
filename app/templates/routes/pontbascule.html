@@ -6,24 +6,23 @@
 <script src="/static/vs/loader.js"></script>
 {% endblock %}
 {% block content %}
-<div>
-    <h2>
-        Cette page permet de convertir les données du pont bascule
-    </h2>
-
-    <div class="container h-100">
-        <div class="row">
+<div style="height: 100vh;">
+    <div class="d-flex flex-column h-100">
+        <h2>
+            Cette page permet de convertir les données du pont bascule
+        </h2>
+        <div class="row" style="height: 30vh;">
             <div class="col-6">
-                <div style="height: 500px;" id="inputDataContainer"></div>
+                <div class="h-100" id="inputDataContainer"></div>
             </div>
 
             <div class="col-6">
-                <div style="height: 500px;" id="outputDataContainer"></div>
+                <div class="h-100" id="outputDataContainer"></div>
             </div>
         </div>
 
-        <div id="canvasContainer" class="h-50">
-            <canvas id="litegraph-canvas" width="1024" height="720" style="border: 1px solid;"></canvas>
+        <div id="canvasContainer" style="flex-grow: 3;">
+            <canvas id="litegraph-canvas" width="480" height="320" style="border: 1px solid;"></canvas>
         </div>
     </div>
 

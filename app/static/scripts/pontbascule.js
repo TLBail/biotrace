@@ -1,10 +1,25 @@
 //text editors 
-const inputExemple = `
-{
-    "tonne": 12,
-    "date": 123421552,
-    "coordX": 22.234121,
-    "coordY": 32.124141
+const inputExemple = `{
+    "elements":[
+        {
+            "tonne": 12,
+            "date": 123421552,
+            "coordX": 22.234121,
+            "coordY": 32.124141
+        },
+        {
+            "tonne": 12,
+            "date": 123421552,
+            "coordX": 22.234121,
+            "coordY": 32.124141
+        },
+        {
+            "tonne": 12,
+            "date": 123421552,
+            "coordX": 22.234121,
+            "coordY": 32.124141
+        }
+    ]
 }`;
 const inputDataContainer = document.getElementById('inputDataContainer');
 const outputDataContainer = document.getElementById('outputDataContainer');
@@ -21,7 +36,7 @@ require(['vs/editor/editor.main'], () => {
     updateNodeInputGraph();
 
     outputEditor = monaco.editor.create(outputDataContainer, {
-        value: inputExemple,
+        value: "[]",
         readOnly: true,
         language: 'json',
         automaticLayout: true
@@ -34,68 +49,104 @@ require(['vs/editor/editor.main'], () => {
 var graph = new LGraph();
 var canvas = new LGraphCanvas("#litegraph-canvas", graph);
 
-function InputPontBascule() { }
+//resize auto canvas
+window.onresize = () => canvas.resize();
+canvas.resize();
+
+
+
+function InputPontBascule() {
+    this.InputIndex = 0;
+    this.addInput("array", "array");
+    this.addOutput("element Index", "number")
+}
 InputPontBascule.title = "Input Pont Bascule Data";
 InputPontBascule.prototype.onExecute = function () {
-    //try to parse the input data
+    if (this.getInputData(0) == null) return;
+
     try {
-        const input = JSON.parse(inputEditor.getValue());
-        // iterate over the keys of the object
-        let i = 0;
-        for (const key in input) {
-            if (input.hasOwnProperty(key)) {
-                const element = input[key];
-                //set the value of the output
-                this.setOutputData(i, element);
-                i++;
-            }
-        }
-    } catch (error) {
-        console.log(error);
-    }
-
-}
-LiteGraph.registerNodeType("pontbascule/input", InputPontBascule);
-var inputDataNode = LiteGraph.createNode("pontbascule/input");
-inputDataNode.pos = [200, 200];
-graph.add(inputDataNode);
-
-
-function updateNodeInputGraph() {
-    if (!inputEditor) return;
-    try {
-        const input = JSON.parse(inputEditor.getValue());
+        const array = this.getInputData(0);
+        const input = array[this.InputIndex];
+        if (this.InputIndex >= array.length) this.InputIndex = 0;
+        if (!input) return;
 
         // iterate over the keys of the object
         for (const key in input) {
             if (input.hasOwnProperty(key)) {
                 const element = input[key];
-                console.log(key, typeof element);
-
                 //if the output already exist i.e outputs[i].name == key
-                if (!inputDataNode.outputs || !inputDataNode.outputs.find(output => output.name == key)) {
-                    inputDataNode.addOutput(key, typeof element);
-                    console.log("add output", key, typeof element);
+                if (!this.outputs || !this.outputs.find(output => output.name == key)) {
+                    this.addOutput(key, typeof element);
                 }
             }
         }
 
         //remove the output that are not in the input
-        for (var i = inputDataNode.outputs.length - 1; i >= 0; i--) {
-            var output = inputDataNode.outputs[i];
-            if (!input[output.name]) {
-                inputDataNode.removeOutput(i);
+        if (this.outputs) {
+            for (let i = this.outputs.length - 1; i >= 1; i--) {
+                var output = this.outputs[i];
+                if (!input[output.name]) {
+                    this.removeOutput(i);
+                }
             }
         }
 
 
+        let i = 1;
+        for (const key in input) {
+            if (input[key]) {
+                this.setOutputData(i, input[key]);
+                i++;
+            }
+        }
+        this.setOutputData(0, this.InputIndex);
+        this.InputIndex++;
     } catch (error) {
         console.log(error);
     }
+}
+LiteGraph.registerNodeType("pontbascule/input", InputPontBascule);
+var inputDataNode = LiteGraph.createNode("pontbascule/input");
+inputDataNode.pos = [300, 200];
+graph.add(inputDataNode);
+
+var constString = LiteGraph.createNode("basic/string");
+constString.pos = [0, 100];
+graph.add(constString);
+
+var jsonParser = LiteGraph.createNode("basic/jsonparse");
+jsonParser.pos = [50, 250];
+graph.add(jsonParser);
+
+
+var objectPropertyNode = LiteGraph.createNode("basic/object_property");
+objectPropertyNode.pos = [100, 400];
+graph.add(objectPropertyNode);
+
+
+//connect const string with json parser input
+constString.connect(0, jsonParser, 1);
+//connect json parser with object property node
+jsonParser.connect(1, objectPropertyNode, 0);
+//connect object property with input data node
+objectPropertyNode.connect(0, inputDataNode, 0);
+
+
+
+//output
+function updateNodeInputGraph() {
+    if (!inputEditor) return;
+    constString.setValue(inputEditor.getValue());
+    //parse with a delay
+    setTimeout(() => {
+        jsonParser.parse();
+    }, 100);
 
 }
 
 function OutputPontBascule() {
+    this.array = [];
+    this.addInput("element Index", "number")
     this.addInput("poid", "number");
     this.addInput("timestamp", "number");
     this.addInput("X", "number");
@@ -104,29 +155,48 @@ function OutputPontBascule() {
 OutputPontBascule.title = "Output Pont Bascule Data";
 //trigger event when the input data of outputDataNode change
 OutputPontBascule.prototype.onExecute = function () {
-    var poid = this.getInputData(0);
-    var timestamp = this.getInputData(1);
-    var X = this.getInputData(2);
-    var Y = this.getInputData(3);
+    let index = this.getInputData(0);
+    let poid = this.getInputData(1);
+    let timestamp = this.getInputData(2);
+    let X = this.getInputData(3);
+    let Y = this.getInputData(4);
+
 
     try {
-        const string = JSON.stringify({
-            poid: poid,
-            timestamp: timestamp,
-            X: X,
-            Y: Y
-        }, null, 2);
-        outputEditor.setValue(string);
+        if (index == 0) {
+            const string = JSON.stringify(this.array, null, 2);
+            outputEditor.setValue(string);
+            this.array = [];
+        }
+
+
+        let object = {};
+        if (poid) {
+            object.poid = poid;
+        }
+        if (timestamp) {
+            object.timestamp = timestamp;
+        }
+        if (X) {
+            object.X = X;
+        }
+        if (Y) {
+            object.Y = Y;
+        }
+        this.array.push(object);
+
 
     } catch (error) {
         console.log(error);
-
     }
 }
 LiteGraph.registerNodeType("pontbascule/output", OutputPontBascule);
 var outputDataNode = LiteGraph.createNode("pontbascule/output");
-outputDataNode.pos = [500, 200];
+outputDataNode.pos = [800, 200];
 graph.add(outputDataNode);
+
+//connect output data node with input data node
+inputDataNode.connect(0, outputDataNode, 0);
 
 
 
