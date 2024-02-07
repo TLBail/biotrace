@@ -34,5 +34,18 @@ class Database:
 		except mariadb.Error as e:
 			print(f"Error: {e}")
 
+	def get_logs(self, n = 10):
+		self.cur.execute("SELECT id, type, name, CONVERT(content USING utf8) as content, created_at, updated_at, deleted_at FROM file WHERE type='log' AND deleted_at IS NULL ORDER BY id DESC LIMIT ?", (n,))
+		rows = self.cur.fetchall()
+
+		return rows
+
+	def add_log(self, name, content):
+		try:
+			self.cur.execute("INSERT INTO file (type, name, content, created_at, updated_at) VALUES ('log', ?, ?, now(), now())", (name, content))
+			self.conn.commit()
+		except mariadb.Error as e:
+			print(f"Error: {e}")
+
 	def __del__(self):
 		self.conn.close()

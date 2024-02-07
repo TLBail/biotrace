@@ -4,6 +4,7 @@ from sockets.commsocket import commsocket
 import rocher
 
 from api.webdynconfig import bp as webdynconfig_bp
+from api.webdynlog import bp as webdynlog_bp
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -21,6 +22,7 @@ app.register_blueprint(blueprint)
 
 # Register the API blueprint
 app.register_blueprint(webdynconfig_bp)
+app.register_blueprint(webdynlog_bp)
 
 
 @app.route('/')
