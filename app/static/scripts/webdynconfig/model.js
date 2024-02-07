@@ -23,7 +23,7 @@ export class Model {
                 "id": config.id,
                 "name": config.name,
                 "date": config.date,
-                "content": atob(config.content)
+                "content": config.content
             });
         });
         return this.configs;
@@ -37,7 +37,7 @@ export class Model {
             },
             body: JSON.stringify({
                 "name": name,
-                "content": btoa(content)
+                "content": content
             })
         });
 
