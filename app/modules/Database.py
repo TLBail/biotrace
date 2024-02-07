@@ -20,8 +20,8 @@ class Database:
 
 		return rows
 
-	def get_configs(self, n = 10, cols : list[str] = ["*"]):
-		self.cur.execute(f"SELECT {cols[0] if cols == ['*'] else ', '.join(cols)} FROM file WHERE type='config' and deleted_at is NULL ORDER BY id DESC LIMIT {str(n)}")
+	def get_configs(self, n = 10):
+		self.cur.execute("SELECT id, type, name, CONVERT(content USING utf8) as content, created_at, updated_at, deleted_at FROM file WHERE type='config' AND deleted_at IS NULL ORDER BY id DESC LIMIT ?", (n,))
 		rows = self.cur.fetchall()
 
 		return rows
