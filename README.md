@@ -45,3 +45,30 @@ mariadb < db/data.sql
 ```bash
 pipenv run dev
 ```
+
+## Tests
+
+### FTP
+
+Pour tester le FTP, vous pouvez utiliser le serveur FTP suivant:
+
+```bash
+mkdir ftp-tests
+echo "config" > ftp-tests/config
+echo "data" > ftp-tests/data
+echo "logs" > ftp-tests/logs
+echo "tmp" > ftp-tests/tmp
+echo "uploads" > ftp-tests/uploads
+```
+
+
+```bash
+docker pull bogem/ftp
+docker run --rm -it --init -v ./ftp-tests:/home/vsftpd \
+				-p 2020:20 -p 2121:21 -p 47400-47470:47400-47470 \
+				-e FTP_USER=admin \
+				-e FTP_PASS=admin \
+				-e PASV_ADDRESS=127.0.0.1 \
+				--name ftp \ 
+				bogem/ftp
+```
