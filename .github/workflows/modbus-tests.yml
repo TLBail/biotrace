@@ -1,0 +1,53 @@
+name: Python tests
+
+on:
+    push:
+        paths:
+            - "**.py"
+    pull_request:
+        paths:
+            - "**.py"
+
+jobs:
+    install:
+        runs-on: alpine-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+            - run: pip install pipenv
+            - name: Création de l'environnement virtuel
+              run: python3 -m venv .venv
+            - run: source .venv/bin/activate
+            - name: Installe les dépendances
+              run: pip install -r requirements.txt
+
+    test:
+        runs-on: ubuntu-latest
+        needs: install
+        env:
+            MODBUS_PORT: 5001
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+            - uses: JarvusInnovations/background-action@v1
+              name: Lancement du serveur de test
+              with:
+                  run: |
+                      python3 app/test/testServer.py
+                  wait-on: |
+                      tcp:localhost:${{ env.MODBUS_PORT }}
+
+                  tail: true # true = stderr,stdout
+                  # This will allow you to monitor the progress live
+
+                  log-output-resume: stderr
+                  wait-for: 5m
+                  log-output: stderr,stdout
+                  log-output-if: failure
+                  working-directory: backend
+            - name: Lancement des tests
+              run: python3 -m venv .venv
