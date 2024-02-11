@@ -18,10 +18,12 @@ jobs:
             - uses: actions/setup-python@v5
               with:
                   python-version: "3.10"
-            - run: pip install pipenv
+            - name: Installation de pipenv
+              run: pip install pipenv
+            - name: Installation des dépendances
+              run: sudo apt-get install libmariadb3 libmariadb-dev -y
             - name: Création de l'environnement virtuel
-              run: python3 -m venv .venv
-            - run: source .venv/bin/activate
+              run: python3 -m venv .venv && source .venv/bin/activate
             - name: Installe les dépendances
               run: pip install -r requirements.txt
 
