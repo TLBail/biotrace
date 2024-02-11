@@ -125,7 +125,7 @@ export class Controller {
     }
 
     _addData(data) {
-        this.view.addRow(data.address, data.count, data.value_type, data.type, data.data);
+        this.view.addRow(data.address, data.count, data.value_type, !data.signed, data.invert, data.type, data.data);
         this.model.data.push(data);
     }
 

@@ -80,8 +80,8 @@ export class View {
         this.log_container.insertBefore(this._createLogElement(data), this.log_container.firstChild);
     }
 
-    addRow(addr, count, type, read, value) {
-        this.modbus_table.insertBefore(this._createRowElement(addr, count, type, read, value), this.modbus_table.firstChild);
+    addRow(addr, count, type, unsigned, invert, read, value) {
+        this.modbus_table.insertBefore(this._createRowElement(addr, count, type, unsigned, invert, read, value), this.modbus_table.firstChild);
     }
 
     setConnectButtonState(state) {
@@ -151,7 +151,7 @@ export class View {
         return wrapper;
     }
 
-    _createRowElement(addr, count, type, read, value) {
+    _createRowElement(addr, count, type, unsigned, invert, read, value) {
         let row = document.createElement("tr");
 
         let addr_col = document.createElement("th");
@@ -164,6 +164,12 @@ export class View {
         let type_col = document.createElement("td");
         type_col.innerHTML = type;
 
+        let unsigned_col = document.createElement("td");
+        unsigned_col.innerHTML = unsigned;
+
+        let invert_col = document.createElement("td");
+        invert_col.innerHTML = invert;
+
         let read_col = document.createElement("td");
         read_col.innerHTML = read;
 
@@ -173,6 +179,8 @@ export class View {
         row.appendChild(addr_col);
         row.appendChild(count_col);
         row.appendChild(type_col);
+        row.appendChild(unsigned_col);
+        row.appendChild(invert_col);
         row.appendChild(read_col);
         row.appendChild(value_col);
 

@@ -47,8 +47,11 @@
 					<div class="col-6">
 						<label for="type_selection" class="form-label">Type</label>
 						<select id="type_selection" class="form-select">
-							<option selected>int</option>
+							<option selected>short</option>
+							<option>int</option>
 							<option>float</option>
+							<option>double</option>
+							<option>boolean</option>
 						</select>
 					</div>
 					<div class="col-6">
@@ -56,14 +59,12 @@
 						<select id="cf_selection" class="form-select">
 							<option selected>input</option>
 							<option>holding</option>
-							<option>coil</option>
+							<option>coils</option>
 							<option>discrete</option>
 						</select>
 					</div>
 				</div>
 				<div class="row mt-2">
-					<!-- Check box "invert" label-->
-					<!-- inline -->
 					<div class="col-6">
 						<input class="form-check-input" type="checkbox" value="" id="invertByteOrder">
 						<label class="form-check-label" for="invert_check">
@@ -96,6 +97,8 @@
 				<th scope="col">Register Addr</th>
 				<th scope="col">Size</th>
 				<th scope="col">Type</th>
+				<th scope="col">Unsigned</th>
+				<th scope="col">Invert</th>
 				<th scope="col">Read</th>
 				<th scope="col">Value</th>
 			</tr>

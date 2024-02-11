@@ -58,18 +58,15 @@ def commsocket(socketio: SocketIO):
                 invert = payload['invert']
                 signed = payload['signed']
 
-                if type_register == 'coil':
-                    data = rooms[request.sid].read_coils(address, count)
-                elif type_register == 'discrete':
-                    data = rooms[request.sid].read_discrete_inputs(address, count)
-                elif type_register == 'input':
-                    data = rooms[request.sid].read_input_registers(address, count, value_type, invert, signed)
-                elif type_register == 'holding':
-                    data = rooms[request.sid].read_holding_registers(address, count, value_type, invert, signed)
-                else:
-                    socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': "Unknown type"}), to=request.sid)
+                client = rooms[request.sid]
 
-                socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data, 'value_type': value_type, 'invert': invert}),  to=request.sid)
+                try:
+                    data = client.read(register=type_register, type=value_type, addr=address, endian=invert, signed=signed, count=count)
+                except Exception as e:
+                    socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': str(e)}), to=request.sid)
+                    return
+
+                socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data, 'value_type': value_type, 'invert': invert, 'signed': signed}),  to=request.sid)
 
 
 
