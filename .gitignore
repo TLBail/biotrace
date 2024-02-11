@@ -40,3 +40,5 @@ Temporary Items
 .venv
 
 ftp-tests/
+
+__pycache__/

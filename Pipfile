@@ -1,2 +1,3 @@
 [scripts]
 dev = "python app/server.py"
+test = "python app/test.py"
