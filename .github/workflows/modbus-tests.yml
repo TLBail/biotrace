@@ -1,5 +1,4 @@
 name: Python tests
-description: Lancer les tests de l'application
 on: push
 
 # on:
