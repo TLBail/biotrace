@@ -1,9 +1,7 @@
 FROM python:3.10
-WORKDIR /app
 COPY . .
-RUN "python3 -m venv .venv"
-RUN "source .venv/bin/activate"
-RUN "pip install -r requirements.txt"
+RUN pip install -r requirements.txt
 ENV PORT=5000
-CMD ["pipenv", "run", "dev"]
+WORKDIR /app
 EXPOSE 5000
+CMD ["gunicorn", "--bind", "0.0.0.0:5000" , "server:app"]
