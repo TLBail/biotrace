@@ -1,5 +1,5 @@
 name: Python tests
-
+description: Lancer les tests de l'application
 on: push
 
 # on:
@@ -15,21 +15,22 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+
             - uses: actions/setup-python@v5
               with:
                   python-version: "3.10"
 
+            - name: Installation de pipenv
+              run: pip install pipenv
+
             - name: Installation des dépendances
-              runs:
-                  steps:
-                      - name: Installation de pipenv
-                        run: pip install pipenv
-                      - name: Installation des dépendances
-                        run: sudo apt-get install libmariadb3 libmariadb-dev -y
-                      - name: Création de l'environnement virtuel
-                        run: python3 -m venv .venv && source .venv/bin/activate
-                      - name: Installe les dépendances
-                        run: pip install -r requirements.txt
+              run: sudo apt-get install libmariadb3 libmariadb-dev -y
+
+            - name: Création de l'environnement virtuel
+              run: python3 -m venv .venv && source .venv/bin/activate
+
+            - name: Installe les dépendances
+              run: pip install -r requirements.txt
 
             - name: Lancement des tests
               run: pipenv run test
