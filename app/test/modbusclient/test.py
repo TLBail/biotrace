@@ -1,14 +1,24 @@
 import unittest
 from modules.ModbusClient import ModbusClient
+from test.testServer import TestServer
+from multiprocessing import Process
+
 
 class TestModbusClient(unittest.TestCase):
 
     def setUp(self):
+        self.server = TestServer()
+        self.server_process = Process(target=self.server.start)
+        self.server_process.start()
+
+        self.server_process.join(1)
+
         self.client = ModbusClient("127.0.0.1", 5001)
         self.client.connect()
 
     def tearDown(self):
         self.client.disconnect()
+        self.server_process.terminate()
 
     def test_read_signed_short(self):
         data = self.client.read_short('holding', 1001)
