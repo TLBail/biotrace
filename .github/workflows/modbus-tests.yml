@@ -33,22 +33,6 @@ jobs:
         env:
             MODBUS_PORT: 5001
         steps:
-            - uses: actions/checkout@v2
-            - uses: JarvusInnovations/background-action@v1
-              name: Lancement du serveur de test
-              with:
-                  run: |
-                      python3 app/test/testServer.py
-                  wait-on: |
-                      tcp:localhost:${{ env.MODBUS_PORT }}
-
-                  tail: true # true = stderr,stdout
-                  # This will allow you to monitor the progress live
-
-                  log-output-resume: stderr
-                  wait-for: 5m
-                  log-output: stderr,stdout
-                  log-output-if: failure
-                  working-directory: backend
+            - uses: actions/checkout@v4
             - name: Lancement des tests
-              run: python3 -m venv .venv
+              run: python3 app/test/modbusclient/test.py
