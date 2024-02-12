@@ -1,13 +1,11 @@
 name: Python tests
-on: push
-
-# on:
-#     push:
-#         paths:
-#             - "**.py"
-#     pull_request:
-#         paths:
-#             - "**.py"
+on:
+    push:
+        paths:
+            - "**.py"
+    pull_request:
+        paths:
+            - "**.py"
 
 jobs:
     tests:
