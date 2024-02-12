@@ -35,4 +35,4 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: Lancement des tests
-              run: python3 app/test/modbusclient/test.py
+              run: pipenv run test
