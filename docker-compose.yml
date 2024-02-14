@@ -1,33 +1,31 @@
-version: '3'
+version: "3"
 
 services:
-  app:
-    image: biotrace
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: dev
-      DB_PASSWORD: dev
-      DB_NAME: biotrace
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
+    app:
+        image: biotrace
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            DB_HOST: db
+            DB_PORT: 3306
+            DB_USER: dev
+            DB_PASSWORD: dev
+            DB_NAME: Biotrace
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
 
-  db:
-    image: mariadb
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: Biotrace
-      MYSQL_USER: dev
-      MYSQL_PASSWORD: dev
-    volumes:
-      - ./var/db:/var/lib/mysql
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-    ports:
-      - 5050:3306
-
-
+    db:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: Biotrace
+            MYSQL_USER: dev
+            MYSQL_PASSWORD: dev
+        volumes:
+            - ./var/db:/var/lib/mysql
+            - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+        ports:
+            - 5050:3306

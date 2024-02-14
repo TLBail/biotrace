@@ -10,7 +10,7 @@ class Database:
 			'port': int(os.getenv('DB_PORT', 3306)),
 			'user': os.getenv('DB_USER', 'dev'),
 			'password': os.getenv('DB_PASSWORD', 'dev'),
-			'database': os.getenv('DB_NAME', 'biotrace')
+			'database': os.getenv('DB_NAME', 'Biotrace')
 		}
 
 		self.attempts = 10
