@@ -48,6 +48,12 @@ class Database:
 
 		return rows
 
+	def get_config_by_id(self, id, cols : list[str] = ["*"]):
+		self.cur.execute(f"SELECT {cols[0] if cols == ['*'] else ', '.join(cols)} FROM file WHERE type='config' AND id = ? AND deleted_at IS NULL", (id,))
+		row = self.cur.fetchone()
+
+		return row
+
 	def add_config(self, name, content):
 		# try to insert
 		try:
