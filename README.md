@@ -53,12 +53,16 @@ pipenv run dev
 Pour tester le FTP, vous pouvez utiliser le serveur FTP suivant:
 
 ```bash
-mkdir ftp-tests
-echo "config" > ftp-tests/config
-echo "data" > ftp-tests/data
-echo "logs" > ftp-tests/logs
-echo "tmp" > ftp-tests/tmp
-echo "uploads" > ftp-tests/uploads
+mkdir -p ftp-tests/CONFIG ftp-tests/ALARM ftp-tests/LOG ftp-tests/BIN ftp-tests/CERT ftp-tests/DATA ftp-tests/CMD ftp-tests/DEF ftp-tests/SCRIPT
+echo '; last modified 1 April 2001 by John Doe
+[owner]
+name = John Doe
+organization = Acme Widgets Inc.
+
+[database]
+; use IP address in case network name resolution is not working
+server = 192.0.2.62     
+port = 143' > ftp-tests/CONFIG/config.ini
 ```
 
 
