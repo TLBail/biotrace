@@ -13,7 +13,7 @@ export class View {
 
         this.editor = monaco.editor.create(document.getElementById('container'), {
             value: "Your content here",
-            language: 'shell',
+            language: 'ini',
             automaticLayout: true
         });
 
@@ -102,7 +102,7 @@ export class View {
 
         this.editor = monaco.editor.create(document.getElementById('container'), {
             value: content,
-            language: 'shell',
+            language: 'ini',
             automaticLayout: true
         });
 
@@ -111,8 +111,8 @@ export class View {
     }
 
     showDiffEditor(originalContent, modifiedContent) {
-        const originalModel = monaco.editor.createModel(originalContent, 'shell');
-        const modifiedModel = monaco.editor.createModel(modifiedContent, 'shell');
+        const originalModel = monaco.editor.createModel(originalContent, 'ini');
+        const modifiedModel = monaco.editor.createModel(modifiedContent, 'ini');
 
         this.editor.dispose();
 
