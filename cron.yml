@@ -1,0 +1,25 @@
+---
+- name: Créé un cron pour la sauvegarde de fichier
+  hosts: localhost
+
+  pre_tasks:
+      - name: Vérifie que les variables sont bien définies
+        ansible.builtin.fail:
+            msg: "La variable {{ item }} n'est pas définie"
+        with_items:
+            - days
+            - ftp_host
+            - ftp_user
+            - ftp_pwd
+        when: item is not defined
+
+  tasks:
+      - name: Créé un cron pour la sauvegarde de fichier
+        ansible.builtin.cron:
+            name: "biotrace-sauvegarde-fichiers"
+            minute: "0"
+            hour: "0"
+            day: "*/{{ days }}"
+            job: "python3 app/modules/ftp.py {{ ftp_host }} {{ ftp_user }} {{ ftp_pwd }} -P {{ ftp_port | default(21) }} -f {{ ftp_file | default('/CONFIG/config.ini') }}"
+            state: "present"
+        register: cron
