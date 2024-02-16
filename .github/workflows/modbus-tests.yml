@@ -1,0 +1,40 @@
+name: Python tests
+on:
+    push:
+        paths:
+            - "**.py"
+    pull_request:
+        paths:
+            - "**.py"
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+
+            - name: Installation de pip et pipenv
+              run: |
+                  pip install --upgrade pip 
+                  pip install pipenv
+
+            - name: Installation des dépendances
+              run: sudo apt-get install libmariadb3 libmariadb-dev mariadb-server -y
+
+            - name: Importe le schéma et les données de la BDD
+              run: |
+                  sudo mariadb < db/schema.sql
+                  sudo mariadb < db/data.sql
+
+            - name: Création de l'environnement virtuel
+              run: |
+                  python3 -m venv .venv
+                  source .venv/bin/activate
+                  pip install -r requirements.txt
+
+            - name: Lancement des tests
+              run: pipenv run test

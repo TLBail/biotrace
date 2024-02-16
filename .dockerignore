@@ -1,0 +1,4 @@
+*
+!app/
+!pipfile
+!requirements.txt
