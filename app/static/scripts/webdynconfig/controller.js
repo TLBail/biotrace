@@ -30,6 +30,7 @@ export class Controller {
             this.view.enableSaveButton(false);
             this.model.documentHaveChanged = false;
             this.view.displaySaveForm(this.model.documentHaveChanged);
+            this.view.showEditor(this.model.modifiedContent);
         });
     }
 

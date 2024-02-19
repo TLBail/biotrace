@@ -30,6 +30,8 @@ export class Model {
     }
 
     async saveConfig(name, content) {
+        this.editorMode = 0;
+
         const response = await fetch('/api/webdynconfigs', {
             method: 'POST',
             headers: {
