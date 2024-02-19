@@ -1,6 +1,8 @@
+USE Biotrace;
+
 DELIMITER //
 
-CREATE PROCEDURE daily_file_cleanup(IN X_days INT)
+CREATE OR REPLACE PROCEDURE daily_file_cleanup(IN X_days INT)
 BEGIN
     UPDATE file
     SET deletedAt = NOW()

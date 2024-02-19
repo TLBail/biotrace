@@ -1,7 +1,9 @@
 # biotrace
+
 Application permettant le suivi des installations d'un méthaniseur
 
 ## Auteurs:
+
 Théo LE BAIL
 Thomas LEBRETON
 Romain PIPON
@@ -13,7 +15,7 @@ Romain PIPON
 
 ## Installation
 
-Il faut installer le connector MariaDB sur la machine. 
+Il faut installer le connector MariaDB sur la machine.
 Doc : https://mariadb.com/docs/server/connect/programming-languages/c/install/
 
 `sudo apt install libmariadb3 libmariadb-dev`
@@ -30,7 +32,7 @@ Vous devez avoir MariaDB ou MySQL installé sur votre machine.
 Une fois installé, vous devez créer une base de données.
 
 ```bash
-mariadb < db/schema.sql
+mariadb < db/schema.sql < db/procedure-cleanup.sql < db/trigger-configs.sql
 ```
 
 Pour remplir la base de données avec des données de test, vous pouvez exécuter le script suivant:
@@ -38,7 +40,6 @@ Pour remplir la base de données avec des données de test, vous pouvez exécute
 ```bash
 mariadb < db/data.sql
 ```
-
 
 ## Usage
 
@@ -61,10 +62,9 @@ organization = Acme Widgets Inc.
 
 [database]
 ; use IP address in case network name resolution is not working
-server = 192.0.2.62     
+server = 192.0.2.62   
 port = 143' > ftp-tests/CONFIG/config.ini
 ```
-
 
 ```bash
 docker pull bogem/ftp

@@ -1,3 +1,5 @@
+USE Biotrace;
+
 DELIMITER //
 
 CREATE TRIGGER file_insert_update_trigger
@@ -28,3 +30,5 @@ BEGIN
         END IF;
     END IF;
 END //
+
+DELIMITER ;

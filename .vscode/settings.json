@@ -1,0 +1,19 @@
+{
+	"ansible.python.interpreterPath": "/usr/bin/python3",
+	"sqltools.connections": [
+		{
+			"mysqlOptions": {
+				"authProtocol": "default",
+				"enableSsl": "Disabled"
+			},
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 3306,
+			"driver": "MariaDB",
+			"name": "Biotrace",
+			"database": "Biotrace",
+			"username": "dev",
+			"password": "dev"
+		}
+	]
+}
