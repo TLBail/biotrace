@@ -28,13 +28,17 @@ class TestServer:
         # [32768, -5] -> Signed 16 bits
         # 1st register = 1000
         # 2nd register = 1001
-        holding_registers.setValues(1, [32767,65531])
+        holding_registers.setValues(1, [32767,65531, 16453, 4045, 13736, 22649])
 
         # float values 32 bits so 2 registers
         # [-100.79, 273.18]
         # 1st register = 2000
         # 2nd register = 2002
         input_registers.setValues(1, [31636, 51650, 2711, 34883])
+
+        # double value 64 bits so 4 registers
+        # [42.12345]
+        #holding_registers.setValues(3, [16453, 4045, 13736, 22649])
 
         coils.setValues(1, [True, False, True])
 
