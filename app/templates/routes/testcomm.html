@@ -87,30 +87,51 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 
-<div class="row" style="max-height: 45vh; overflow-y: scroll; min-height: 25vh;">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th scope="col">Register Addr</th>
-				<th scope="col">Size</th>
-				<th scope="col">Type</th>
-				<th scope="col">Unsigned</th>
-				<th scope="col">Invert</th>
-				<th scope="col">Read</th>
-				<th scope="col">Value</th>
-			</tr>
-		</thead>
-		<tbody id="modbus_table">
-		</tbody>
-	</table>
-
+<div class="row">
+	<div class="col">
+		<table class="table table-striped scroll">
+			<thead>
+				<tr>
+					<th scope="col">Register Addr</th>
+					<th scope="col">Size</th>
+					<th scope="col">Type</th>
+					<th scope="col">Unsigned</th>
+					<th scope="col">Invert</th>
+					<th scope="col">Read</th>
+					<th scope="col">Value</th>
+				</tr>
+			</thead>
+			<tbody id="modbus_table">
+			</tbody>
+		</table>
+	</div>
 </div>
+
 <fieldset class="border p-2">
 	<legend class="float-none w-auto">Logs</legend>
 	<div id="logs-content">
 	</div>
 </fieldset>
+
+<script>
+		var $table = $('table.scroll'),
+			$bodyCells = $table.find('tbody tr:first').children(),
+			colWidth;
+
+		// Adjust the width of thead cells when window resizes
+		$(window).resize(function () {
+			// Get the tbody columns width array
+			colWidth = $bodyCells.map(function () {
+				return $(this).width();
+			}).get();
+
+			// Set the width of thead columns
+			$table.find('thead tr').children().each(function (i, v) {
+				$(v).width(colWidth[i]);
+			});
+		}).resize(); // Trigger resize handler
+</script>
+
 {% endblock %}
