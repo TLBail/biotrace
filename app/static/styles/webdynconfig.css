@@ -46,7 +46,6 @@
 
 .cardConfigScript {
 	transition: background-color 0.5s, box-shadow 0.5s;
-
 }
 
 .cardConfigScript:hover {
@@ -54,11 +53,16 @@
 
 	box-shadow: 1px solid rgba(0, 0, 0, 0.142);
 
-
+	cursor: pointer;
 }
 
 .cardConfigScript:active {
 	background-color: rgba(0, 0, 0, 0.200);
 
 	box-shadow: 2px solid rgba(0, 0, 0, 0.200);
+}
+
+#container {
+	height: 100%;
+	max-height: 78vh;
 }

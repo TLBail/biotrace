@@ -57,17 +57,13 @@
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
 
-				<button type="button" id="diffButton" class="btn btn-primary" style="position: absolute;
-						z-index: 30;
-						top: 1px;
-						right: 1px;">
-					diff</button>
-				<div id="container" style="height: 100%"></div>
+				<div id="save_form" class="input-group mb-3 pt-2">
+					<input id="saveInput" type="text" class="form-control" placeholder="Nom de la config" aria-label="filename" aria-describedby="basic-addon2">
+					<button id="saveButton" class="btn btn-outline-secondary" type="button" disabled="z">Enregistrer</button>
+					<button type="button" id="diffButton" class="btn btn-primary">diff</button>
+				</div>
+				<div id="container"></div>
 			</fieldset>
-			<div id="save_form" class="input-group mb-3 pt-2" style="display: none;">
-				<input id="saveInput" type="text" class="form-control" placeholder="Nom de la config" aria-label="filename" aria-describedby="basic-addon2">
-				<button id="saveButton" class="btn btn-outline-secondary" type="button" disabled="z">Enregistrer</button>
-			</div>
 		</div>
 	</div>
 </div>

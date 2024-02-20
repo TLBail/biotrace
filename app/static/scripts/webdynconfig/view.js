@@ -51,7 +51,7 @@ export class View {
 
     displaySaveForm(p){
         const saveButton = document.getElementById('save_form');
-        saveButton.style.display = p ? 'flex' : 'none';
+        // saveButton.style.display = p ? 'flex' : 'none';
     }
 
     enableSaveButton(p){
