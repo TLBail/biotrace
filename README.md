@@ -1,4 +1,5 @@
 # biotrace
+[![Python tests](https://github.com/TLBail/biotrace/actions/workflows/modbus-tests.yml/badge.svg)](https://github.com/TLBail/biotrace/actions/workflows/modbus-tests.yml)
 
 Application permettant le suivi des installations d'un méthaniseur
 
