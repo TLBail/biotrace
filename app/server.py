@@ -2,17 +2,17 @@ from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO
 from sockets.commsocket import commsocket
 import rocher
+import os
 
 from api.webdynconfig import bp as webdynconfig_bp
-from api.webdynlog import bp as webdynlog_bp
+#from api.webdynlog import bp as webdynlog_bp
+from modules.Database import init_engine, init_db
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-
 # Enregistrer les événements socket
 commsocket(socketio)
-
 
 # Serve the static files from the Monaco editor
 blueprint = Blueprint(
@@ -21,8 +21,19 @@ blueprint = Blueprint(
 app.register_blueprint(blueprint)
 
 # Register the API blueprint
+user = os.getenv('DB_USER', 'dev')
+password = os.getenv('DB_PASSWORD', 'dev')
+host = os.getenv('DB_HOST', 'localhost')
+port = int(os.getenv('DB_PORT', '3306'))
+database = os.getenv('DB_DATABASE', 'Biotrace')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mariadb+mariadbconnector://{user}:{password}@{host}:{port}/{database}'
+
+init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+init_db()
+
 app.register_blueprint(webdynconfig_bp)
-app.register_blueprint(webdynlog_bp)
+#app.register_blueprint(webdynlog_bp)
 
 
 @app.route('/')
