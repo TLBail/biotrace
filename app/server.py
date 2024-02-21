@@ -1,5 +1,8 @@
 from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy_utils import database_exists, create_database
 from sockets.commsocket import commsocket
 import rocher
 
@@ -9,10 +12,18 @@ from api.webdynlog import bp as webdynlog_bp
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-
 # Enregistrer les événements socket
 commsocket(socketio)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "mariadb+mariadbconnector://dev:dev@127.0.0.1:3306/Biotrace"
+
+# Models de la BDD
+from models.File import db
+
+db.init_app(app)
+with app.app_context():
+	if not database_exists(db.engine.url): create_database(db.engine.url)
+	db.create_all()
 
 # Serve the static files from the Monaco editor
 blueprint = Blueprint(
@@ -57,6 +68,6 @@ def config():
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000, use_reloader=True, log_output=True)
     app.run(debug=True, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
     print("Server running on port 5000")
