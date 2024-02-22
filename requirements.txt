@@ -18,3 +18,4 @@ flask-socketio==5.3.6
 rocher==0.44.0
 mariadb==1.1.9
 gunicorn==21.2.0
+sqlalchemy==2.0.27
