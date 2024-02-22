@@ -1,0 +1,13 @@
+[flake8]
+; W191 = indent using tabs
+; C901 = too complex
+; N818 = exception name shloud be named with and Error suffix
+; N806 = variable should be lowercase
+; N801 = CapWords convention
+; E101 = indentation contains mixed spaces and tabs
+; E128 = continuation line under-indented for visual indent
+; 501 = line too long
+ignore = W191,C901,N818,N806,N801,E128,E101,E501
+; exclude = tests/*
+; max-complexity = 50
+
