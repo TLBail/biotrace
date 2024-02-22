@@ -43,7 +43,7 @@ export class View {
             cardTitle.id = config.id;
             const cardDate = card.querySelector('.card-text');
             cardDate.id = config.id;
-            cardDate.innerText = config.date;
+            cardDate.innerText = config.createdAt;
 
             configs_container.appendChild(card);
         });

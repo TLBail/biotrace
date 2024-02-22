@@ -26,7 +26,7 @@ class File(Base):
             'name': self.name,
             'type': self.type,
             'content': self.content.decode('utf-8'),
-            'date': self.created_at.strftime('%Y-%m-%d'),
+            'createdAt': self.created_at.strftime('%Y-%m-%d'),
             'updatedAt': self.updated_at.strftime('%Y-%m-%d'),
             'deletedAt': self.deleted_at.strftime('%Y-%m-%d') if self.deleted_at is not None else None
         }

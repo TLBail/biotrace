@@ -22,7 +22,7 @@ export class Model {
             this.configs.push({
                 "id": config.id,
                 "name": config.name,
-                "date": config.date,
+                "date": config.createdAt,
                 "content": config.content
             });
         });
