@@ -1,6 +1,8 @@
 {
 	"recommendations": [
 		"mtxr.sqltools",
-		"mtxr.sqltools-driver-mysql"
+		"mtxr.sqltools-driver-mysql",
+		"ms-python.flake8",
+		"samuelcolvin.jinjahtml"
 	]
 }
