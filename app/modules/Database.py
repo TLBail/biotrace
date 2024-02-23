@@ -18,5 +18,5 @@ def init_engine(uri, **kwargs):
 
 
 def init_db():
-	from models import file  # noqa: F401
+	from models import File  # noqa: F401
 	Base.metadata.create_all(bind=engine)

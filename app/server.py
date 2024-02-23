@@ -6,7 +6,8 @@ import os
 
 from api.webdynconfig import bp as webdynconfig_bp
 from api.webdynlog import bp as webdynlog_bp
-from modules.Database import init_engine, init_db
+from modules.Database import init_engine, init_db, db_session
+from models.File import File
 
 app = Flask(__name__)
 socketio = SocketIO(app)

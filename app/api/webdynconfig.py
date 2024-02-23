@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from modules.Database import db_session
-from models.file import File
+from models.File import File
 
 bp = Blueprint('webdynconfig', __name__, url_prefix='/api')
 
