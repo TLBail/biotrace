@@ -145,7 +145,7 @@ function updateNodeInputGraph() {
 function OutputPontBascule() {
     this.array = [];
     this.addInput("element Index", "number")
-    this.addInput("poid", "number");
+    this.addInput("poids", "number");
     this.addInput("timestamp", "number");
     this.addInput("X", "number");
     this.addInput("Y", "number");
@@ -154,7 +154,7 @@ OutputPontBascule.title = "Output Pont Bascule Data";
 //trigger event when the input data of outputDataNode change
 OutputPontBascule.prototype.onExecute = function () {
     let index = this.getInputData(0);
-    let poid = this.getInputData(1);
+    let poids = this.getInputData(1);
     let timestamp = this.getInputData(2);
     let X = this.getInputData(3);
     let Y = this.getInputData(4);
@@ -169,8 +169,8 @@ OutputPontBascule.prototype.onExecute = function () {
 
 
         let object = {};
-        if (poid) {
-            object.poid = poid;
+        if (poids) {
+            object.poids = poids;
         }
         if (timestamp) {
             object.timestamp = timestamp;
