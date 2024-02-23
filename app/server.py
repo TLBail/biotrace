@@ -1,8 +1,5 @@
 from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy_utils import database_exists, create_database
 from sockets.commsocket import commsocket
 import rocher
 import os
@@ -36,7 +33,7 @@ init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 init_db()
 
 app.register_blueprint(webdynconfig_bp)
-# app.register_blueprint(webdynlog_bp)
+app.register_blueprint(webdynlog_bp)
 
 
 @app.route('/')
