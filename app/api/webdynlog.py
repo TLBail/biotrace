@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from modules.Database import db_session
 from models.file import File
 
@@ -9,6 +9,6 @@ bp = Blueprint('webdynlog', __name__, url_prefix='/api')
 def get_logs():
     try:
         logs = db_session.query(File).filter(File.type == 'log').order_by(File.id.desc()).all()
-        return jsonify([l.serialize() for l in logs])
+        return jsonify([log.serialize() for log in logs])
     except Exception as e:
         return jsonify({'status': 'error', 'error': str(e)})

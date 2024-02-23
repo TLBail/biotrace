@@ -2,6 +2,7 @@ from pymodbus.client.tcp import ModbusTcpClient
 from modules.Utils import hex_to_float, hex_to_int, hex_to_double
 import math
 
+
 class ModbusClient:
 
     def __init__(self, ip='127.0.0.1', port=502):
@@ -97,9 +98,9 @@ class ModbusClient:
         return result
 
     def read_int(self, register, addr, endian=0, signed=True, count=1):
-        result = self.read_register(register, addr, count*2)
+        result = self.read_register(register, addr, count * 2)
 
-        int_values = [hex_to_int(result[i], result[i+1], endian) for i in range(0, len(result), 2)]
+        int_values = [hex_to_int(result[i], result[i + 1], endian) for i in range(0, len(result), 2)]
 
         if signed:
             signed_values = [val if val < 2147483648 else val - 4294967296 for val in int_values]
@@ -109,13 +110,13 @@ class ModbusClient:
 
     def read_float(self, register, addr, endian=0, count=1):
         try:
-            result = self.read_register(register, addr, count*2)
+            result = self.read_register(register, addr, count * 2)
         except Exception as e:
             raise e
 
         float_values = []
         for i in range(0, len(result), 2):
-            v = hex_to_float(result[i], result[i+1], endian)
+            v = hex_to_float(result[i], result[i + 1], endian)
 
             if math.isnan(v):
                 float_values.append(0.0)
@@ -129,12 +130,12 @@ class ModbusClient:
         return float_values
 
     def read_double(self, register, addr, endian=0, count=1):
-        result = self.read_register(register, addr, count*4)
+        result = self.read_register(register, addr, count * 4)
 
         double_values = []
 
         for i in range(0, len(result), 4):
-            v = hex_to_double(result[i], result[i+1], result[i+2], result[i+3], endian)
+            v = hex_to_double(result[i], result[i + 1], result[i + 2], result[i + 3], endian)
 
             if math.isnan(v):
                 double_values.append(0.0)
@@ -145,13 +146,12 @@ class ModbusClient:
         if not double_values:
             raise Exception(f"No double data at address {addr}")
 
-
         return double_values
 
     def read_bool(self, register, addr, count=1):
         result = self.read_register(register, addr, count)
 
-        bool_values = [bool(v) for k,v in enumerate(result) if k < count]
+        bool_values = [bool(v) for k, v in enumerate(result) if k < count]
         return bool_values
 
     def read(self, type, register, addr, endian=0, signed=True, count=1):

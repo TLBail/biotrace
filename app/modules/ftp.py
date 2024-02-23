@@ -23,6 +23,7 @@ args = p.parse_args()
 
 db = Database()
 
+
 def get_md5(file):
     md5 = hashlib.md5()
 
@@ -32,41 +33,41 @@ def get_md5(file):
 
     return md5.hexdigest()
 
+
 with FTP() as ftp:
-	ftp.connect(args.hostname, args.port)
-	ftp.login(args.username, args.password)
-	print("connected to ftp")
+    ftp.connect(args.hostname, args.port)
+    ftp.login(args.username, args.password)
+    print("connected to ftp")
 
-	if args.option == "pull":
-		ftp.cwd("/".join(args.file.split("/")[:-1]) + "/")
-		file_name = args.file.split("/")[-1]
+    if args.option == "pull":
+        ftp.cwd("/".join(args.file.split("/")[:-1]) + "/")
+        file_name = args.file.split("/")[-1]
 
-		with open(file_name, "wb") as f:
-			def cb(data):
-				f.write(data)
-				print(f"downloaded {len(data)} bytes")
+        with open(file_name, "wb") as f:
+            def cb(data):
+                f.write(data)
+                print(f"downloaded {len(data)} bytes")
 
-			ftp.retrbinary(f"RETR {file_name}", cb)
-	elif args.option == "push":
-		file = db.get_config_by_id(args.file_id)
-		print(file)
+            ftp.retrbinary(f"RETR {file_name}", cb)
+    elif args.option == "push":
+        file = db.get_config_by_id(args.file_id)
+        print(file)
 
-		if file is None:
-			print("file not found")
-			exit(1)
+        if file is None:
+            print("file not found")
+            exit(1)
 
-		ftp.storbinary(f"STOR {file.name}", file, callback=lambda data: print(f"uploaded {len(data)} bytes"))
+        ftp.storbinary(f"STOR {file.name}", file, callback=lambda data: print(f"uploaded {len(data)} bytes"))
 
 if args.option == "pull":
-	file_name = args.file.split("/")[-1]
-	file_md5 = get_md5(file_name)
+    file_name = args.file.split("/")[-1]
+    file_md5 = get_md5(file_name)
 
-	configs = db.get_hashed_configs(cols = ["MD5(content)"])
+    configs = db.get_hashed_configs(cols=["MD5(content)"])
 
-	if (file_md5,) in configs:
-		print("file already in database")
-	else:
-		with open(file_name, "rb") as f:
-			db.add_config(file_name, f.read())
-			print("file added to database")
-
+    if (file_md5,) in configs:
+        print("file already in database")
+    else:
+        with open(file_name, "rb") as f:
+            db.add_config(file_name, f.read())
+            print("file added to database")

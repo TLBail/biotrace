@@ -5,7 +5,7 @@ import rocher
 import os
 
 from api.webdynconfig import bp as webdynconfig_bp
-#from api.webdynlog import bp as webdynlog_bp
+from api.webdynlog import bp as webdynlog_bp
 from modules.Database import init_engine, init_db
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 init_db()
 
 app.register_blueprint(webdynconfig_bp)
-#app.register_blueprint(webdynlog_bp)
+app.register_blueprint(webdynlog_bp)
 
 
 @app.route('/')

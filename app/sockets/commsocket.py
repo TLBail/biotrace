@@ -1,4 +1,4 @@
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from flask import request
 from modules.ModbusClient import ModbusClient
 import json
@@ -66,7 +66,4 @@ def commsocket(socketio: SocketIO):
                     socketio.emit('modbus', json.dumps({'action': 'read', 'status': False, 'data': str(e)}), to=request.sid)
                     return
 
-                socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data, 'value_type': value_type, 'invert': invert, 'signed': signed}),  to=request.sid)
-
-
-
+                socketio.emit('modbus', json.dumps({'action': 'read', 'status': True, 'type': type_register, 'address': address, 'count': count, 'data': data, 'value_type': value_type, 'invert': invert, 'signed': signed}), to=request.sid)

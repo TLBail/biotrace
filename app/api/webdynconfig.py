@@ -4,6 +4,7 @@ from models.file import File
 
 bp = Blueprint('webdynconfig', __name__, url_prefix='/api')
 
+
 @bp.route('/webdynconfigs', methods=['GET'])
 def get_configs():
     try:

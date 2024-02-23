@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, LargeBinary, DateTime
 from modules.Database import Base
 import time
 
+
 class File(Base):
     __tablename__ = 'file'
 
@@ -13,12 +14,12 @@ class File(Base):
     updated_at = Column(DateTime, default=time.strftime('%Y-%m-%d %H:%M:%S'))
     deleted_at = Column(DateTime, default=None)
 
-    def __init__(self, name, type, content, createdAt=time.strftime('%Y-%m-%d %H:%M:%S'), updatedAt=time.strftime('%Y-%m-%d %H:%M:%S')):
+    def __init__(self, name, type, content, created_at=time.strftime('%Y-%m-%d %H:%M:%S'), updated_at=time.strftime('%Y-%m-%d %H:%M:%S')):
         self.name = name
         self.type = type
         self.content = content.encode('utf-8')
-        self.created_at = createdAt
-        self.updated_at = updatedAt
+        self.created_at = created_at
+        self.updated_at = updated_at
 
     def serialize(self):
         return {
