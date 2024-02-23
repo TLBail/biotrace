@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Pont bascule{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/litegraph.js') }}"></script>
+<script src="/static/vs/loader.js"></script>
+{% endblock %}
+{% block content %}
+<div style="height: 100vh;">
+	<div class="d-flex flex-column h-100">
+		<h2>
+			Cette page permet de convertir les données du pont bascule
+		</h2>
+		<div class="row" style="height: 30vh;">
+			<div class="col-6">
+				<div class="h-100" id="inputDataContainer"></div>
+			</div>
+
+			<div class="col-6">
+				<div class="h-100" id="outputDataContainer"></div>
+			</div>
+		</div>
+
+		<div id="canvasContainer" style="flex-grow: 3;">
+			<canvas id="litegraph-canvas" width="480" height="320" style="border: 1px solid;"></canvas>
+		</div>
+	</div>
+
+	<script defer type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule.js') }}"></script>
+</div>
+{% endblock %}
