@@ -1,4 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
+from modules.Database import db_session
+from models.file import File
 
 bp = Blueprint('webdynlog', __name__, url_prefix='/api')
 
