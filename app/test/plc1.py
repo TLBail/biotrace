@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#-----------------------------------------------------------------------#
+# -----------------------------------------------------------------------#
 # programme: plc1.py                                                    #
 # Modbus TCP                                                            #
 # Si le port 502, ou 503 est utilisé, l'exécution doit se faire avec    #
@@ -12,11 +12,12 @@
 # répertoire : /u/data/prog/modbus/master/apps                          #
 # Création du mercredi 25 octobre 2023                                  #
 # Modification du jeudi 21 décembre 2023                                #
-#-----------------------------------------------------------------------#
+# -----------------------------------------------------------------------#
 
-#----------< Modules >--------------------------------------------------#
+# ----------< Modules >--------------------------------------------------#
 import sys
-import threading, multiprocessing
+import threading
+import multiprocessing
 import struct
 from bitlist import bitlist     # $ pip install bitlist
 from pyModbusTCP import utils   # $ pip install pyModbusTCP
@@ -24,16 +25,18 @@ from pyModbusTCP.server import ModbusServer, DataHandler, DataBank
 from pyModbusTCP.constants import EXP_ILLEGAL_FUNCTION
 import psutil                   # $ pip install psutil
 
-#----------< Constantes >-----------------------------------------------#
-WD142  = '127.0.0.1'
+# ----------< Constantes >-----------------------------------------------#
+WD142 = '127.0.0.1'
 NIPOGI = '127.0.0.1'
-PC     = '127.0.0.1'
-PC2    = '127.0.0.1'
+PC = '127.0.0.1'
+PC2 = '127.0.0.1'
 ALLOW_R_L = [NIPOGI, WD142, PC, PC2]
 ALLOW_W_L = [NIPOGI, WD142, PC, PC2]
 PORT_MODBUS = 8502  # Habituellement 502
 
-#---------< Classe >----------------------------------------------------#
+# ---------< Classe >----------------------------------------------------#
+
+
 class MyDataHandler(DataHandler):
     ###########################################################
     # FC1: lecture Coils (relais, moteurs, tout ou rien bits) #
@@ -46,7 +49,7 @@ class MyDataHandler(DataHandler):
             return super().read_coils(address, count, srv_info)
         else:
             return DataHandler.Return(exp_code=EXP_ILLEGAL_FUNCTION)
-            
+
     ##########################################################################
     # FC2: lecture Discrete Inputs (commutateurs, fins de courses, TOR bits) #
     ##########################################################################
@@ -58,7 +61,7 @@ class MyDataHandler(DataHandler):
             return super().read_d_inputs(address, count, srv_info)
         else:
             return DataHandler.Return(exp_code=EXP_ILLEGAL_FUNCTION)
-            
+
     ##########################################################################
     # FC3: lecture Holding Registers (afficheurs, indicateurs, mots 16 bits) #
     ##########################################################################
@@ -102,7 +105,7 @@ class MyDataHandler(DataHandler):
             return super().write_h_regs(address, words_l, srv_info)
         else:
             return DataHandler.Return(exp_code=EXP_ILLEGAL_FUNCTION)
-            
+
     #################################
     # FC15: ecriture Multiple Coils #
     #################################
@@ -112,7 +115,7 @@ class MyDataHandler(DataHandler):
             return super().write_multiple_coils(address, bits_l, srv_info)
         else:
             return DataHandler.Return(exp_code=EXP_ILLEGAL_FUNCTION)
-    
+
     #####################################
     # FC16: ecriture Multiple Registers #
     #####################################
@@ -122,22 +125,26 @@ class MyDataHandler(DataHandler):
             return super().write_multiple_registers(address, words_l, srv_info)
         else:
             return DataHandler.Return(exp_code=EXP_ILLEGAL_FUNCTION)
-            
-#----------< Fonction de codage des nombres flottants sur 32 bits >-----#
+
+# ----------< Fonction de codage des nombres flottants sur 32 bits >-----#
 # Non signé, non inversé
+
+
 def float_to_hex(float_num, endian='big'):
     # Convertir le float en binaire
     bits = struct.pack('>f', float_num)
     if endian == 'little':
         bits = struct.pack('<f', float_num)
     # Extraire les deux mots de 16 bits
-    word1, word2 = struct.unpack('>HH', bits[:4]) # 4 premiers octets
+    word1, word2 = struct.unpack('>HH', bits[:4])  # 4 premiers octets
     # Convertir chaque mot en hexadecimal
     # hex1, hex2 = hex(word1), hex(word2)
     # Retourner les deux valeurs décimales
     return word1, word2
-    
-#----------< Fonction de décodage des nombres flottants sur 32 bits >-----#
+
+# ----------< Fonction de décodage des nombres flottants sur 32 bits >-----#
+
+
 def hex_to_float(hex1, hex2, endian='big'):
     # Convertir les valeurs hexadécimales en bits
     bits = struct.pack('>HH', hex1, hex2)
@@ -146,44 +153,56 @@ def hex_to_float(hex1, hex2, endian='big'):
     if endian == 'little':
         float_num = struct.unpack('<f', bits)[0]
     return float_num
-    
-#----------< Fonction acquisition de données FC1 >----------------------#
+
+
+# ----------< Fonction acquisition de données FC1 >----------------------#
 ''' Read Coils:
     De 1 à 2.000 valeurs booleenes, plage d'adresses de 1 à 9.999 '''
+
+
 def fc1Handle(address, count):
     value = bitlist()
     if (address == 1):
         value = bitlist('1001011')
-    return(value)
+    return (value)
 
-#----------< Fonction acquisition de données FC2 >----------------------#
+
+# ----------< Fonction acquisition de données FC2 >----------------------#
 ''' Read Discrete Inputs:
     De 1 à 2.000 valeurs booleennes, plage d'adresses de 10.000 à 19.999 '''
+
+
 def fc2Handle(address, count):
     value = bitlist()
     if (address >= 10000) and (address <= 19999):
         value = bitlist('110111')
-    return(value)
-    
-#----------< Fonction acquisition de données FC3 >----------------------#
+    return (value)
+
+
+# ----------< Fonction acquisition de données FC3 >----------------------#
 ''' Read Holding Register:
     De 1 à 125 mots de 16 bits, plage d'adresses de 40.000 à 49.999 '''
+
+
 def fc3Handle(address, count):
     value = [0]
-    if (address >= 40000) and (address <=49999):
+    if (address >= 40000) and (address <= 49999):
         if (address == 40001):
             value = [625, -512, 1025]   # 3 valeurs
         if (address == 45000):
             # Les nombres flottants sont codifiès sur 32 bits norme IEE754
             # Exemple value = [0x4049, 0x0FD0] pour 3.14159
-            value = 3.14159 # pi
+            value = 3.14159  # pi
             word1, word2 = float_to_hex(value)
             value = [word1, word2]
-    return(value)
+    return (value)
 
-#----------< Fonction acquisition de données FC4 >----------------------#
+
+# ----------< Fonction acquisition de données FC4 >----------------------#
 ''' Read Input Register:
     De 1 à 125 mots de 16 bits, plage d'adresses de 30.000 à 39.999 '''
+
+
 def fc4Handle(address, count):
     print('FC4', ' address->', address, ' count->', count)
     value = [0]
@@ -192,9 +211,11 @@ def fc4Handle(address, count):
             value = [55, -612, -227, 1415, 2568]    # 5 valeurs
             #        55;64924;65309; 1415; 2568 si data unsigned
             #        55; -612; -227; 1415; 2568 si data signed
-    return(value)
+    return (value)
 
-#----------< Lecture des températures CPU >-----------------------------#
+# ----------< Lecture des températures CPU >-----------------------------#
+
+
 def get_cpu_temperature():
     try:
         if os.name == 'posix':
@@ -213,8 +234,10 @@ def get_cpu_temperature():
         return l_temp
     except Exception as e:
         return None
-        
-#----------< Fonction principale >--------------------------------------#
+
+# ----------< Fonction principale >--------------------------------------#
+
+
 def main():
     global mbServer
     mbServer = ModbusServer(host="127.0.0.1", port=PORT_MODBUS, no_block=False, data_hdl=MyDataHandler())
@@ -223,8 +246,9 @@ def main():
 
     mbServer.stop()
     print('Serveur stop')
-    
-#----------< Démarrage programme >--------------------------------------#
+
+
+# ----------< Démarrage programme >--------------------------------------#
 if __name__ == '__main__':
     verrou = threading.Lock()
     t1 = threading.Thread(target=main)

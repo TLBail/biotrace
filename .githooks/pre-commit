@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# shellcheck source=/dev/null
+source .venv/bin/activate
+
+if ! python3 -m autopep8 . --recursive --in-place --exit-code --global-config .flake8; then
+	echo "autopep8 found (and fixed) some errors. Please fix them before pushing."
+	exit 1
+fi
+
