@@ -1,20 +1,23 @@
 {
-    "ansible.python.interpreterPath": "/usr/bin/python3",
-    "python.analysis.typeCheckingMode": "basic",
-    "sqltools.connections": [
-        {
-            "database": "Biotrace",
-            "driver": "MariaDB",
-            "mysqlOptions": {
-                "authProtocol": "default",
-                "enableSsl": "Disabled"
-            },
-            "name": "Biotrace",
-            "password": "dev",
-            "port": 3306,
-            "previewLimit": 50,
-            "server": "localhost",
-            "username": "dev"
-        }
-    ]
+	"ansible.python.interpreterPath": "/usr/bin/python3",
+	"python.analysis.typeCheckingMode": "basic",
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.autopep8"
+	},
+	"sqltools.connections": [
+		{
+			"mysqlOptions": {
+				"authProtocol": "default",
+				"enableSsl": "Disabled"
+			},
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 3306,
+			"driver": "MariaDB",
+			"name": "Biotrace",
+			"database": "Biotrace",
+			"username": "dev",
+			"password": "dev"
+		}
+	],
 }

@@ -1,4 +1,5 @@
 # biotrace
+
 [![Python tests](https://github.com/TLBail/biotrace/actions/workflows/modbus-tests.yml/badge.svg)](https://github.com/TLBail/biotrace/actions/workflows/modbus-tests.yml)
 
 Application permettant le suivi des installations d'un méthaniseur
@@ -48,7 +49,15 @@ mariadb < db/data.sql
 pipenv run dev
 ```
 
-## Tests
+## Dev
+
+Pour exécuter automatiquement certains tests avant chaque commit :
+
+```sh
+git config --local include.path ../.gitconfig
+```
+
+![Commit format](https://gitlab.univ-nantes.fr/E202864E/polyhash-2022/-/raw/main/docs/commit_format.png)
 
 ### FTP
 
