@@ -15,7 +15,7 @@
 	</head>
 
 	<body>
-		<template id="editor-template">
+		<template id="interactions-template">
 			<div class="input-group mb-3 pt-2 editor-interactions" hidden>
 				<input id="saveInput" type="text" class="form-control" placeholder="Nom de la config"
 					aria-label="filename" aria-describedby="basic-addon2">
@@ -24,6 +24,9 @@
 
 				<button type="button" id="diffButton" class="btn btn-primary">diff</button>
 			</div>
+		</template>
+		<template id="editor-template">
+			<monaco-interactions></monaco-interactions>
 			<div class="editor" style="height: 100%; max-height: 78vh;"></div>
 		</template>
 		<div class="container-fluid">
@@ -62,7 +65,7 @@
 
 			footerText.innerHTML = `&copy; ${year} Biotrace`;
 		</script>
-		<script src="{{ url_for('static',filename='scripts/monaco.js') }}" type="module" defer></script>
+		<script src="{{ url_for('static',filename='scripts/custom/custom.js') }}" type="module" defer></script>
 	</body>
 
 </html>

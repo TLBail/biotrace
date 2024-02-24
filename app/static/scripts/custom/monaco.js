@@ -1,7 +1,9 @@
-class CodeViewMonaco extends HTMLElement {
+export class CodeViewMonaco extends HTMLElement {
 		_monacoEditor;
 		/** @type HTMLElement */
 		_editor;
+		_monacoInteractions;
+		_originalValue;
 
 		static get observedAttributes() {
 			return ["value", "interactions"];
@@ -33,21 +35,53 @@ class CodeViewMonaco extends HTMLElement {
 			const template = /** @type HTMLTemplateElement */ (
 				document.getElementById("editor-template")
 			);
-			
-			shadowRoot.appendChild(template.content.cloneNode(true));
 
-			const interactions = /** @type HTMLTemplateElement */ (
-				document.getElementById("editor-interactions")
-			);
-				
+			shadowRoot.appendChild(template.content.cloneNode(true));;
+
 			this._editor = shadowRoot.querySelector(".editor");
+			this._monacoInteractions = shadowRoot.querySelector("monaco-interactions");
 			this._monacoEditor = monaco.editor.create(this._editor, {
 				automaticLayout: true,
 				language: "ini",
 
 				value: "",
 			});
+
+			this._monacoEditor.onDidChangeModelContent(this.#handleContentChanged);
+			this._monacoInteractions.addEventListener("save", this.#handleSave);
 		}
+
+		#handleContentChanged = () => {
+			const interactions = this.shadowRoot.querySelector("monaco-interactions");
+
+			if(this._monacoEditor.getValue() !== this._originalValue) {
+				interactions.enabledSaveButton(true);
+			}
+			else {
+				interactions.enabledSaveButton(false);
+			}
+		};
+
+		#handleSave = async (event) => {
+			try {
+				const promise = this.saveContent(this._monacoInteractions.getValue());
+				promise.then((response) => {
+					if(response.status === "success") {
+						this._originalValue = this._monacoEditor.getValue();
+						this._monacoInteractions.setValue("");
+						this._monacoInteractions.enabledSaveButton(false);
+						this.dispatchEvent(new CustomEvent("save", {
+							detail: {
+								config: response.data
+							}
+						}));
+					}
+				});
+			}
+			catch (err) {
+				console.error(err);
+			}
+		};
 
 		async saveContent(name) {
 			const response = await fetch('/api/webdynconfigs', {
@@ -70,15 +104,15 @@ class CodeViewMonaco extends HTMLElement {
 			console.log("Editor loaded");
 		}
 
-		 attributeChangedCallback(name, oldValue, newValue) {
+		attributeChangedCallback(name, oldValue, newValue) {
 
 			switch (name) {
 				case "value":
 					this.setValue(newValue);
 					break;
 				case "interactions":
-					const interactions = this.shadowRoot.querySelector(".editor-interactions");
-					interactions.hidden = !newValue;
+					const interactions = this.shadowRoot.querySelector("monaco-interactions");
+					interactions.setVisibility(true);
 					break;
 				default:
 					break;
@@ -86,8 +120,9 @@ class CodeViewMonaco extends HTMLElement {
 		}
 
 		setValue(value) {
+			this._originalValue = value;
 			this._monacoEditor.setValue(value);
 		}
+
 	}
 
-customElements.define("monaco-editor", CodeViewMonaco);

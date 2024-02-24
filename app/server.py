@@ -46,8 +46,9 @@ def testcomm():
 @app.route('/webdynconfig')
 def webdynconfig():
 	configs = db_session.query(File).filter(File.type == 'config').order_by(File.id.desc()).all()
+	last_config = configs[0].serialize() if len(configs) > 0 else None
 
-	return render_template('routes/webdynconfig.jinja', configs=[config.serialize() for config in configs], last_config=configs[0].serialize())
+	return render_template('routes/webdynconfig.jinja', configs=[config.serialize() for config in configs], last_config=last_config)
 
 
 @app.route('/suivilogs')

@@ -40,7 +40,7 @@
 					<button type="button" class="p-1 btn w-100 btn-primary">Récupérer la config actuelle</button>
 				</div>
 				<div class="container" style="max-height: 250px; overflow-y: scroll;">
-					<div class="row gy-3">
+					<div class="row gy-3 card-container">
 						{% for c in configs %}
 						<div class="card config" data-id="{{ c.id }}">
 							<div class="card-body">
@@ -56,11 +56,19 @@
 					</div>
 				</div>
 			</fieldset>
+			<template id="card-template">
+				<div class="card config" data-id="">
+					<div class="card-body">
+						<h6 class="card-title"></h6>
+						<p class="card-text"></p>
+					</div>
+				</div>
+			</template>
 		</div>
 		<div class="col-12 col-lg-8">
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
-				<monaco-editor value='{{last_config.content}}'></monaco-editor>
+				<monaco-editor value='{{last_config.content}}' interactions="true"></monaco-editor>
 			</fieldset>
 		</div>
 	</div>
