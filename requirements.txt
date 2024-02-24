@@ -34,3 +34,4 @@ virtualenv==20.24.7
 watchdog==3.0.0
 Werkzeug==3.0.1
 wsproto==1.2.0
+sqlalchemy_utils
