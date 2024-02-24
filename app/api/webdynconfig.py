@@ -25,6 +25,7 @@ def add_config():
         db_session.add(config)
         db_session.commit()
 
-        return jsonify(config.serialize())
+        return jsonify({'status': 'success', 'data': config.serialize()})
     except Exception as e:
+        print(e)
         return jsonify({'status': 'error', 'error': str(e)})
