@@ -4,6 +4,8 @@ export class CodeViewMonaco extends HTMLElement {
 		_editor;
 		_monacoInteractions;
 		_originalValue;
+		_modifiedValue;
+		_state;
 
 		static get observedAttributes() {
 			return ["value", "interactions"];
@@ -38,6 +40,7 @@ export class CodeViewMonaco extends HTMLElement {
 
 			shadowRoot.appendChild(template.content.cloneNode(true));;
 
+			this._state = false;
 			this._editor = shadowRoot.querySelector(".editor");
 			this._monacoInteractions = shadowRoot.querySelector("monaco-interactions");
 			this._monacoEditor = monaco.editor.create(this._editor, {
@@ -49,12 +52,15 @@ export class CodeViewMonaco extends HTMLElement {
 
 			this._monacoEditor.onDidChangeModelContent(this.#handleContentChanged);
 			this._monacoInteractions.addEventListener("save", this.#handleSave);
+			this._monacoInteractions.addEventListener("diff", this.#handleDiff);
 		}
 
 		#handleContentChanged = () => {
 			const interactions = this.shadowRoot.querySelector("monaco-interactions");
 
-			if(this._monacoEditor.getValue() !== this._originalValue) {
+			this._modifiedValue =  this._monacoEditor.getValue();
+
+			if(this._modifiedValue !== this._originalValue) {
 				interactions.enabledSaveButton(true);
 			}
 			else {
@@ -62,12 +68,25 @@ export class CodeViewMonaco extends HTMLElement {
 			}
 		};
 
+		#handleDiffContentChanged = () => {
+			const interactions = this.shadowRoot.querySelector("monaco-interactions");
+
+			this._modifiedValue =  this._monacoEditor.getModifiedEditor().getValue();
+
+			if(this._modifiedValue !== this._originalValue) {
+				interactions.enabledSaveButton(true);
+			}
+			else {
+				interactions.enabledSaveButton(false);
+			}
+		}
+
 		#handleSave = async (event) => {
 			try {
 				const promise = this.saveContent(this._monacoInteractions.getValue());
 				promise.then((response) => {
 					if(response.status === "success") {
-						this._originalValue = this._monacoEditor.getValue();
+						this._originalValue = this._monacoEditor.getMod;
 						this._monacoInteractions.setValue("");
 						this._monacoInteractions.enabledSaveButton(false);
 						this.dispatchEvent(new CustomEvent("save", {
@@ -80,6 +99,40 @@ export class CodeViewMonaco extends HTMLElement {
 			}
 			catch (err) {
 				console.error(err);
+			}
+		};
+
+		#handleDiff = (event) => {
+			this._state = event.detail.state;
+
+			if(this._state) { // Diff
+				const originalModel = monaco.editor.createModel(this._originalValue, "ini");
+				const modifiedModel = monaco.editor.createModel(this._modifiedValue, "ini");
+
+				this._monacoEditor.dispose();
+
+				this._monacoEditor = monaco.editor.createDiffEditor(this._editor, {
+					automaticLayout: true
+				});
+
+				this._monacoEditor.setModel({
+					original: originalModel,
+					modified: modifiedModel
+				});
+
+				this._monacoEditor.onDidUpdateDiff(this.#handleDiffContentChanged);
+			}
+			else { // Editor
+
+				this._monacoEditor.dispose();
+
+				this._monacoEditor = monaco.editor.create(this._editor, {
+					automaticLayout: true,
+					language: "ini",
+					value: this._modifiedValue
+				});
+
+				this._monacoEditor.onDidChangeModelContent(this.#handleContentChanged);
 			}
 		};
 
@@ -121,6 +174,7 @@ export class CodeViewMonaco extends HTMLElement {
 
 		setValue(value) {
 			this._originalValue = value;
+			this._modifiedValue = value;
 			this._monacoEditor.setValue(value);
 		}
 
