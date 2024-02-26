@@ -123,7 +123,7 @@ export class CodeViewMonaco extends HTMLElement {
 								config: response.data
 							}
 						}));
-						this.#showEditor();
+						this.setValue(response.data.content);
 					}
 				});
 			}
