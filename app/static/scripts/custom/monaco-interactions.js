@@ -42,8 +42,9 @@ export class InteractionsView extends HTMLElement {
         });
     }
 
-    connectedCallback() {
-        console.log("Connected");
+    init(){
+        this.enabledSaveButton(false);
+        this.diffState = false;
     }
 
     setVisibility(visible) {

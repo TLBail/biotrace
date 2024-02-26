@@ -55,6 +55,35 @@ export class CodeViewMonaco extends HTMLElement {
 			this._monacoInteractions.addEventListener("diff", this.#handleDiff);
 		}
 
+		#showEditor = () => {
+			this._monacoEditor.dispose();
+			this._monacoEditor = monaco.editor.create(this._editor, {
+				automaticLayout: true,
+				language: "ini",
+				value: this._modifiedValue
+			});
+
+			this._monacoEditor.onDidChangeModelContent(this.#handleContentChanged);
+		}
+
+		#showDiff = () => {
+			const originalModel = monaco.editor.createModel(this._originalValue, "ini");
+			const modifiedModel = monaco.editor.createModel(this._modifiedValue, "ini");
+
+			this._monacoEditor.dispose();
+
+			this._monacoEditor = monaco.editor.createDiffEditor(this._editor, {
+				automaticLayout: true
+			});
+
+			this._monacoEditor.setModel({
+				original: originalModel,
+				modified: modifiedModel
+			});
+
+			this._monacoEditor.onDidUpdateDiff(this.#handleDiffContentChanged);
+		}
+
 		#handleContentChanged = () => {
 			const interactions = this.shadowRoot.querySelector("monaco-interactions");
 
@@ -94,6 +123,7 @@ export class CodeViewMonaco extends HTMLElement {
 								config: response.data
 							}
 						}));
+						this.#showEditor();
 					}
 				});
 			}
@@ -106,33 +136,10 @@ export class CodeViewMonaco extends HTMLElement {
 			this._state = event.detail.state;
 
 			if(this._state) { // Diff
-				const originalModel = monaco.editor.createModel(this._originalValue, "ini");
-				const modifiedModel = monaco.editor.createModel(this._modifiedValue, "ini");
-
-				this._monacoEditor.dispose();
-
-				this._monacoEditor = monaco.editor.createDiffEditor(this._editor, {
-					automaticLayout: true
-				});
-
-				this._monacoEditor.setModel({
-					original: originalModel,
-					modified: modifiedModel
-				});
-
-				this._monacoEditor.onDidUpdateDiff(this.#handleDiffContentChanged);
+				this.#showDiff();
 			}
 			else { // Editor
-
-				this._monacoEditor.dispose();
-
-				this._monacoEditor = monaco.editor.create(this._editor, {
-					automaticLayout: true,
-					language: "ini",
-					value: this._modifiedValue
-				});
-
-				this._monacoEditor.onDidChangeModelContent(this.#handleContentChanged);
+				this.#showEditor();
 			}
 		};
 
@@ -144,17 +151,11 @@ export class CodeViewMonaco extends HTMLElement {
 				},
 				body: JSON.stringify({
 					"name": name,
-					"content": this._monacoEditor.getValue()
+					"content": this._modifiedValue
 				})
 			});
 
 			return await response.json();
-		}
-
-		connectedCallback() {
-			// Additional setup when the element is connected to the DOM.
-			// This might include initializations or other tasks.
-			console.log("Editor loaded");
 		}
 
 		attributeChangedCallback(name, oldValue, newValue) {
@@ -175,7 +176,9 @@ export class CodeViewMonaco extends HTMLElement {
 		setValue(value) {
 			this._originalValue = value;
 			this._modifiedValue = value;
+			this.#showEditor();
 			this._monacoEditor.setValue(value);
+			this._monacoInteractions.init();
 		}
 
 	}
