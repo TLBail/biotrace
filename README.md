@@ -64,7 +64,7 @@ git config --local include.path ../.gitconfig
 Pour tester le FTP, vous pouvez utiliser le serveur FTP suivant:
 
 ```bash
-mkdir -p ftp-tests/CONFIG ftp-tests/ALARM ftp-tests/LOG ftp-tests/BIN ftp-tests/CERT ftp-tests/DATA ftp-tests/CMD ftp-tests/DEF ftp-tests/SCRIPT
+mkdir -p /tmp/ftp-tests/CONFIG /tmp/ftp-tests/ALARM /tmp/ftp-tests/LOG /tmp/ftp-tests/BIN /tmp/ftp-tests/CERT /tmp/ftp-tests/DATA /tmp/ftp-tests/CMD /tmp/ftp-tests/DEF /tmp/ftp-tests/SCRIPT
 echo '; last modified 1 April 2001 by John Doe
 [owner]
 name = John Doe
@@ -73,12 +73,12 @@ organization = Acme Widgets Inc.
 [database]
 ; use IP address in case network name resolution is not working
 server = 192.0.2.62   
-port = 143' > ftp-tests/CONFIG/config.ini
+port = 143' > /tmp/ftp-tests/CONFIG/config.ini
 ```
 
 ```bash
 docker pull bogem/ftp
-docker run --rm -it --init -v ./ftp-tests:/home/vsftpd \
+docker run --rm -it --init -v /tmp/ftp-tests:/home/vsftpd \
 				-p 2020:20 -p 2121:21 -p 47400-47470:47400-47470 \
 				-e FTP_USER=admin \
 				-e FTP_PASS=admin \
