@@ -28,10 +28,10 @@ python-socketio==5.11.1
 rocher==0.44.0
 simple-websocket==1.0.0
 SQLAlchemy==2.0.27
+SQLAlchemy-Utils==0.41.1
 tomli==2.0.1
 typing_extensions==4.9.0
 virtualenv==20.24.7
 watchdog==3.0.0
 Werkzeug==3.0.1
 wsproto==1.2.0
-sqlalchemy_utils
