@@ -3,6 +3,8 @@ export class InteractionsView extends HTMLElement {
     constructor() {
         super();
 
+        this.diffState = false;
+
         const shadowRoot = this.attachShadow({ mode: "open" });
 
         const bootstrapCSS = document.createElement("link");
@@ -29,12 +31,20 @@ export class InteractionsView extends HTMLElement {
         });
 
         diffButton.addEventListener("click", () => {
-            this.dispatchEvent(new CustomEvent("diff"));
+            this.diffState = !this.diffState;
+            diffButton.innerText = this.diffState ? "Editor" : "Diff";
+
+            this.dispatchEvent(new CustomEvent("diff", {
+                detail: {
+                    state: this.diffState
+                }
+            }));
         });
     }
 
-    connectedCallback() {
-        console.log("Connected");
+    init(){
+        this.enabledSaveButton(false);
+        this.diffState = false;
     }
 
     setVisibility(visible) {
