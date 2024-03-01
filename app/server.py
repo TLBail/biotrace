@@ -22,7 +22,7 @@ blueprint = Blueprint(
 )
 app.register_blueprint(blueprint)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mariadb+mariadbconnector://{config['database']['user']}:{config['database']['password']}@{config['database']['host']}:{config['database']['port']}/{config['database']['name']}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mariadb+mariadbconnector://{config['database'].get('username', 'dev')}:{config['database'].get('password', 'dev')}@{config['database'].get('hostname', '127.0.0.1')}:{config['database'].get('port', '3306')}/{config['database'].get('name', 'Biotrace')}"
 
 init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 init_db()
