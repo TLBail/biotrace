@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'base.jinja' %}
 {% block title %}Fichier de configuration de la wedyn{% endblock %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/webdynconfig.css') }}">
 {% endblock %}
 {% block content %}
 <h1 class="text-center">Sauvegarde de la webdyn</h1>
-
+<hr />
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-lg-4">
@@ -40,38 +40,50 @@
 					<button type="button" class="p-1 btn w-100 btn-primary">Récupérer la config actuelle</button>
 				</div>
 				<div class="container" style="max-height: 250px; overflow-y: scroll;">
-					<div id="configs_container" class="row gy-3">
-						<div class="card cardConfigScript" style="display: none;" id="cardConfigScript">
+					<div class="row gy-3 card-container">
+						{% for c in configs %}
+						<div class="card config" data-id="{{ c.id }}">
 							<div class="card-body">
 								<h6 class="card-title">
-									nom du fichier
+									{{ c.name }}
 								</h6>
-								<p class="card-text">date du fichier</p>
+								<p class="card-text">{{ c.createdAt }} ({{ c.updatedAt }})</p>
 							</div>
 						</div>
+						{% else %}
+						<p>Aucune configuration trouvée</p>
+						{% endfor %}
 					</div>
 				</div>
 			</fieldset>
+			<template id="card-template">
+				<div class="card config" data-id="">
+					<div class="card-body">
+						<h6 class="card-title"></h6>
+						<p class="card-text"></p>
+					</div>
+				</div>
+			</template>
 		</div>
 		<div class="col-12 col-lg-8">
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
-
-				<div id="save_form" class="input-group mb-3 pt-2">
-					<input id="saveInput" type="text" class="form-control" placeholder="Nom de la config" aria-label="filename" aria-describedby="basic-addon2">
-					<button id="saveButton" class="btn btn-outline-secondary" type="button" disabled="z">Enregistrer</button>
-					<button type="button" id="diffButton" class="btn btn-primary">diff</button>
-				</div>
-				<div id="container"></div>
+				<monaco-editor value='{{last_config.content}}' interactions="true"></monaco-editor>
 			</fieldset>
 		</div>
 	</div>
 </div>
+
 <script>
 	var require = { paths: { 'vs': '/static/vs' } };
+
+	const configs = {{ configs | tojson }};
+	window.configs = configs;
+
+	console.log(configs)
 </script>
 <script src="/static/vs/loader.js"></script>
 <script src="/static/vs/editor/editor.main.nls.js"></script>
 <script src="/static/vs/editor/editor.main.js"></script>
-<script src="{{ url_for('static',filename='scripts/webdynconfig.js') }}" type="module" defer></script>
+<script src="{{ url_for('static',filename='scripts/webdynconfig/cards.js') }}" type="module" defer></script>
 {% endblock %}

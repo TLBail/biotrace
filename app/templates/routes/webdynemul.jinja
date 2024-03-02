@@ -1,13 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'base.jinja' %}
 {% block title %}Webdyn Emul{% endblock %}
 {% block content %}
 <h1 class="text-center">
-    Emulation de la webdyn
+	Emulation de la webdyn
 </h1>
+<hr />
 <p>
-La passerelle WebdynModbus est la centrale de communication de votre installation Modbus. Elle
-collecte en continu toutes les données provenant des équipements Modbus. Les sauvegarde ensuite
-sur un serveur FTP
+	La passerelle WebdynModbus est la centrale de communication de votre installation Modbus. Elle
+	collecte en continu toutes les données provenant des équipements Modbus. Les sauvegarde ensuite
+	sur un serveur FTP
 </p>
 <div class="row">
 	<div class="col md-5">
@@ -33,17 +34,17 @@ sur un serveur FTP
 		<fieldset class="border p-2">
 			<legend class="flaot-none w-auto">Interfaces</legend>
 			<div class="container" style="max-height: 250px; overflow-y: scroll;">
-					<div id="configs_container" class="row gy-3">
-						<div class="card cardConfigScript" id="cardConfigScript">
-							<div class="card-body">
-								<h6 class="card-title">
-									nom du fichier
-								</h6>
-								<p class="card-text">date du fichier</p>
-							</div>
+				<div id="configs_container" class="row gy-3">
+					<div class="card cardConfigScript" id="cardConfigScript">
+						<div class="card-body">
+							<h6 class="card-title">
+								nom du fichier
+							</h6>
+							<p class="card-text">date du fichier</p>
 						</div>
 					</div>
 				</div>
+			</div>
 		</fieldset>
 	</div>
 
@@ -119,7 +120,7 @@ sur un serveur FTP
 					<option value="3">Three</option>
 				</select>
 			</div>
-			
+
 			<div class="mt-auto">
 				<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
 			</div>

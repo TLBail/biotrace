@@ -1,5 +1,6 @@
 {
 	"ansible.python.interpreterPath": "/usr/bin/python3",
+	"python.analysis.typeCheckingMode": "basic",
 	"[python]": {
 		"editor.defaultFormatter": "ms-python.autopep8"
 	},

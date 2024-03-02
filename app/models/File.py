@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, LargeBinary, DateTime
-from modules.Database import Base
+from .Base import Base
 import time
+from datetime import datetime
 
 
 class File(Base):
@@ -22,12 +23,16 @@ class File(Base):
         self.updated_at = updated_at
 
     def serialize(self):
+
+        created_at = datetime.strptime(str(self.created_at), '%Y-%m-%d %H:%M:%S')
+        updated_at = datetime.strptime(str(self.updated_at), '%Y-%m-%d %H:%M:%S')
+        deleted_at = datetime.strptime(str(self.deleted_at), '%Y-%m-%d %H:%M:%S') if self.deleted_at is not None else None
         return {
             'id': self.id,
             'name': self.name,
             'type': self.type,
             'content': self.content.decode('utf-8'),
-            'createdAt': self.created_at.strftime('%Y-%m-%d'),
-            'updatedAt': self.updated_at.strftime('%Y-%m-%d'),
-            'deletedAt': self.deleted_at.strftime('%Y-%m-%d') if self.deleted_at is not None else None
+            'createdAt': created_at.strftime('%Y-%m-%d'),
+            'updatedAt': updated_at.strftime('%Y-%m-%d'),
+            'deletedAt': deleted_at if self.deleted_at is not None else None
         }

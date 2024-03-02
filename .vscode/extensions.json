@@ -3,6 +3,7 @@
 		"mtxr.sqltools",
 		"mtxr.sqltools-driver-mysql",
 		"ms-python.flake8",
-		"ms-python.autopep8"
+		"samuelcolvin.jinjahtml",
+		"ms-python.autopep8",
 	]
 }
