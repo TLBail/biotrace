@@ -2,11 +2,6 @@ CREATE DATABASE IF NOT EXISTS Biotrace;
 
 USE Biotrace;
 
--- TODO: Change in prod
-CREATE USER IF NOT EXISTS 'dev' @'localhost' IDENTIFIED BY 'dev';
-
-GRANT ALL PRIVILEGES ON Biotrace.* TO 'dev' @'localhost';
-
 CREATE TABLE IF NOT EXISTS `file` (
 	`id` int PRIMARY KEY AUTO_INCREMENT,
 	`type` ENUM ('log', 'config') NOT NULL,
