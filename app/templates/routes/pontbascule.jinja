@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.jinja' %}
 {% block title %}Pont bascule{% endblock %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
@@ -8,10 +8,11 @@
 {% block content %}
 <div style="height: 100vh;">
 	<div class="d-flex flex-column h-100">
-		<h2>
+		<h2 class="text-center">
 			Cette page permet de convertir les données du pont bascule
 		</h2>
-		<div class="row" style="height: 30vh;">
+		<hr>
+		<div class="row" style="height: 40vh;">
 			<div class="col-6">
 				<div class="h-100" id="inputDataContainer"></div>
 			</div>
