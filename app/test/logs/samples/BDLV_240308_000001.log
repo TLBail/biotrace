@@ -1,0 +1,6 @@
+<0>Mar 07 23:00:01 Application: Connection ends successfully
+<0>Mar 08 00:00:00 Application: Connection requested : main schedule
+<0>Mar 08 00:00:01 Application: WAN connection opened
+<0>Mar 08 00:00:01 Application: WebdynModbus 4.06.02 Oct 25 2022
+<0>Mar 08 00:00:01 Application: NTP synchronization OK (0:0:1, 8/3/2024)
+<0>Mar 08 00:00:01 Application: FTP send data file OK: /WEBDYN/BDLV/DATA/MODBUS/BDLV_MODBUS_240308_000000.csv.gz
