@@ -7,7 +7,6 @@ from sockets.commsocket import commsocket
 import rocher
 from configparser import ConfigParser
 from modules.LogParser import parse_log
-import json
 
 config = ConfigParser()
 config.read('config.ini')
