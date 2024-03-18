@@ -1,7 +1,48 @@
 {% extends 'base.jinja' %}
 {% block title %}Suivi logs{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/suivilogs.css') }}">
+{% endblock %}
 {% block content %}
-<div>
-	Cette page permet de suivre les logs de la webdyn
+<h1 class="text-center">Suivi logs</h1>
+<hr />
+<div class="container">
+	<div class="row">
+		<div class="col-12 col-lg-4">
+			<fieldset class="border p-2">
+				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
+				<div class="input-group pb-3">
+					<span class="input-group-text">Durée de conservation</span>
+					<input type="number" class="form-control" id="duree" value="12">
+					<span class="input-group-text">jours</span>
+				</div>
+				<div class="mt-auto">
+					<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+				</div>
+			</fieldset>
+
+			<fieldset class="border p-2">
+				<legend class="float-none w-auto">Logs de la webdyn</legend>
+
+				<div class="container" style="height: 300px; overflow-y: scroll;">
+					<div class="row gy-3 card-container">
+
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="col-12 col-lg-8">
+			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
+				<legend class="float-none w-auto">Fichier logs</legend>
+			</fieldset>
+		</div>
+
+		<div class="col-12">
+			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
+				<legend class="float-none w-auto">Erreur(s) détectée</legend>
+			</fieldset>
+		</div>
+	</div>
+
 </div>
 {% endblock %}
