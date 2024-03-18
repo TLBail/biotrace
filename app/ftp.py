@@ -19,13 +19,19 @@ subparsers = p.add_subparsers(title="Options", dest="subcommand", help="Action �
 
 # Subcommand 'push'
 push_parser = subparsers.add_parser('push', help='Push d\'un fichier sur le serveur FTP')
-push_parser.add_argument('-f', '--file_path', dest="file", type=str, help='Chemin vers lequel le fichier va être téléchargé', metavar="/CONFIG/config.ini", default="/CONFIG/config.ini", required=True)
+push_parser.add_argument('-f', '--file_path', dest="file", type=str, help='Chemin vers lequel le fichier va être téléchargé', metavar="/webdyn/CONFIG/config.ini", default="/webdyn/CONFIG/config.ini", required=True)
 push_parser.add_argument('-i', '--file_id', type=int, help='Le numéro du fichier dans la base de données', required=True)
 
 # Subcommand 'pull'
 pull_parser = subparsers.add_parser('pull', help='Pull d\'un fichier depuis le serveur FTP')
-pull_parser.add_argument('-f', '--file_path', dest="file", type=str, help='Fichier qui va être téléchargé puis inséré dans la base de données', metavar="/CONFIG/config.ini", default="/CONFIG/config.ini", required=True)
+pull_parser.add_argument('-f', '--file_path', dest="file", type=str, help='Fichier qui va être téléchargé puis inséré dans la base de données', metavar="/webdyn/CONFIG/config.ini", default="/webdyn/CONFIG/config.ini", required=True)
 pull_parser.add_argument("-n", "--file_name", type=str, help="Nom du fichier dans la base de données")
+
+# Subcommand 'list'
+list_parser = subparsers.add_parser('list', help='Liste les fichiers présents sur le serveur FTP')
+list_parser.add_argument("-d", '--dir', type=str, help="Chemin du dossier à lister", default="/webdyn/CONFIG")
+list_parser.add_argument("-n", '--number', type=str, help="Nombre de fichier à lister", default="100")
+
 
 args = p.parse_args()
 
@@ -44,8 +50,26 @@ def get_md5(file):
 
 
 with FTP() as ftp:
-	ftp.connect(config['ftp'].get('hostname', '127.0.0.1'), config['ftp'].getint('port', 2121))
-	ftp.login(config['ftp'].get('username', 'admin'), config['ftp'].get('password', 'admin'))
+
+	hostname = config['ftp'].get('hostname', '127.0.0.1')
+	port = config['ftp'].getint('port', 2121)
+	username = config['ftp'].get('username', 'admin')
+	password = config['ftp'].get('password', 'admin')
+
+	try:
+		ftp.connect(hostname, port)
+	except Exception as e:
+		print(f"Could not connect to the FTP server {hostname}:{port}")
+		print(e)
+		exit(1)
+
+	try:
+		ftp.login(username, password)
+	except Exception as e:
+		print(f"Could not login to the FTP server with the username {username}")
+		print(e)
+		exit(1)
+
 	print("connected to ftp")
 
 	if args.subcommand == "pull":
@@ -89,3 +113,19 @@ with FTP() as ftp:
 
 		ftp.cwd("/".join(args.file.split("/")[:-1]) + "/")
 		ftp.storbinary(f"STOR {file_name}", BytesIO(bytes(config.serialize()['content'], "utf8")), callback=lambda data: print(f"uploaded {len(data)} bytes"))
+
+	elif args.subcommand == "list":
+		try:
+			ftp.cwd(f'{args.dir}')
+		except Exception as e:
+			print(f"Could not change directory to {args.dir}: ")
+			print(e)
+			exit(1)
+
+		files = ftp.nlst()[:int(args.number)]
+		print(f"Found {len(files)} files in {args.dir}")
+
+		for file in files:
+			print(file)
+
+	ftp.quit()
