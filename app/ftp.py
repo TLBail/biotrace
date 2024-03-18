@@ -7,6 +7,7 @@ from models.File import File
 from configparser import ConfigParser
 from os import makedirs
 from io import BytesIO
+from rich.progress import Progress
 
 config = ConfigParser()
 config.read('config.ini')
@@ -30,8 +31,14 @@ pull_parser.add_argument("-n", "--file_name", type=str, help="Nom du fichier dan
 # Subcommand 'list'
 list_parser = subparsers.add_parser('list', help='Liste les fichiers présents sur le serveur FTP')
 list_parser.add_argument("-d", '--dir', type=str, help="Chemin du dossier à lister", default="/webdyn/CONFIG")
-list_parser.add_argument("-n", '--number', type=str, help="Nombre de fichier à lister", default="100")
+list_parser.add_argument("-n", '--number', type=int, help="Nombre de fichier à lister", default="100")
 
+# Subcommand 'clone'
+clone_parser = subparsers.add_parser('clone', help='Télécharge les fichier d\'un répertoire puis les inséres dans la base de données')
+clone_parser.add_argument("-t", "--tmp", dest="tmp_dir", type=str, default="/tmp/biotrace_ftp/", help="Dossier ou seront uploadé les fichiers temporaires", metavar="/tmp/biotrace_ftp/")
+clone_parser.add_argument("-d", '--dir', type=str, help="Chemin du dossier", default="/webdyn/CONFIG")
+clone_parser.add_argument("-n", '--number', type=int, help="Nombre de fichier à télécharger", default="100")
+clone_parser.add_argument("-db", "--database", type=bool, help="Ajouter le fichier en base de données", default=False)
 
 args = p.parse_args()
 
@@ -47,6 +54,27 @@ def get_md5(file):
 			md5.update(part)
 
 	return md5.hexdigest()
+
+
+def write_file_to_db(file, type_file="other"):
+
+	file_md5 = get_md5(file)
+	db_file = db_session.query(func.md5(File.content)).filter_by(type=type_file).all()
+
+	if (file_md5,) in db_file:
+		print("[Database] file already in database")
+		return False
+	else:
+		try:
+			with open(file, "rb") as f:
+				db_session.add(File(name=file.split("/")[-1], type=type_file, content=f.read().decode("utf-8")))
+				db_session.commit()
+				print("[Database] file added to database")
+				return True
+		except Exception as e:
+			print(f"[Database] Could not add file {file} to database")
+			print(e)
+			return False
 
 
 with FTP() as ftp:
@@ -86,17 +114,7 @@ with FTP() as ftp:
 
 			ftp.retrbinary(f"RETR {file_name}", cb)
 
-		file_md5 = get_md5(local_path)
-
-		configs = db_session.query(func.md5(File.content)).all()
-
-		if (file_md5,) in configs:
-			print("file already in database")
-		else:
-			with open(local_path, "rb") as f:
-				db_session.add(File(name=args.file_name or file_name, type="config", content=f.read().decode("utf-8")))
-				db_session.commit()
-				print("file added to database")
+		write_file_to_db(local_path, args.file.split("/")[-1].lower())
 
 	elif args.subcommand == "push":
 		config = db_session.query(File).filter_by(type='config', id=args.file_id).one_or_none()
@@ -127,5 +145,60 @@ with FTP() as ftp:
 
 		for file in files:
 			print(file)
+
+	elif args.subcommand == "clone":
+		try:
+			ftp.cwd(f'{args.dir}')
+		except Exception as e:
+			print(f"Could not change directory to {args.dir}: ")
+			print(e)
+			exit(1)
+
+		local_path = f"{args.tmp_dir}{'' if args.tmp_dir[-1] == '/' else '/'}{args.dir.split('/')[-1]}"
+
+		makedirs(local_path, exist_ok=True)
+
+		files = ftp.nlst()[:(int(args.number))]
+		count = 1
+		added_db = 0
+
+		with Progress() as progress:
+			task = progress.add_task("[green]Downloading..", total=len(files))
+			for file in files:
+				try:
+					buffer = BytesIO()
+					ftp.retrbinary(f"RETR {file}", buffer.write)
+					buffer.seek(0)
+
+					# if it's a gz file, we need to decompress it
+					if file.endswith(".gz"):
+						import gzip
+						try:
+							with gzip.open(buffer, "rb") as f:
+								decompressed_data = f.read()
+							with open(f"{local_path}/{file[:-3]}", "wb") as out:
+								out.write(decompressed_data)
+						except Exception as e:
+							print(f"Could not decompress {file}")
+							print(e)
+							continue
+					else:
+						with open(f"{local_path}/{file}", "wb") as f:
+							f.write(buffer.read())
+
+					if args.database:
+						filename = file[:-3] if file.endswith(".gz") else file
+						added = write_file_to_db(f"{local_path}/{filename}", args.dir.split('/')[-1].lower())
+						added_db += 1 if added else 0
+
+					progress.update(task, advance=1)
+
+					print(f"Downloaded {file} to {local_path}/{file} ({count}/{len(files)})")
+					count += 1
+				except Exception as e:
+					print(f"Could not download {file}")
+					print(e)
+
+		print(f"Downloaded {len(files)} files to {local_path} and added {added_db} files to the database")
 
 	ftp.quit()
