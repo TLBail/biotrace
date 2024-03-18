@@ -84,7 +84,7 @@ mariadb < db/dev.sql
 Pour tester le FTP, vous pouvez utiliser le serveur FTP suivant:
 
 ```bash
-mkdir -p /tmp/ftp-tests/CONFIG /tmp/ftp-tests/ALARM /tmp/ftp-tests/LOG /tmp/ftp-tests/BIN /tmp/ftp-tests/CERT /tmp/ftp-tests/DATA /tmp/ftp-tests/CMD /tmp/ftp-tests/DEF /tmp/ftp-tests/SCRIPT
+mkdir -p /tmp/ftp-tests/webdyn/CONFIG /tmp/ftp-tests/webdyn/ALARM /tmp/ftp-tests/webdyn/LOG /tmp/ftp-tests/BIN /tmp/ftp-tests/webdyn/CERT /tmp/ftp-tests/webdyn/DATA /tmp/ftp-tests/webdyn/CMD /tmp/ftp-tests/webdyn/DEF /tmp/ftp-tests/webdyn/SCRIPT
 echo '; last modified 1 April 2001 by John Doe
 [owner]
 name = John Doe
