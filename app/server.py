@@ -6,6 +6,8 @@ from flask_socketio import SocketIO
 from sockets.commsocket import commsocket
 import rocher
 from configparser import ConfigParser
+from modules.LogParser import parse_log
+import json
 
 config = ConfigParser()
 config.read('config.ini')
@@ -47,7 +49,22 @@ def webdynconfig():
 
 @app.route('/suivilogs')
 def suivilogs():
-	return render_template('routes/suivilogs.jinja')
+	logs = db_session.query(db_models["File"]).filter(db_models["File"].type == 'log').order_by(db_models["File"].id.desc()).all()
+
+	parsed_log = []
+	for log in logs:
+		content = parse_log(str(log.content.decode("utf-8")))
+		log_parsed = {
+			'id': log.id,
+			'name': log.name,
+			'type': log.type,
+			'createdAt': log.created_at.strftime('%Y-%m-%d'),
+			'content': content
+		}
+		parsed_log.append(log_parsed)
+		print(log_parsed)
+
+	return render_template('routes/suivilogs.jinja', logs=parsed_log)
 
 
 @app.route('/pontbascule')

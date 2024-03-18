@@ -26,7 +26,18 @@
 
 				<div class="container" style="height: 300px; overflow-y: scroll;">
 					<div class="row gy-3 card-container">
-
+						{% for c in logs %}
+						<div class="card log" data-id="{{ c.id }}">
+							<div class="card-body">
+								<h6 class="card-title">
+									{{ c.name }}
+								</h6>
+								<p class="card-text">{{ c.createdAt }}</p>
+							</div>
+						</div>
+						{% else %}
+						<p>Aucune log trouvée</p>
+						{% endfor %}
 					</div>
 				</div>
 			</fieldset>
@@ -34,6 +45,16 @@
 		<div class="col-12 col-lg-8">
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier logs</legend>
+				<table class="table table-striped scroll">
+					<thead>
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Application</th>
+						</tr>
+					</thead>
+					<tbody id="table">
+					</tbody>
+				</table>
 			</fieldset>
 		</div>
 
@@ -45,4 +66,11 @@
 	</div>
 
 </div>
+<script>
+	const logs = {{ logs | tojson }};
+	window.logs = logs;
+
+	console.log(logs)
+</script>
+<script src="{{ url_for('static',filename='scripts/suivilogs/cards.js') }}" type="module" defer></script>
 {% endblock %}
