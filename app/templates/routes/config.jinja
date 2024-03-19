@@ -22,8 +22,31 @@
 			<input type="password" class="form-control" id="passwd" value="nothinghere">
 		</div>
 		<div class="mt-auto">
-			<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+			<button type="button" class="p-1 btn w-100 btn-primary" onclick="sendConfig()">Enregistrer</button>
 		</div>
 	</div>
 </fieldset>
+<script>
+	function sendConfig(){
+		console.log("here is send")
+		saveContent()
+	}
+
+	async function saveContent(name) {
+		const response = await fetch('/api/config', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				"username": document.getElementById("username").value,
+				"password": document.getElementById("passwd").value,
+				"hostname": document.getElementById("hostname").value,
+				"port": document.getElementById("port").value
+			})
+		});
+
+		return await response.json();
+	}
+</script>
 {% endblock %}

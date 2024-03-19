@@ -1,5 +1,6 @@
 from api.webdynlog import bp as webdynlog_bp
 from api.webdynconfig import bp as webdynconfig_bp
+from api.config import bp as config_bp
 from modules.Database import init_engine, init_db, db_session, db_models
 from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO
@@ -30,6 +31,7 @@ init_db()
 
 app.register_blueprint(webdynconfig_bp)
 app.register_blueprint(webdynlog_bp)
+app.register_blueprint(config_bp)
 
 
 @app.route('/')
@@ -78,6 +80,7 @@ def webdynemul():
 
 @app.route('/config')
 def webdynconfug():
+	config.read('config.ini')
 	hostname = config['ftp'].get('hostname', '127.0.0.1')
 	port = config['ftp'].getint('port', 2121)
 	username = config['ftp'].get('username', 'admin')
