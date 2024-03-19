@@ -78,7 +78,11 @@ def webdynemul():
 
 @app.route('/config')
 def webdynconfug():
-	return render_template('routes/config.jinja')
+	hostname = config['ftp'].get('hostname', '127.0.0.1')
+	port = config['ftp'].getint('port', 2121)
+	username = config['ftp'].get('username', 'admin')
+
+	return render_template('routes/config.jinja', hostname=hostname, port=port, username=username)
 
 
 if __name__ == '__main__':
