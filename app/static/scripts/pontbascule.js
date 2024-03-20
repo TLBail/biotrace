@@ -21,6 +21,14 @@ const inputExemple = `{
         }
     ]
 }`;
+
+const inputExempleCSV = `31,123421552,22.234121,32.124141
+32,123421552,22.234121,32.124141
+33,123421552,22.234121,32.124141
+34,123421552,22.234121,32.124141
+36,123421552,22.234121,32.124141
+37,123421552,22.234121,32.124141
+38,123421552,22.234121,32.124141`;
 const inputDataContainer = document.getElementById('inputDataContainer');
 const outputDataContainer = document.getElementById('outputDataContainer');
 require.config({ paths: { vs: '/static/vs' } });
@@ -28,7 +36,7 @@ var inputEditor;
 var outputEditor;
 require(['vs/editor/editor.main'], () => {
     inputEditor = monaco.editor.create(inputDataContainer, {
-        value: inputExemple,
+        value: inputExempleCSV,
         language: 'json',
         automaticLayout: true
     });
@@ -122,6 +130,8 @@ objectPropertyNode.pos = [100, 400];
 graph.add(objectPropertyNode);
 
 
+
+/*
 //connect const string with json parser input
 constString.connect(0, jsonParser, 1);
 //connect json parser with object property node
@@ -129,6 +139,7 @@ jsonParser.connect(1, objectPropertyNode, 0);
 //connect object property with input data node
 objectPropertyNode.connect(0, inputDataNode, 0);
 
+*/
 
 
 //output
@@ -196,6 +207,35 @@ graph.add(outputDataNode);
 //connect output data node with input data node
 inputDataNode.connect(0, outputDataNode, 0);
 
+
+
+function CSVParser() {
+    this.array = [];
+    this.addInput("csv string", "string")
+    this.addOutput("elements array", "array")
+}
+CSVParser.title = "CSV Parser";
+
+
+CSVParser.prototype.onExecute = function () {
+    let csvString = this.getInputData(0);
+    let csvObjet = CSVToArray(csvString).map(row => {
+        let object = {};
+        for (let i = 0; i < row.length; i++) {
+            if (!isNaN(row[i])) {
+                object[i] = Number(row[i]);
+            } else {
+                object[i] = row[i];
+            }
+        }
+        return object;
+    });
+    this.setOutputData(0, csvObjet);
+}
+LiteGraph.registerNodeType("pontbascule/csvParser", CSVParser);
+var csvParserNode = LiteGraph.createNode("pontbascule/csvParser");
+csvParserNode.pos = [0, 200];
+graph.add(csvParserNode);
 
 
 
