@@ -28,12 +28,11 @@
 </fieldset>
 <script>
 	function sendConfig(){
-		console.log("here is send")
 		saveContent()
 	}
 
 	async function saveContent(name) {
-		const response = await fetch('/api/config', {
+		const response = await fetch('/api/config/ftp', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

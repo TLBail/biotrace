@@ -42,14 +42,22 @@ def testcomm():
 
 @app.route('/webdynconfig')
 def webdynconfig():
+	config.read('config.ini')
 	configs = db_session.query(db_models["File"]).filter(db_models["File"].type == 'config').order_by(db_models["File"].id.desc()).all()
 	last_config = configs[0].serialize() if len(configs) > 0 else None
 
-	return render_template('routes/webdynconfig.jinja', configs=[config.serialize() for config in configs], last_config=last_config)
+	webdynconfig = {
+		'save_frequency': config['webdynconfig'].getint('save_frequency', 10),
+		'nb_files': config['webdynconfig'].getint('nb_files', 10),
+		'file_retention_period': config['webdynconfig'].getint('file_retention_period', 10),
+	}
+
+	return render_template('routes/webdynconfig.jinja', configs=[config.serialize() for config in configs], last_config=last_config, webdynconfig=webdynconfig)
 
 
 @app.route('/suivilogs')
 def suivilogs():
+	config.read('config.ini')
 	logs = db_session.query(db_models["File"]).filter(db_models["File"].type == 'log').order_by(db_models["File"].id.desc()).all()
 
 	parsed_log = []
@@ -63,9 +71,8 @@ def suivilogs():
 			'content': content
 		}
 		parsed_log.append(log_parsed)
-		print(log_parsed)
 
-	return render_template('routes/suivilogs.jinja', logs=parsed_log)
+	return render_template('routes/suivilogs.jinja', logs=parsed_log, config=config['logconfig'].getint('file_retention_period', ''))
 
 
 @app.route('/pontbascule')

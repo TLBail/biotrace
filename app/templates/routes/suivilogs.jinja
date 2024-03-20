@@ -13,11 +13,11 @@
 				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
 				<div class="input-group pb-3">
 					<span class="input-group-text">Durée de conservation</span>
-					<input type="number" class="form-control" id="duree" value="12">
+					<input type="number" class="form-control" id="file_retention_period" value={{config}}>
 					<span class="input-group-text">jours</span>
 				</div>
 				<div class="mt-auto">
-					<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+					<button type="button" class="p-1 btn w-100 btn-primary" onclick="sendConfig()">Enregistrer</button>
 				</div>
 			</fieldset>
 
@@ -71,6 +71,25 @@
 	window.logs = logs;
 
 	console.log(logs)
+</script>
+<script>
+	function sendConfig(){
+		saveContent()
+	}
+
+	async function saveContent(name) {
+		const response = await fetch('/api/config/logconfig', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				"file_retention_period": document.getElementById("file_retention_period").value,
+			})
+		});
+
+		return await response.json();
+	}
 </script>
 <script src="{{ url_for('static',filename='scripts/suivilogs/cards.js') }}" type="module" defer></script>
 {% endblock %}

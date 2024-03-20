@@ -13,23 +13,23 @@
 				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
 				<div class="input-group pb-3">
 					<span class="input-group-text">Fréquence de sauvegarde</span>
-					<input type="number" class="form-control" id="frequence" value="12">
+					<input type="number" class="form-control" id="save_frequency" value={{webdynconfig.save_frequency}}>
 					<span class="input-group-text">jours</span>
 				</div>
 
 				<div class="input-group pb-3">
 					<span class="input-group-text">Durée de conservation</span>
-					<input type="number" class="form-control" id="duree" value="12">
+					<input type="number" class="form-control" id="file_retention_period" value={{webdynconfig.file_retention_period}}>
 					<span class="input-group-text">jours</span>
 				</div>
 
 				<div class="input-group pb-3">
 					<span class="input-group-text">Nombre de fichiers</span>
-					<input type="number" class="form-control" id="nbfichiers" value="10">
+					<input type="number" class="form-control" id="nb_files" value={{webdynconfig.nb_files}}>
 				</div>
 
 				<div class="mt-auto">
-					<button type="button" class="p-1 btn w-100 btn-primary">Enregistrer</button>
+					<button type="button" class="p-1 btn w-100 btn-primary" onclick="sendConfig()">Enregistrer</button>
 				</div>
 			</fieldset>
 
@@ -78,9 +78,31 @@
 	var require = { paths: { 'vs': '/static/vs' } };
 
 	const configs = {{ configs | tojson }};
+
 	window.configs = configs;
 
 	console.log(configs)
+</script>
+<script>
+	function sendConfig(){
+		saveContent()
+	}
+
+	async function saveContent(name) {
+		const response = await fetch('/api/config/webdynconfig', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				"save_frequency": document.getElementById("save_frequency").value,
+				"nb_files": document.getElementById("nb_files").value,
+				"file_retention_period": document.getElementById("file_retention_period").value,
+			})
+		});
+
+		return await response.json();
+	}
 </script>
 <script src="/static/vs/loader.js"></script>
 <script src="/static/vs/editor/editor.main.nls.js"></script>
