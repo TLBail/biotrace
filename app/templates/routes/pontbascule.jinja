@@ -2,6 +2,7 @@
 {% block title %}Pont bascule{% endblock %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.css') }}">
 <script type="text/javascript" src="{{ url_for('static',filename='scripts/litegraph.js') }}"></script>
 <script src="/static/vs/loader.js"></script>
 {% endblock %}
@@ -12,19 +13,31 @@
 			Cette page permet de convertir les données du pont bascule
 		</h2>
 		<hr>
-		<div class="row" style="height: 40vh;">
+		<div class="row" style="height: 60vh;">
 			<div class="col-6">
-				<div class="h-100" id="inputDataContainer"></div>
+				<fieldset class="border p-1">
+					<legend class="float-none w-auto">Données en entrée</legend>
+
+					<div class="h-100" id="inputDataContainer"></div>
+				</fieldset>
 			</div>
 
 			<div class="col-6">
-				<div class="h-100" id="outputDataContainer"></div>
+				<fieldset class="border p-1">
+					<legend class="float-none w-auto">Données en sortie</legend>
+
+					<div class="h-100" id="outputDataContainer"></div>
+				</fieldset>
 			</div>
 		</div>
 
-		<div id="canvasContainer" style="flex-grow: 3;">
-			<canvas id="litegraph-canvas" width="480" height="320" style="border: 1px solid;"></canvas>
-		</div>
+		<fieldset class="border p-1">
+			<legend class="float-none w-auto">Traitement des données</legend>
+
+			<div id="canvasContainer" style="flex-grow: 3;">
+				<canvas id="litegraph-canvas" width="480" height="320" style="border: 1px solid;"></canvas>
+			</div>
+		</fieldset>
 	</div>
 
 	<script defer type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule.js') }}"></script>
