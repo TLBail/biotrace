@@ -20,4 +20,6 @@
 			"password": "dev"
 		}
 	],
+	"djlint.useVenv": true,
+	"djlint.pythonPath": "python3"
 }

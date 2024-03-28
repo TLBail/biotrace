@@ -1,3 +1,11 @@
 fieldset {
 	height: 100%;
 }
+.dropzone {
+	height: 5em;
+}
+
+.dropzone:hover {
+	background-color: #f0f0f0;
+	cursor: pointer;
+}

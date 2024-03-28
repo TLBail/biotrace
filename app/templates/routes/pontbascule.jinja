@@ -1,46 +1,79 @@
-{% extends 'base.jinja' %}
-{% block title %}Pont bascule{% endblock %}
+{% extends "base.jinja" %}
+{% block title %}Pont bascule{% endblock title %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.css') }}">
 <script type="text/javascript" src="{{ url_for('static',filename='scripts/litegraph.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='scripts/csvParse.js') }}"></script>
-<script src="/static/vs/loader.js"></script>
-{% endblock %}
+{% endblock head %}
 {% block content %}
-<div style="height: 100vh;">
+<h2 class="text-center">
+	Cette page permet de convertir les données du pont bascule
+</h2>
+<hr>
+<div class="container">
 	<div class="d-flex flex-column h-100">
-		<h2 class="text-center">
-			Cette page permet de convertir les données du pont bascule
-		</h2>
-		<hr>
-		<div class="row" style="height: 60vh;">
-			<div class="col-6">
+		<div class="row">
+			<div class="col">
 				<fieldset class="border p-1">
-					<legend class="float-none w-auto">Données en entrée</legend>
+					<legend class="float-none w-auto">Fichier d'entrée</legend>
+					<div class="dropzone border border-2 border-dashed rounded d-flex align-items-center justify-content-center" id="drop-zone">
+						<h5 class="text-center align-middle">
+							<input type="file" hidden id="file-input">
+							<i class="bi bi-download"></i> <br>
+							Déposez les fichiers ici ou cliquez pour télécharger.
+						</h5>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="row" style="height: 20em;">
+			<div class="col">
+				<fieldset class="border p-1">
+					<legend class="float-none w-auto">
+						Données en entrée <span id="file-preview"></span>
+					</legend>
+					{# <div id="inputDataContainer" style="height: 30vh;"></div> #}
+					<monaco-editor id="inputDataContainer" value="[]"></monaco-editor>
 
-					<div class="h-100" id="inputDataContainer"></div>
 				</fieldset>
 			</div>
 
-			<div class="col-6">
+			<div class="col">
 				<fieldset class="border p-1">
 					<legend class="float-none w-auto">Données en sortie</legend>
 
-					<div class="h-100" id="outputDataContainer"></div>
+					<monaco-editor id="outputDataContainer" value="[]"></monaco-editor>
+					{# <div id="outputDataContainer" style="height: 30vh;"></div> #}
 				</fieldset>
 			</div>
 		</div>
 
-		<fieldset class="border p-1">
-			<legend class="float-none w-auto">Traitement des données</legend>
+		<div class="row">
+			<fieldset class="border p-1">
+				<legend class="float-none w-auto">Traitement des données</legend>
 
-			<div id="canvasContainer" style="flex-grow: 3;">
-				<canvas id="litegraph-canvas" width="480" height="320" style="border: 1px solid;"></canvas>
-			</div>
-		</fieldset>
+				<div id="canvasContainer" style="flex-grow: 3;">
+					<canvas id="litegraph-canvas" class="h-50 w-100"></canvas>
+				</div>
+			</fieldset>
+		</div>
 	</div>
 
-	<script defer type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule.js') }}"></script>
+	<div class="toast-container position-fixed top-0 end-0 p-3">
+		<div id="toast" class="toast text-warning-emphasis bg-warning-subtle border border-warning-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-body">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var require = { paths: { 'vs': '/static/vs' } };
+	</script>
+	<script src="/static/vs/loader.js"></script>
+	<script src="/static/vs/editor/editor.main.nls.js"></script>
+	<script src="/static/vs/editor/editor.main.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/main.js') }}" defer></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/upload.js') }}" defer></script>
 </div>
-{% endblock %}
+{% endblock content %}

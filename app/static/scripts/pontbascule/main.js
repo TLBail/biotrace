@@ -1,57 +1,15 @@
-//text editors 
-const inputExemple = `{
-    "elements":[
-        {
-            "tonne": 12,
-            "date": 123421552,
-            "coordX": 22.234121,
-            "coordY": 32.124141
-        },
-        {
-            "tonne": 12,
-            "date": 123421552,
-            "coordX": 22.234121,
-            "coordY": 32.124141
-        },
-        {
-            "tonne": 12,
-            "date": 123421552,
-            "coordX": 22.234121,
-            "coordY": 32.124141
-        }
-    ]
-}`;
+const inputEditor = document.getElementById("inputDataContainer");
+const outputEditor = document.getElementById("outputDataContainer");
 
-const inputExempleCSV = `31,123421552,22.234121,32.124141
-32,123421552,22.234121,32.124141
-33,123421552,22.234121,32.124141
-34,123421552,22.234121,32.124141
-36,123421552,22.234121,32.124141
-37,123421552,22.234121,32.124141
-38,123421552,22.234121,32.124141`;
-const inputDataContainer = document.getElementById('inputDataContainer');
-const outputDataContainer = document.getElementById('outputDataContainer');
-require.config({ paths: { vs: '/static/vs' } });
-var inputEditor;
-var outputEditor;
-require(['vs/editor/editor.main'], () => {
-    inputEditor = monaco.editor.create(inputDataContainer, {
-        value: inputExempleCSV,
-        language: 'json',
-        automaticLayout: true
-    });
-    inputEditor.onDidChangeModelContent(updateNodeInputGraph);
-    updateNodeInputGraph();
+function attachEvent() {
+	if (inputEditor.shadowRoot) {
+		inputEditor.addEventListener("save", updateNodeInputGraph());
+	} else {
+		setTimeout(attachEvent, 100); // Retry after a short delay if shadowRoot is not yet available
+	}
+}
 
-    outputEditor = monaco.editor.create(outputDataContainer, {
-        value: "[]",
-        readOnly: true,
-        language: 'json',
-        automaticLayout: true
-    });
-
-
-});
+attachEvent();
 
 //node graph editor
 var graph = new LGraph();
@@ -60,8 +18,6 @@ var canvas = new LGraphCanvas("#litegraph-canvas", graph);
 //resize auto canvas
 window.onresize = () => canvas.resize();
 canvas.resize();
-
-
 
 function InputPontBascule() {
     this.InputIndex = 0;
@@ -99,7 +55,6 @@ InputPontBascule.prototype.onExecute = function () {
             }
         }
 
-
         for (const key in input) {
             //get the output index of key
             let i = this.outputs.findIndex(output => output.name == key);
@@ -111,6 +66,7 @@ InputPontBascule.prototype.onExecute = function () {
         console.log(error);
     }
 }
+
 LiteGraph.registerNodeType("pontbascule/input", InputPontBascule);
 var inputDataNode = LiteGraph.createNode("pontbascule/input");
 inputDataNode.pos = [300, 200];
@@ -124,27 +80,15 @@ var jsonParser = LiteGraph.createNode("basic/jsonparse");
 jsonParser.pos = [50, 250];
 graph.add(jsonParser);
 
-
 var objectPropertyNode = LiteGraph.createNode("basic/object_property");
 objectPropertyNode.pos = [100, 400];
 graph.add(objectPropertyNode);
 
-
-
-/*
-//connect const string with json parser input
-constString.connect(0, jsonParser, 1);
-//connect json parser with object property node
-jsonParser.connect(1, objectPropertyNode, 0);
-//connect object property with input data node
-objectPropertyNode.connect(0, inputDataNode, 0);
-
-*/
-
-
 //output
 function updateNodeInputGraph() {
+	console.log("updateNodeInputGraph")
     if (!inputEditor) return;
+	console.log(inputEditor.getValue());
     constString.setValue(inputEditor.getValue());
     //parse with a delay
     setTimeout(() => {
@@ -170,14 +114,12 @@ OutputPontBascule.prototype.onExecute = function () {
     let X = this.getInputData(3);
     let Y = this.getInputData(4);
 
-
     try {
         if (index == 0) {
             const string = JSON.stringify(this.array, null, 2);
             outputEditor.setValue(string);
             this.array = [];
         }
-
 
         let object = {};
         if (poids) {
@@ -207,15 +149,12 @@ graph.add(outputDataNode);
 //connect output data node with input data node
 inputDataNode.connect(0, outputDataNode, 0);
 
-
-
 function CSVParser() {
     this.array = [];
     this.addInput("csv string", "string")
     this.addOutput("elements array", "array")
 }
 CSVParser.title = "CSV Parser";
-
 
 CSVParser.prototype.onExecute = function () {
     let csvString = this.getInputData(0);
@@ -237,8 +176,4 @@ var csvParserNode = LiteGraph.createNode("pontbascule/csvParser");
 csvParserNode.pos = [0, 200];
 graph.add(csvParserNode);
 
-
-
-graph.start()
-
-
+graph.start();

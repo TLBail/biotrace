@@ -181,5 +181,13 @@ export class CodeViewMonaco extends HTMLElement {
 			this._monacoInteractions.init();
 		}
 
+		getValue() {
+			return this._monacoEditor.getValue();
+		}
+
+		getModel() {
+			return this._monacoEditor.getModel();
+		}
+
 	}
 
