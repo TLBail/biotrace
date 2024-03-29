@@ -85,10 +85,10 @@
 </script>
 <script>
 	function sendConfig(){
-		saveContent()
+		saveContent();
 	}
 
-	async function saveContent(name) {
+	async function saveContent() {
 		const response = await fetch('/api/config/webdynconfig', {
 			method: 'POST',
 			headers: {
@@ -101,7 +101,14 @@
 			})
 		});
 
-		return await response.json();
+
+
+		await response.json().then(data => {
+			pushToast(COLORS.INFO, "Configuration enregistrée");
+		}).catch(err => {
+			console.error(err);
+			pushToast(COLORS.DANGER, "Erreur lors de l'enregistrement de la configuration");
+		})
 	}
 </script>
 <script src="/static/vs/loader.js"></script>
