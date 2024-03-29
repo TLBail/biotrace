@@ -21,12 +21,7 @@ document.getElementById('drop-zone').addEventListener('drop', function(e) {
     e.stopPropagation();
 
 	if (e.dataTransfer.files.length > 1) {
-		const toastDOM = document.getElementById('toast')
-
-		toastDOM.querySelector('.toast-body').innerText = "Seulement un fichier peut être téléchargé à la fois. Le premier fichier a été sélectionné.";
-
-		const toast = bootstrap.Toast.getOrCreateInstance(toastDOM);
-		toast.show();
+		pushToast(COLORS.INFO, `Seulement un fichier peut être téléchargé à la fois. Le premier fichier (${e.dataTransfer.files[0].name}) a été sélectionné.`)
     }
 
 	readFile(e.dataTransfer.files[0]);
