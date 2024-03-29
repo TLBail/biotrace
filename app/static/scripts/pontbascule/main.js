@@ -3,9 +3,11 @@ const outputEditor = document.getElementById("outputDataContainer");
 
 function attachEvent() {
 	if (inputEditor.shadowRoot) {
-		inputEditor.addEventListener("save", updateNodeInputGraph());
+		console.log("ShadowRoot attached")
+		inputEditor.getModel().onDidChangeContent(() => updateNodeInputGraph());
 	} else {
-		setTimeout(attachEvent, 100); // Retry after a short delay if shadowRoot is not yet available
+		console.log("ShadowRoot not attached, retrying")
+		setTimeout(attachEvent, 200); // Retry after a short delay if shadowRoot is not yet available
 	}
 }
 
@@ -86,7 +88,6 @@ graph.add(objectPropertyNode);
 
 //output
 function updateNodeInputGraph() {
-	console.log("updateNodeInputGraph")
     if (!inputEditor) return;
 	console.log(inputEditor.getValue());
     constString.setValue(inputEditor.getValue());
@@ -117,7 +118,8 @@ OutputPontBascule.prototype.onExecute = function () {
     try {
         if (index == 0) {
             const string = JSON.stringify(this.array, null, 2);
-            outputEditor.setValue(string);
+
+            outputEditor.getModel().setValue(string);
             this.array = [];
         }
 

@@ -2,7 +2,7 @@ function readFile(file) {
     const reader = new FileReader();
 	const editor = document.getElementById("inputDataContainer");
     reader.onload = function(e) {
-		editor.setValue(e.target.result);
+		editor.getModel().setValue(e.target.result);
     };
     reader.readAsText(file);
 }
