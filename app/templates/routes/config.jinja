@@ -1,5 +1,5 @@
-{% extends 'base.jinja' %}
-{% block title %}Paramètres{% endblock %}
+{% extends "base.jinja" %}
+{% block title %}Paramètres{% endblock title %}
 {% block content %}
 <h1 class="text-center">
 	Paramètres globaux
@@ -48,4 +48,4 @@
 		return await response.json();
 	}
 </script>
-{% endblock %}
+{% endblock content %}

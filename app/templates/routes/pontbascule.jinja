@@ -7,65 +7,94 @@
 <script type="text/javascript" src="{{ url_for('static',filename='scripts/csvParse.js') }}"></script>
 {% endblock head %}
 {% block content %}
-<h2 class="text-center">
-	Cette page permet de convertir les données du pont bascule
-</h2>
+<h1 class="text-center">
+	Convertion des données du pont bascule
+</h1>
 <hr>
 <div class="container">
-	<div class="d-flex flex-column h-100">
-		<div class="row">
-			<div class="col">
-				<fieldset class="border p-1">
-					<legend class="float-none w-auto">Fichier d'entrée</legend>
-					<div class="dropzone border border-2 border-dashed rounded d-flex align-items-center justify-content-center" id="drop-zone">
-						<h5 class="text-center align-middle">
-							<input type="file" hidden id="file-input">
-							<i class="bi bi-download"></i> <br>
-							Déposez les fichiers ici ou cliquez pour télécharger.
-						</h5>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-		<div class="row" style="height: 20em;">
-			<div class="col">
-				<fieldset class="border p-1">
-					<legend class="float-none w-auto">
-						Données en entrée <span id="file-preview"></span>
-					</legend>
-					{# <div id="inputDataContainer" style="height: 30vh;"></div> #}
-					<monaco-editor id="inputDataContainer" value="[]"></monaco-editor>
-
-				</fieldset>
-			</div>
-
-			<div class="col">
-				<fieldset class="border p-1">
-					<legend class="float-none w-auto">Données en sortie</legend>
-
-					<monaco-editor id="outputDataContainer" value="[]"></monaco-editor>
-					{# <div id="outputDataContainer" style="height: 30vh;"></div> #}
-				</fieldset>
-			</div>
-		</div>
-
-		<div class="row">
+	<div class="row">
+		<div class="col">
 			<fieldset class="border p-1">
-				<legend class="float-none w-auto">Traitement des données</legend>
-
-				<div id="canvasContainer" style="flex-grow: 3;">
-					<canvas id="litegraph-canvas" class="h-50 w-100"></canvas>
+				<legend class="float-none w-auto">Fichier d'entrée</legend>
+				<div class="dropzone border border-2 border-dashed rounded d-flex flex-column align-items-center justify-content-center" id="drop-zone">
+					<h4 class="text-center align-middle">
+						<input type="file" hidden id="file-input">
+						<i class="bi bi-download"></i> <br>
+						Déposez les fichiers ici ou cliquez pour télécharger. <br>
+					</h4>
+					<span id="file-name" class="text-secondary"></span>
 				</div>
 			</fieldset>
 		</div>
 	</div>
+	<div class="row" style="height: 20em;">
+		<div class="col">
+			<fieldset class="border p-1">
+				<legend class="float-none w-auto">
+					Données en entrée <span id="file-preview"></span>
+				</legend>
 
-	<div class="toast-container position-fixed top-0 end-0 p-3">
-		<div id="toast" class="toast text-warning-emphasis bg-warning-subtle border border-warning-subtle" role="alert" aria-live="assertive" aria-atomic="true">
-			<div class="toast-body">
+				<monaco-editor id="inputDataContainer" value="[]" lang="json"></monaco-editor>
+			</fieldset>
+		</div>
+
+		<div class="col">
+			<fieldset class="border p-1">
+				<legend class="float-none w-auto">
+					Données en sortie
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#downloadModal">
+						<i class="bi bi-download"></i>
+					</button>
+				</legend>
+
+				<monaco-editor id="outputDataContainer" value="[]" readonly="true" lang="json"></monaco-editor>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<fieldset class="border p-1">
+				<legend class="float-none w-auto">Traitement des données</legend>
+			
+				<div id="canvasContainer">
+					<canvas id="litegraph-canvas" class="w-100" style="height: 70vh"></canvas>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+{# Toast #}
+<div class="toast-container position-fixed top-0 end-0 p-3">
+	<div id="toast" class="toast text-warning-emphasis bg-warning-subtle border border-warning-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-body">
+		</div>
+	</div>
+</div>
+
+{# Modal #}
+<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Télécharger</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="file-name">Nom</span>
+					<input type="text" class="form-control" id="file-name-input" placeholder="Nom de fichier" value="sortie.json" aria-label="file-name"
+						aria-describedby="file-name">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+				<button type="button" class="btn btn-success" id="download-btn" data-bs-dismiss="modal">Télécharger</button>
 			</div>
 		</div>
 	</div>
+</div>
 
 	<script>
 		var require = { paths: { 'vs': '/static/vs' } };
@@ -75,5 +104,4 @@
 	<script src="/static/vs/editor/editor.main.js"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/main.js') }}" defer></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/upload.js') }}" defer></script>
-</div>
 {% endblock content %}

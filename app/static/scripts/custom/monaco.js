@@ -8,7 +8,7 @@ export class CodeViewMonaco extends HTMLElement {
 		_state;
 
 		static get observedAttributes() {
-			return ["value", "interactions"];
+			return ["value", "interactions", "readonly", "lang"];
 		}
 
 		constructor() {
@@ -46,7 +46,7 @@ export class CodeViewMonaco extends HTMLElement {
 			this._monacoEditor = monaco.editor.create(this._editor, {
 				automaticLayout: true,
 				language: "ini",
-
+				readOnly: false,
 				value: "",
 			});
 
@@ -167,6 +167,12 @@ export class CodeViewMonaco extends HTMLElement {
 				case "interactions":
 					const interactions = this.shadowRoot.querySelector("monaco-interactions");
 					interactions.setVisibility(true);
+					break;
+				case "readonly":
+					this._monacoEditor.updateOptions({ readOnly: newValue === "true" });
+					break;
+				case "lang":
+					this._monacoEditor.updateOptions({ language: newValue });
 					break;
 				default:
 					break;

@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% block title %}Fichier de configuration de la webdyn{% endblock title%}
+{% block title %}Fichier de configuration de la webdync{% endblock title %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/webdynconfig.css') }}">
 {% endblock head %}
@@ -13,19 +13,19 @@
 				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
 				<div class="input-group pb-3">
 					<span class="input-group-text">Fréquence de sauvegarde</span>
-					<input type="number" class="form-control" id="save_frequency" value={{webdynconfig.save_frequency}}>
+					<input type="number" class="form-control" id="save_frequency" value={{ webdynconfig.save_frequency }}>
 					<span class="input-group-text">jours</span>
 				</div>
 
 				<div class="input-group pb-3">
 					<span class="input-group-text">Durée de conservation</span>
-					<input type="number" class="form-control" id="file_retention_period" value={{webdynconfig.file_retention_period}}>
+					<input type="number" class="form-control" id="file_retention_period" value={{ webdynconfig.file_retention_period }}>
 					<span class="input-group-text">jours</span>
 				</div>
 
 				<div class="input-group pb-3">
 					<span class="input-group-text">Nombre de fichiers</span>
-					<input type="number" class="form-control" id="nb_files" value={{webdynconfig.nb_files}}>
+					<input type="number" class="form-control" id="nb_files" value={{ webdynconfig.nb_files }}>
 				</div>
 
 				<div class="mt-auto">
@@ -68,7 +68,7 @@
 		<div class="col-12 col-lg-8">
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Fichier de configuration</legend>
-				<monaco-editor value='{{last_config.content}}' interactions="true"></monaco-editor>
+				<monaco-editor value="{{ last_config.content }}" interactions="true"></monaco-editor>
 			</fieldset>
 		</div>
 	</div>
@@ -108,4 +108,4 @@
 <script src="/static/vs/editor/editor.main.nls.js"></script>
 <script src="/static/vs/editor/editor.main.js"></script>
 <script src="{{ url_for('static',filename='scripts/webdynconfig/cards.js') }}" type="module" defer></script>
-{% endblock %}
+{% endblock content %}

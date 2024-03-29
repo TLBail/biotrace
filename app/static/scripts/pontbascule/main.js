@@ -26,7 +26,7 @@ function InputPontBascule() {
     this.addInput("array", "array");
     this.addOutput("element Index", "number")
 }
-InputPontBascule.title = "Input Pont Bascule Data";
+InputPontBascule.title = "Tableau d'entrée";
 InputPontBascule.prototype.onExecute = function () {
     if (this.getInputData(0) == null) return;
 
@@ -71,19 +71,22 @@ InputPontBascule.prototype.onExecute = function () {
 
 LiteGraph.registerNodeType("pontbascule/input", InputPontBascule);
 var inputDataNode = LiteGraph.createNode("pontbascule/input");
-inputDataNode.pos = [300, 200];
+inputDataNode.pos = [750, 200];
 graph.add(inputDataNode);
 
 var constString = LiteGraph.createNode("basic/string");
-constString.pos = [0, 100];
+constString.pos = [50, 250];
+constString.title = "Données d'entrée"
 graph.add(constString);
 
 var jsonParser = LiteGraph.createNode("basic/jsonparse");
-jsonParser.pos = [50, 250];
+jsonParser.pos = [300, 100];
+jsonParser.title = "Parser JSON"
 graph.add(jsonParser);
 
 var objectPropertyNode = LiteGraph.createNode("basic/object_property");
-objectPropertyNode.pos = [100, 400];
+objectPropertyNode.pos = [550, 100];
+objectPropertyNode.title = "Objet à parser"
 graph.add(objectPropertyNode);
 
 //output
@@ -106,7 +109,7 @@ function OutputPontBascule() {
     this.addInput("X", "number");
     this.addInput("Y", "number");
 }
-OutputPontBascule.title = "Output Pont Bascule Data";
+OutputPontBascule.title = "Sortie";
 //trigger event when the input data of outputDataNode change
 OutputPontBascule.prototype.onExecute = function () {
     let index = this.getInputData(0);
@@ -138,14 +141,13 @@ OutputPontBascule.prototype.onExecute = function () {
         }
         this.array.push(object);
 
-
     } catch (error) {
         console.log(error);
     }
 }
 LiteGraph.registerNodeType("pontbascule/output", OutputPontBascule);
 var outputDataNode = LiteGraph.createNode("pontbascule/output");
-outputDataNode.pos = [800, 200];
+outputDataNode.pos = [1000, 200];
 graph.add(outputDataNode);
 
 //connect output data node with input data node
@@ -175,7 +177,7 @@ CSVParser.prototype.onExecute = function () {
 }
 LiteGraph.registerNodeType("pontbascule/csvParser", CSVParser);
 var csvParserNode = LiteGraph.createNode("pontbascule/csvParser");
-csvParserNode.pos = [0, 200];
+csvParserNode.pos = [300, 400];
 graph.add(csvParserNode);
 
 graph.start();

@@ -1,10 +1,10 @@
-{% extends 'base.jinja' %}
-{% block title %}Suivi logs{% endblock %}
+{% extends "base.jinja" %}
+{% block title %}Suivi logs{% endblock title %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/suivilogs.css') }}">
-{% endblock %}
+{% endblock head %}
 {% block content %}
-<h1 class="text-center">Suivi logs</h1>
+<h1 class="text-center">Suivi des logs</h1>
 <hr />
 <div class="container">
 	<div class="row">
@@ -13,7 +13,7 @@
 				<legend class="float-none w-auto">Réglage du système de sauvegarde</legend>
 				<div class="input-group pb-3">
 					<span class="input-group-text">Durée de conservation</span>
-					<input type="number" class="form-control" id="file_retention_period" value={{config}}>
+					<input type="number" class="form-control" id="file_retention_period" value="{{ config }}">
 					<span class="input-group-text">jours</span>
 				</div>
 				<div class="mt-auto">
@@ -92,4 +92,4 @@
 	}
 </script>
 <script src="{{ url_for('static',filename='scripts/suivilogs/cards.js') }}" type="module" defer></script>
-{% endblock %}
+{% endblock content %}

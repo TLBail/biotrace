@@ -2,7 +2,7 @@ fieldset {
 	height: 100%;
 }
 .dropzone {
-	height: 5em;
+	padding: 20px;
 }
 
 .dropzone:hover {

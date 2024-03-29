@@ -44,12 +44,10 @@
 				<div class="col-2 p-0 bg-dark">
 					{% include "components/sidenav.jinja" %}
 				</div>
-				<div class="col-10" style="padding-bottom: 10px;">
+				<div class="col-10 main" style="padding-bottom: 10px;">
 					<div class="row">
-						<div class="col-12">
-							{% block content %}
-							{% endblock content %}
-						</div>
+						{% block content %}
+						{% endblock content %}
 					</div>
 				</div>
 			</div>
