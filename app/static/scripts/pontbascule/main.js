@@ -14,6 +14,7 @@ function attachEvent() {
 attachEvent();
 
 //node graph editor
+LiteGraph.allow_scripts = true;
 var graph = new LGraph();
 var canvas = new LGraphCanvas("#litegraph-canvas", graph);
 
