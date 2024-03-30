@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 {% block title %}Fichier de configuration de la webdync{% endblock title %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/webdynconfig.css') }}">
+<link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/webdynconfig.less') }}">
 {% endblock head %}
 {% block content %}
 <h1 class="text-center">Sauvegarde de la webdyn</h1>
@@ -73,7 +73,9 @@
 		</div>
 	</div>
 </div>
+{% endblock content %}
 
+{% block scripts %}
 <script>
 	var require = { paths: { 'vs': '/static/vs' } };
 
@@ -84,7 +86,7 @@
 	console.log(configs)
 </script>
 <script>
-	function sendConfig(){
+	function sendConfig() {
 		saveContent();
 	}
 
@@ -115,4 +117,4 @@
 <script src="/static/vs/editor/editor.main.nls.js"></script>
 <script src="/static/vs/editor/editor.main.js"></script>
 <script src="{{ url_for('static',filename='scripts/webdynconfig/cards.js') }}" type="module" defer></script>
-{% endblock content %}
+{% endblock scripts %}

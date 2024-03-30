@@ -5,29 +5,38 @@
 	Paramètres globaux
 </h1>
 <hr>
-<fieldset class="border p-2">
-	<legend class="float-none w-auto">Accès au serveur FTP connecté à la webdyn</legend>
-	<div class="w-50">
-		<div class="input-group pb-3">
-			<span class="input-group-text">hostname</span>
-			<input type="text" class="form-control" id="hostname" value="{{ hostname }}">
-			<span class="input-group-text">port</span>
-			<input type="number" class="form-control" id="port" value="{{ port }}">
-		</div>
-
-		<div class="input-group pb-3">
-			<span class="input-group-text">username</span>
-			<input type="text" class="form-control" id="username" value="{{ username }}">
-			<span class="input-group-text">password</span>
-			<input type="password" class="form-control" id="passwd" value="nothinghere">
-		</div>
-		<div class="mt-auto">
-			<button type="button" class="p-1 btn w-100 btn-primary" onclick="sendConfig()">Enregistrer</button>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<fieldset class="border p-2">
+				<legend class="float-none w-auto">Accès au serveur FTP connecté à la webdyn</legend>
+				<div class="w-50">
+					<div class="input-group pb-3">
+						<span class="input-group-text">hostname</span>
+						<input type="text" class="form-control" id="hostname" value="{{ hostname }}">
+						<span class="input-group-text">port</span>
+						<input type="number" class="form-control" id="port" value="{{ port }}">
+					</div>
+			
+					<div class="input-group pb-3">
+						<span class="input-group-text">username</span>
+						<input type="text" class="form-control" id="username" value="{{ username }}">
+						<span class="input-group-text">password</span>
+						<input type="password" class="form-control" id="passwd" value="nothinghere">
+					</div>
+					<div class="mt-auto">
+						<button type="button" class="p-1 btn w-100 btn-primary" onclick="sendConfig()">Enregistrer</button>
+					</div>
+				</div>
+			</fieldset>
 		</div>
 	</div>
-</fieldset>
+</div>
+{% endblock content %}
+
+{% block scripts %}
 <script>
-	function sendConfig(){
+	function sendConfig() {
 		saveContent()
 	}
 
@@ -48,4 +57,4 @@
 		return await response.json();
 	}
 </script>
-{% endblock content %}
+{% endblock scripts %}

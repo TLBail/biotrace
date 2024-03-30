@@ -1,10 +1,10 @@
 {% extends "base.jinja" %}
 {% block title %}Pont bascule{% endblock title %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.css') }}">
-<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/litegraph.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/csvParse.js') }}"></script>
+<link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/libs/litegraph.less') }}">
+<link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.less') }}">
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/libs/litegraph.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/libs/csvParse.js') }}"></script>
 {% endblock head %}
 {% block content %}
 <h1 class="text-center">
@@ -22,19 +22,21 @@
 						<i class="bi bi-download"></i> <br>
 						Déposez les fichiers ici ou cliquez pour télécharger. <br>
 					</h4>
-					<span id="file-name" class="text-secondary"></span>
+					<span id="file-name" class="text-secondary" accept=".csv,.json"></span>
 				</div>
 			</fieldset>
 		</div>
 	</div>
-	<div class="row" style="height: 20em;">
+	<div class="row">
 		<div class="col-lg-6 col-md-12">
 			<fieldset class="border p-1">
 				<legend class="float-none w-auto">
 					Données en entrée <span id="file-preview"></span>
 				</legend>
 
-				<monaco-editor id="inputDataContainer" value="{}" lang="json"></monaco-editor>
+				<div style="height: 20em">
+					<monaco-editor id="inputDataContainer" value="{}" lang="json"></monaco-editor>
+				</div>
 			</fieldset>
 		</div>
 
@@ -47,7 +49,9 @@
 					</button>
 				</legend>
 
-				<monaco-editor id="outputDataContainer" value="{}" readonly="true" lang="json"></monaco-editor>
+				<div style="height: 20em">
+					<monaco-editor id="outputDataContainer" value="{}" readonly="true" lang="json"></monaco-editor>
+				</div>
 			</fieldset>
 		</div>
 	</div>
@@ -86,13 +90,15 @@
 		</div>
 	</div>
 </div>
-
-	<script>
-		var require = { paths: { 'vs': '/static/vs' } };
-	</script>
-	<script src="/static/vs/loader.js"></script>
-	<script src="/static/vs/editor/editor.main.nls.js"></script>
-	<script src="/static/vs/editor/editor.main.js"></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/main.js') }}" defer></script>
-	<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/upload.js') }}" defer></script>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+	var require = { paths: { 'vs': '/static/vs' } };
+</script>
+<script src="/static/vs/loader.js"></script>
+<script src="/static/vs/editor/editor.main.nls.js"></script>
+<script src="/static/vs/editor/editor.main.js"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/main.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/upload.js') }}" defer></script>
+{% endblock scripts %}

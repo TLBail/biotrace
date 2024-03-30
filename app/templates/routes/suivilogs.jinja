@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 {% block title %}Suivi logs{% endblock title %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/suivilogs.css') }}">
+<link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/suivilogs.less') }}">
 {% endblock head %}
 {% block content %}
 <h1 class="text-center">Suivi des logs</h1>
@@ -66,6 +66,8 @@
 	</div>
 
 </div>
+{% endblock content %}
+{% block scripts %}
 <script>
 	const logs = {{ logs | tojson }};
 	window.logs = logs;
@@ -97,4 +99,4 @@
 	}
 </script>
 <script src="{{ url_for('static',filename='scripts/suivilogs/cards.js') }}" type="module" defer></script>
-{% endblock content %}
+{% endblock scripts %}

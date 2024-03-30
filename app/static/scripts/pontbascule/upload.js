@@ -2,6 +2,16 @@ function readFile(file) {
     const reader = new FileReader();
 	const editor = document.getElementById("inputDataContainer");
     const filename = document.getElementById("file-name");
+	const extensions = ['.csv', '.json']
+
+	for (const ext of extensions) {
+		if (file.name.toLowerCase().endsWith(ext.toLowerCase())) {
+			break;
+		}
+		pushToast(COLORS.DANGER, `Le fichier ${file.name} n'est pas un fichier CSV ou JSON.`);
+		return;
+	}
+
 	reader.onload = function(e) {
 		editor.getModel().setValue(e.target.result);
 		filename.innerText = file.name;
