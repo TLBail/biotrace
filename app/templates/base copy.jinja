@@ -51,22 +51,19 @@
 			<monaco-interactions></monaco-interactions>
 			<div class="editor" style="height: 100%; max-height: 78vh;"></div>
 		</template>
-
-		{% with title=self.title() %}
-			{% include "components/header.jinja" %}
-		{% endwith %}
-
 		<div class="container-fluid">
 			<div class="row">
-				{% include "components/sidebar.jinja" %}
-		
-				<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-					{% block content %}
-					{% endblock content %}
-				</main>
+				<div class="col-2 p-0 bg-dark">
+					{% include "components/sidenav.jinja" %}
+				</div>
+				<div class="col-10 main" style="padding-bottom: 10px;">
+					<div class="row">
+						{% block content %}
+						{% endblock content %}
+					</div>
+				</div>
 			</div>
 		</div>
-
 		<footer>
 			<nav class="navbar bg-dark">
 				<div class="container-fluid">

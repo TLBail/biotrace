@@ -86,7 +86,7 @@ def webdynemul():
 
 
 @app.route('/config')
-def webdynconfug():
+def configsite():
 	config.read('config.ini')
 	hostname = config['ftp'].get('hostname', '127.0.0.1')
 	port = config['ftp'].getint('port', 2121)

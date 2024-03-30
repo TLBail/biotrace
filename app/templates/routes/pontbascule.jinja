@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% block title %}Pont bascule{% endblock title %}
+{% block title %}Conversion des données du pont bascule{% endblock title %}
 {% block head %}
 <link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/libs/litegraph.less') }}">
 <link rel="stylesheet/less" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.less') }}">
@@ -7,10 +7,6 @@
 <script type="text/javascript" src="{{ url_for('static',filename='scripts/libs/csvParse.js') }}"></script>
 {% endblock head %}
 {% block content %}
-<h1 class="text-center">
-	Convertion des données du pont bascule
-</h1>
-<hr>
 <div class="container">
 	<div class="row">
 		<div class="col">

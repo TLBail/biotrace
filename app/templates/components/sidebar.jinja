@@ -1,0 +1,57 @@
+<div class="sidebar border-0 border-right border-black col-md-3 col-lg-2 p-0 bg-body-tertiary" data-bs-theme="dark">
+	<div class="offcanvas-md offcanvas-end" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="sidebarMenuLabel">Biotrace</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
+				aria-label="Close">
+				<i class="bi bi-x-lg"></i>
+			</button>
+		</div>
+		<div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'testcomm' %}active{% endif %}"
+						href="{{ url_for('testcomm') }}">
+						<i class="bi bi-broadcast"></i>
+						Test communication
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'webdynconfig' %}active{% endif %}"
+						href="{{ url_for('webdynconfig') }}">
+						<i class="bi bi-robot"></i>
+						Configuration webdyn
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'suivilogs' %}active{% endif %}"
+						href="{{ url_for('suivilogs') }}">
+						<i class="bi bi-filetype-raw"></i>
+						Suivi des logs
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'pontbascule' %}active{% endif %}"
+						href="{{ url_for('pontbascule') }}">
+						<i class="bi bi-minecart-loaded"></i>
+						Pont bascule
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'webdynemul' %}active{% endif %}"
+						href="{{ url_for('webdynemul') }}">
+						<i class="bi bi-nvme"></i>
+						Emulation de la webdyn
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 {% if request.url_rule.endpoint == 'configsite' %}active{% endif %}"
+						href="{{ url_for('configsite') }}">
+						<i class="bi bi-gear"></i>
+						Configuration
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
