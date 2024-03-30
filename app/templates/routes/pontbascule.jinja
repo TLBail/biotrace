@@ -3,8 +3,8 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/litegraph.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pontbascule.css') }}">
-<script type="text/javascript" src="{{ url_for('static',filename='scripts/litegraph.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='scripts/csvParse.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/litegraph.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/pontbascule/csvParse.js') }}"></script>
 {% endblock head %}
 {% block content %}
 <h1 class="text-center">
@@ -28,17 +28,17 @@
 		</div>
 	</div>
 	<div class="row" style="height: 20em;">
-		<div class="col">
+		<div class="col-lg-6 col-md-12">
 			<fieldset class="border p-1">
 				<legend class="float-none w-auto">
 					Données en entrée <span id="file-preview"></span>
 				</legend>
 
-				<monaco-editor id="inputDataContainer" value="[]" lang="json"></monaco-editor>
+				<monaco-editor id="inputDataContainer" value="{}" lang="json"></monaco-editor>
 			</fieldset>
 		</div>
 
-		<div class="col">
+		<div class="col-lg-6 col-md-12">
 			<fieldset class="border p-1">
 				<legend class="float-none w-auto">
 					Données en sortie
@@ -47,16 +47,15 @@
 					</button>
 				</legend>
 
-				<monaco-editor id="outputDataContainer" value="[]" readonly="true" lang="json"></monaco-editor>
+				<monaco-editor id="outputDataContainer" value="{}" readonly="true" lang="json"></monaco-editor>
 			</fieldset>
 		</div>
 	</div>
-
 	<div class="row">
-		<div class="col">
+		<div class="col-12">
 			<fieldset class="border p-1">
 				<legend class="float-none w-auto">Traitement des données</legend>
-			
+		
 				<div id="canvasContainer">
 					<canvas id="litegraph-canvas" class="w-100" style="height: 70vh"></canvas>
 				</div>
