@@ -1,6 +1,7 @@
 [scripts]
-dev = "python app/server.py"
-test = "python app/test.py"
+dev = "python server.py"
+test = "python test.py"
+serve = "gunicorn -w 4 wsgi:app"
 
 [packages]
 autopep8 = "==2.0.4"
@@ -14,7 +15,7 @@ flake8 = "==7.0.0"
 flask = "==3.0.0"
 flask-socketio = "==5.3.6"
 greenlet = "==3.0.3"
-gunicorn = "==21.2.0"
+gunicorn = "*"
 h11 = "==0.14.0"
 itsdangerous = "==2.1.2"
 jinja2 = "==3.1.3"

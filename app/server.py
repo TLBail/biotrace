@@ -9,6 +9,7 @@ import rocher
 from configparser import ConfigParser
 from modules.LogParser import parse_log
 
+
 config = ConfigParser()
 config.read('config.ini')
 

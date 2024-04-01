@@ -15,6 +15,14 @@ def init_engine(uri, **kwargs):
 	engine = create_engine(uri, **kwargs)
 	if not database_exists(engine.url):
 		create_database(engine.url)
+		conn = engine.connect()
+
+		# read the db/schema.sql file and execute it
+		with open('db/schema.sql', 'r') as f:
+			conn.execute(f.read())
+			print("Database created successfully")
+
+		conn.close()
 	return engine
 
 

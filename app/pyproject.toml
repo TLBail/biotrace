@@ -1,6 +1,9 @@
+[project]
+name = "Biotrace"
+
 [tool.djlint]
 profile="jinja"
 format_js=true
 format_css=true
 extension="jinja"
-ignore="H021,H006"
+ignore="H021,H006,H014"
