@@ -17,24 +17,19 @@ jobs:
               with:
                   python-version: "3.10"
 
-            - name: Installation de pip et pipenv
-              run: |
-                  pip install --upgrade pip 
-                  pip install pipenv
-
             - name: Installation des dépendances
               run: sudo apt-get install libmariadb3 libmariadb-dev mariadb-server -y
 
+            - name: Installation de pip et pipenv
+              run: |
+                  cd app
+                  pipenv install
+                  pipenv shell
+
             - name: Importe le schéma et les données de la BDD
               run: |
-                  sudo mariadb < db/schema.sql
-                  sudo mariadb < db/data.sql
-
-            - name: Création de l'environnement virtuel
-              run: |
-                  python3 -m venv .venv
-                  source .venv/bin/activate
-                  pip install -r requirements.txt
+                  sudo mariadb < app/db/schema.sql
+                  sudo mariadb < app/db/data.sql
 
             - name: Lancement des tests
               run: pipenv run test
