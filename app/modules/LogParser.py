@@ -15,9 +15,11 @@ def parse_log(log):
         match = re.match(regex, line)
 
         if match:
+            failed = "failed" in line.lower()
             logs.append({
                 "date": match.group(1),
-                "application": match.group(2)
+                "application": match.group(2),
+                "failed": failed,
             })
 
     return logs

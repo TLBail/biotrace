@@ -59,6 +59,8 @@
 		<div class="col-12">
 			<fieldset class="border p-2 h-100" id="config-fieldset" style="position: relative;">
 				<legend class="float-none w-auto">Erreur(s) détectée</legend>
+				<div id="errors-content">
+				</div>
 			</fieldset>
 		</div>
 	</div>
@@ -69,6 +71,19 @@
 <script>
 	const logs = {{ logs | tojson }};
 	window.logs = logs;
+
+	let errors_wrapper = document.querySelector('#errors-content');
+
+	logs.forEach(log => {
+		log.content.forEach(content => {
+			if (content.failed) {
+				let error = document.createElement('div');
+				error.classList.add('alert', 'alert-danger');
+				error.innerHTML = log.name + ": " + content.application;
+				errors_wrapper.appendChild(error);
+			}
+		})
+	})
 
 	console.log(logs)
 </script>

@@ -18,13 +18,20 @@ function setTable(content){
 		date.innerHTML = c.date;
 		application.innerHTML = c.application;
 
+		if(c.failed){
+			application.style.color = "red";
+		}
+
 		row.appendChild(date);
 		row.appendChild(application);
+
 
 		table.appendChild(row);
 	});
 
 }
+
+
 function update(){
 	logCards = document.querySelectorAll('.log');
 
@@ -37,8 +44,9 @@ function update(){
 			const id = parseInt(card.getAttribute('data-id'));
 			const log = window.logs.filter(log => log.id === id)[0];
 
-            console.log(log.content);
+
 			setTable(log.content);
+
 
 			logCards.forEach(card => {
 				card.classList.remove('active');
