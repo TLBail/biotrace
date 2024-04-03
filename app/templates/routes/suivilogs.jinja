@@ -71,21 +71,6 @@
 <script>
 	const logs = {{ logs | tojson }};
 	window.logs = logs;
-
-	let errors_wrapper = document.querySelector('#errors-content');
-
-	logs.forEach(log => {
-		log.content.forEach(content => {
-			if (content.failed) {
-				let error = document.createElement('div');
-				error.classList.add('alert', 'alert-danger');
-				error.innerHTML = log.name + ": " + content.application;
-				errors_wrapper.appendChild(error);
-			}
-		})
-	})
-
-	console.log(logs)
 </script>
 <script>
 	function sendConfig() {
@@ -111,5 +96,6 @@
 		})
 	}
 </script>
+<script src="{{ url_for('static',filename='scripts/suivilogs/main.js') }}" type="module" defer></script>
 <script src="{{ url_for('static',filename='scripts/suivilogs/cards.js') }}" type="module" defer></script>
 {% endblock scripts %}

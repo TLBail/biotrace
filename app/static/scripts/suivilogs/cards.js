@@ -8,8 +8,6 @@ function setTable(content){
 	table.innerHTML = "";
 	content.forEach(c => {
 
-		console.log(c);
-
 		let row = document.createElement("tr");
 
 		let date =  document.createElement("td");
