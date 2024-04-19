@@ -4,10 +4,7 @@ function readFile(file) {
     const filename = document.getElementById("file-name");
 	const extensions = ['.csv', '.json']
 
-	for (const ext of extensions) {
-		if (file.name.toLowerCase().endsWith(ext.toLowerCase())) {
-			break;
-		}
+	if (!extensions.some(ext => file.name.toLowerCase().endsWith(ext.toLowerCase()))) {
 		pushToast(COLORS.DANGER, `Le fichier ${file.name} n'est pas un fichier CSV ou JSON.`);
 		return;
 	}
