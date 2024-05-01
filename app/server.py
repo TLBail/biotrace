@@ -81,9 +81,9 @@ def pontbascule():
 	return render_template('routes/pontbascule.jinja')
 
 
-@app.route('/webdynemul')
-def webdynemul():
-	return render_template('routes/webdynemul.jinja')
+# @app.route('/webdynemul')
+# def webdynemul():
+# 	return render_template('routes/webdynemul.jinja')
 
 
 @app.route('/config')
